@@ -1,23 +1,12 @@
 let mapleader = " "
+let maplocalleader = ","
+
 filetype indent on
 filetype plugin on
 set directory ^=~/.vim_swap//
-call pathogen#runtime_append_all_bundles( )
 syntax on
-syntax match Tab /\t/
 
-hi Tab gui=underline guifg=blue ctermbg=gray
-cab fff ~/.lastbuffer
-cab wbf w! ~/.lastbuffer
-cab rbf r ~/.lastbuffer
-
-iab todo # TODO: 
-
-"vmap cc :s/^/#/<cr>
-"vmap uu :s/^#// <cr>
-
-"exit
-
+"basic vim setting
 set modeline
 set modelines=5
 set ruler
@@ -28,22 +17,17 @@ set ignorecase
 set smartcase
 
 set hidden
-"set matchpairs+=<:>
 set tildeop
 
-set ht=2
-set ts=2
-set sw=2
 
-"avoid the escape key
-imap ` <Esc>
-inoremap \` `
-cmap `` <Esc>
-"imap zz <esc>
+"set ht=2
+"set ts=2
+"set sw=2
 
 set switchbuf=useopen
 
 
+"fold setting
 set foldmethod=indent
 set foldlevelstart=2
 set foldcolumn=0
@@ -56,72 +40,9 @@ map z[ [z
 let ruby_no_comment_fold=1
 set fillchars+=fold:\ 
 
-function! CompressFoldText()
-  let sep = "   ¦ "
-  let line = getline(v:foldstart)
-  let nnum = nextnonblank(v:foldstart + 1)
-  while nnum < v:foldend+1
-    let line = line . sep. substitute(getline(nnum), "^ *", "", "g")
-    let sep =   " ¦ "
-    let line_left = v:foldend-nnum
-    let nnum = nnum + 1
-    if len(line) > (winwidth(0)*2/3) && line_left>1
-      let endline = substitute(getline(v:foldend), "^\\s*", '', 'g')
-      let line  = line.'  ... ('.(line_left).') ¦ '.endline
-      return '✪ '.substitute(line, "^  ", "", "")
-      break
-    end
-  endwhile
-  "if strlen(line) > 700
-    "let endline = substitute(getline(v:foldend), "^\\s*", '', 'g')
-    "let line  = getline(v:foldstart).' [ ... ('.(v:foldend-v:foldstart).')] '.endline
-  "endif
-  return '✩ '.substitute(line, "^  ", "", "")
-endfunction
-
-function! CompressFoldTextBare()
-  let sep = "   ¦ "
-  let line = getline(v:foldstart)
-  let nnum = nextnonblank(v:foldstart + 1)
-  if (v:foldend-v:foldstart)>20
-      return '✪ '.substitute(line, "^  ", "", "")." ..."
-  end
-  while nnum < v:foldend+1
-    let line = line . sep. substitute(getline(nnum), "^ *", "", "g")
-    let sep =   " ¦ "
-    let line_left = v:foldend-nnum
-    let nnum = nnum + 1
-    if len(line) > (winwidth(0)*2/3) && line_left>1
-      let endline = substitute(getline(v:foldend), "^\\s*", '', 'g')
-      let line  = line.'  ... ('.(line_left).') ¦ '.endline
-      break
-    end
-  endwhile
-  "if strlen(line) > 700
-    "let endline = substitute(getline(v:foldend), "^\\s*", '', 'g')
-    "let line  = getline(v:foldstart).' [ ... ('.(v:foldend-v:foldstart).')] '.endline
-  "endif
-  return line
-endfunction
-function! MyFold()
-  let line = getline(v:lnum)
-  if match(line, '^\s*$')==0
-    return "="
-  elseif  match(line, '^\s*#')==0
-    return "="
-  end
-  let level = matchend(line,'^\ *')/2+1
-  if match(line, '\C\<def\>\|\<class\>\|\<module\>\|\<dodo\>')>=0
-    return ">".level
-  "elseif match(line, '\C\<end\>')>=0
-    "return "<".level
-  end
-  
-  return level
-endfunction
-set foldexpr=MyFold()
+set foldexpr=IndentFold()
 set foldmethod=expr
-setlocal foldtext=CompressFoldTextBare()
+setlocal foldtext=OneLineFold()
 nnoremap G Gzv
 
 "nnoremap <leader>a z
@@ -230,8 +151,8 @@ noremap l b
 noremap u e
 noremap k nzv
 noremap j u
-noremap E zk
-noremap N zj
+map E fe
+map N fn
 noremap L [z
 noremap U ]z
 
@@ -373,32 +294,6 @@ hi DiffAdd ctermbg=green
 hi DiffText ctermbg=yellow
 
 
-"Prevent global mark overriden
-
-function s:SetMark()
-  let m=getchar()
-  if type(m)==type(0)
-    let m=nr2char(m)
-  endif
-  if m=~#'^[A-Z]$'
-    let pos=getpos("'".m)
-    if pos[1]
-      echohl Error
-      echon "Mark ".m." is arleady set. Overwrite?"
-      echohl None
-      let c=getchar()
-      if type(c)==type(0)
-        let c=nr2char(c)
-      endif
-      echo
-      if c!=?'y'
-        return "<C-l>"
-      endif
-    endif
-  endif
-  return "m".m
-endfunction
-nnoremap <special><expr> m <SID>SetMark()
 
 
 " Java
@@ -486,6 +381,7 @@ cab ee drop %:p:h
 cab er edit ~/
 
 
+call pathogen#runtime_append_all_bundles( )
 
 "let g:org_todo_setup= 'TODO | STARTED | DONE | WISH'
 let g:agenda_dirs = ["~/Dropbox/org"]
@@ -539,7 +435,7 @@ hi OL3 cterm=underline
 "hi OL9 ctermbg=gray
 "hi FoldText ctermbg=gray
 hi TODO ctermfg=darkred ctermbg=none cterm=bold
-hi link CANCELED TODO
+hi link CANCELED DONE
 hi STARTED ctermfg=blue ctermbg=none cterm=bold
 hi link NEXT TODO
 hi DONE ctermfg=darkgreen ctermbg=none cterm=bold
