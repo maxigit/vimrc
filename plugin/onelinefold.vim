@@ -1,3 +1,4 @@
+" author: Maxime Bourget
 function! OneLineFold()
   let sep = "   ¦ "
   let line = getline(v:foldstart)

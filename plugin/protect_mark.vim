@@ -1,3 +1,4 @@
+"author: Maxime Bourget , from stackoverflow
 "Prevent global mark overriden
 function s:SetMark()
   let m=getchar()
