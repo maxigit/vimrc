@@ -19,3 +19,6 @@
 [submodule "bundle/rails"]
 	path = bundle/rails
 	url = https://github.com/tpope/vim-rails.git
+[submodule "bundle/easy-motion"]
+	path = bundle/easy-motion
+	url = https://github.com/Lokaltog/vim-easymotion.git
