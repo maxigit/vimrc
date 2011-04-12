@@ -39,6 +39,8 @@ map z[ [z
 "let ruby_fold=0
 let ruby_no_comment_fold=1
 set fillchars+=fold:\ 
+nnoremap <tab> za
+nnoremap <S-tab> zA
 
 set foldexpr=IndentFold()
 set foldmethod=expr
@@ -208,18 +210,22 @@ inoremap XX <Esc>x
 
 inoremap PP <Esc>:set paste<Cr>i
 
-cnoremap <leader>be :BufExplorer<CR>+
-
 set laststatus=2
 "set statusline ="-- %{fugitive#statusLine()}"
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
+
 "au InsertEnter * hi StatusLine ctermb=0 ctermfg=2
 "au InsertLeave * hi StatusLine  ctermfg=0 ctermbg=2 
-hi CursorLine ctermbg=green cterm=none
+"hi CursorLine ctermbg=green cterm=none
 
-au InsertEnter * set cursorline
-au InsertLeave * set nocursorline
+"au InsertEnter * set cursorline
+"au InsertLeave * set nocursorline
+set cursorline
+hi CursorLine ctermbg=gray cterm=none
+au InsertLeave * hi CursorLine ctermbg=gray  cterm=none
+au InsertEnter * hi CursorLine ctermbg=green cterm=none
+
 
 "Window
 map <leader>w <C-W>
@@ -259,16 +265,6 @@ inoremap 5# #####
 "Ack
 set grepprg=ack
 
-"Furry finder
-noremap <leader>fb :FufBuffer<Cr>
-noremap <leader>ff :FufFile<Cr>
-noremap <leader>fj :FufJumpList<Cr>
-noremap <leader>fq :FufQuickList<Cr>
-noremap <leader>ft :FufTag<Cr>
-noremap <leader>fd :FufDirectory<Cr>
-noremap <leader>fq :FufQuickfix<Cr>
-noremap <leader>fc :FufLine<Cr>
- 
 
 "file completions
 set wildmenu
