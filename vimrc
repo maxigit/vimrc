@@ -17,7 +17,7 @@ set ignorecase
 set smartcase
 
 set hidden
-set tildeop
+" we don't need it anymore, as we've learn gu and gU set tildeop we don't
 
 
 "set ht=2
@@ -219,13 +219,16 @@ set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 "au InsertLeave * hi StatusLine  ctermfg=0 ctermbg=2 
 "hi CursorLine ctermbg=green cterm=none
 
-"au InsertEnter * set cursorline
-"au InsertLeave * set nocursorline
-set cursorline
-hi CursorLine ctermbg=gray cterm=none
-au InsertLeave * hi CursorLine ctermbg=gray  cterm=none
-au InsertEnter * hi CursorLine ctermbg=green cterm=none
+au WinEnter * set cursorline
+au WinLeave * set nocursorline
 
+"au CursorHold * set nocursorline
+"au CursorMoved * set cursorline
+set cursorline
+hi CursorLine ctermbg=gray cterm=underline
+au InsertLeave * hi CursorLine ctermbg=gray  cterm=underline
+
+au InsertEnter * hi CursorLine ctermbg=green cterm=none
 
 "Window
 map <leader>w <C-W>
@@ -312,7 +315,7 @@ let g:rubycomplete_classes_in_global = 1
 " completing Rails hangs a lot
 "let g:rubycomplete_rails = 1
 
-set complete=.,b
+"set complete=.,t
 hi Pmenu ctermbg=gray ctermfg=darkblue
 hi PmenuSel ctermbg=Yellow ctermfg=darkblue
 
@@ -353,6 +356,9 @@ noremap ± 
 set sessionoptions-=options
 set sessionoptions+=buffers
 
+let g:EasyMotion_leader_key ="<leader>f"
+nmap N <leader>fn
+nmap E <leader>fe
 
 cab gems /Users/mb14/.rvm/gems/ruby-1.8.7-p174@sequencescape/gems
 
@@ -380,8 +386,9 @@ cab er edit ~/
 call pathogen#runtime_append_all_bundles( )
 
 "let g:org_todo_setup= 'TODO | STARTED | DONE | WISH'
-let g:agenda_dirs = ["~/Dropbox/org"]
-let g:org_tag_setup='{@home(h) @work(w) @Ellie(u) } \n { Ellie(e) Sheena(s)  } \n {easy(y) hard(d)} \n {computer(c) phone(p) internet(i)}'
+let g:agenda_dirs = ["~/Dropbox"]
+let g:agenda_files = [ "/Users/mb14/Dropbox/org/mae_p.org", "/Users/mb14/Dropbox/org/main.org", "/Users/mb14/Dropbox/org/pc_p.org", "/Users/mb14/Dropbox/org/work.org"]
+let g:org_tag_setup='{@home(h) @work(w) @Ellie(u) } \n { Ellie(e) Sheena(s) Max&Ellie(m)  } \n {easy(y) hard(d)} \n {computer(c) phone(p) internet(i)}'
 " leave these as is:
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
 au BufRead,BufNewFile *.org            call org#SetOrgFileType()
@@ -435,3 +442,14 @@ hi link CANCELED DONE
 hi STARTED ctermfg=blue ctermbg=none cterm=bold
 hi link NEXT TODO
 hi DONE ctermfg=darkgreen ctermbg=none cterm=bold
+
+noremap <silent> <leader>tt :CommandT<CR>
+noremap <silent> <leader>tb :CommandTBuffer<CR>
+noremap <silent> <leader>th :CommandT ~/<CR>
+noremap <silent> <leader>tv :CommandT ~/.vim<CR>
+noremap <silent> <leader>td :CommandT ~/Dropbox<CR>
+
+let g:CommandTMaxHeight=10
+let g:CommandTSelectPrevMap=['<C-e>']
+"let g:CommandTCursorEndMap=['<C-o>']
+"let g:CommandTCursorStartMap=['<C-i>']
