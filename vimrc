@@ -79,6 +79,8 @@ autocmd FileType ruby compiler ruby
 autocmd FileType ruby noremap <leader>mr :Rake<CR>
 autocmd FileType ruby noremap <leader>mm :w !ruby -c<CR>
 autocmd FileType cucumber compiler cucumber
+autocmd FileType cucumber nnoremap <localleader>s ?Scenario\s*:?ewy$:make --name "0$"
+autocmd FileType cucumber nnoremap <localleader>f /\%>0lFeature\s*:/ewy$:make --name "0$"
 
 autocmd BufWritePost *.rb make -c %
 
@@ -108,13 +110,13 @@ cab marginoff set nonu; set foldcolumn=y
 iab ddd debugger
 
 "Camelcase motion
-map <silent> w <Plug>CamelCaseMotion_w
-map <silent> e <Plug>CamelCaseMotion_e
-map <silent> b <Plug>CamelCaseMotion_b
+"map <silent> w <Plug>CamelCaseMotion_w
+"map <silent> e <Plug>CamelCaseMotion_e
+"map <silent> b <Plug>CamelCaseMotion_b
 
-noremap ,w w
-noremap ,b b
-noremap ,e e
+"noremap ,w w
+"noremap ,b b
+"noremap ,e e
 
 omap <silent> ii <Plug>CamelCaseMotion_iw
 "noremap <silent> ii iw
@@ -148,11 +150,12 @@ noremap ` :
 "
 noremap n j
 noremap e k
-noremap \ l
-noremap l b
-noremap u e
-noremap k nzv
-noremap j u
+nnoremap \ l
+nnoremap l b
+nnoremap u e
+nnoremap k nzv
+vnoremap k n
+nnoremap j u
 map E fe
 map N fn
 noremap L [z
@@ -279,14 +282,8 @@ set suffixes+=.hi
 "spelling mistake
 iab lenght length
 
-"navigation
-nnoremap UU <C-u>
-nnoremap FF <C-d>
-
 
 nmap WW <space>SS:qa<Cr>
-nmap <leader>ee :NERDTree<cr>
-nnoremap <leader>et :TlistToggle<CR><C-W>h
 
 "diff syntax
 hi DiffAdd ctermbg=green
@@ -356,9 +353,17 @@ noremap ± 
 set sessionoptions-=options
 set sessionoptions+=buffers
 
+" easymotion
 let g:EasyMotion_leader_key ="<leader>f"
 nmap N <leader>fn
 nmap E <leader>fe
+
+map f <leader>ff
+map F <leader>fF
+map w <leader>fw
+map W <leader>fW
+"nnoremap ,f f
+noremap ,F F
 
 cab gems /Users/mb14/.rvm/gems/ruby-1.8.7-p174@sequencescape/gems
 
@@ -405,7 +410,7 @@ hi Dates guifg=magenta ctermfg=darkmagenta
 hi stars guifg=#444444 ctermfg=gray
 hi Props guifg=#ffa0a0 ctermfg=darkred
 hi code guifg=orange gui=bold ctermbg=14
-hi itals gui=italic guifg=#aaaaaa ctermbg=lightgray
+hi itals gui=italic guifg=#aaaaaa ctermbg=lightgray ctermfg=brown
 hi boldtext gui=bold guifg=#aaaaaa ctermbg=lightyellow
 hi undertext gui=underline guifg=#aaaaaa cterm=underline
 hi lnumber guifg=#999999 ctermfg=gray
@@ -443,13 +448,50 @@ hi STARTED ctermfg=blue ctermbg=none cterm=bold
 hi link NEXT TODO
 hi DONE ctermfg=darkgreen ctermbg=none cterm=bold
 
+noremap <silent> T :CommandT<CR>
 noremap <silent> <leader>tt :CommandT<CR>
 noremap <silent> <leader>tb :CommandTBuffer<CR>
 noremap <silent> <leader>th :CommandT ~/<CR>
 noremap <silent> <leader>tv :CommandT ~/.vim<CR>
 noremap <silent> <leader>td :CommandT ~/Dropbox<CR>
 
+" We swap t and g, that's a big change !!!
+nnoremap t g
+nnoremap tt gg
+nnoremap g t
+"nnoremap T G
+nnoremap tT G
+map tf gf
+"nnoremap G T use by commandT
+
+nnoremap tn <C-d>
+nnoremap te <c-u>
+
 let g:CommandTMaxHeight=10
 let g:CommandTSelectPrevMap=['<C-e>']
 "let g:CommandTCursorEndMap=['<C-o>']
 "let g:CommandTCursorStartMap=['<C-i>']
+"
+"
+"
+" detect multiple space
+syntax match doubleSpace " \zs "
+hi doubleSpace cterm=underline ctermbg=red
+"
+"conceal
+syntax match hsNiceOperator "\\" conceal cchar=λ
+syntax match hsNiceOperator "<-" conceal cchar=←
+syntax match hsNiceOperator "->" conceal cchar=→
+syntax match hsNiceOperator "\<sum\>" conceal cchar=∑
+syntax match hsNiceOperator "\<product\>" conceal cchar=∏
+syntax match hsNiceOperator "\<sqrt\>" conceal cchar=√
+syntax match hsNiceOperator "\<pi\>" conceal cchar=π
+syntax match hsNiceOperator "\<undefined\>" conceal cchar=⟘
+syntax match hsNiceOperator "==" conceal cchar=≡
+syntax match hsNiceOperator "\/=" conceal cchar=≠
+syntax match hsNiceOperator ">>" conceal cchar=»
+hi Conceal  ctermbg=none
+       
+set conceallevel=2
+ "CSV
+ hi clear CSVColumnEven CSVColumnOdd CSVColumnHeaderEven CSVColumnHeaderOdd
