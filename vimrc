@@ -5,6 +5,7 @@ filetype indent on
 filetype plugin on
 set directory ^=~/.vim_swap//
 syntax on
+set spell
 
 "basic vim setting
 set modeline
@@ -77,12 +78,14 @@ imap <%= <%=  %>ODODOC
 "autocmd FileType eruby set omnifunc=rubycomple#Complete
 autocmd FileType ruby compiler ruby
 autocmd FileType ruby noremap <leader>mr :Rake<CR>
-autocmd FileType ruby noremap <leader>mm :w !ruby -c<CR>
+autocmd FileType ruby noremap <leader>mm :w !ruby -c -W0<CR>
+autocmd FileType ruby 2match SpellRare '\<debugger\>'
 autocmd FileType cucumber compiler cucumber
 autocmd FileType cucumber nnoremap <localleader>s ?Scenario\s*:?ewy$:make --name "0$"
 autocmd FileType cucumber nnoremap <localleader>f /\%>0lFeature\s*:/ewy$:make --name "0$"
+autocmd FileType cucumber 2match SpellBad "\S\s\zs\s"
 
-autocmd BufWritePost *.rb make -c %
+autocmd BufWritePost *.rb make -c -W0 %
 
 cab nw noa w
 
@@ -209,7 +212,7 @@ inoremap RR <C-R>
 cnoremap RR <C-R>
 
 "erase
-inoremap XX <Esc>x
+inoremap XX <Esc>xi
 
 inoremap PP <Esc>:set paste<Cr>i
 
@@ -228,12 +231,14 @@ au WinLeave * set nocursorline
 "au CursorHold * set nocursorline
 "au CursorMoved * set cursorline
 set cursorline
-hi CursorLine ctermbg=gray cterm=underline
-au InsertLeave * hi CursorLine ctermbg=gray  cterm=underline
+hi CursorLine ctermbg=gray cterm=underline guifg=NONE
+au InsertLeave * hi CursorLine ctermbg=gray  cterm=underline guifg=NONE guibg=gray40 gui=underline
 
-au InsertEnter * hi CursorLine ctermbg=green cterm=none
+au InsertEnter * hi CursorLine ctermbg=green cterm=none guifg=NONE guibg=slateblue gui=none
 
 "Window
+"
+"dsdss
 map <leader>w <C-W>
 map <leader>wn <C-W>j
 map <leader>wl <C-W>k
@@ -319,8 +324,14 @@ hi PmenuSel ctermbg=Yellow ctermfg=darkblue
 nnoremap <silent>  <C-K><C-K> :set spell!<CR>
 
 inoremap <Tab>l <C-X><C-L>
-inoremap <Tab>n <C-X><C-O>
+inoremap <Tab>o <C-X><C-O>
+inoremap <Tab><tab> <C-X><C-O>
 inoremap <Tab>s <C-X><C-S>
+inoremap <Tab>d <C-X><C-K>
+inoremap <Tab>h <C-X><C-K>
+inoremap <Tab>t <C-X><C-]>
+
+inoremap <S-Tab> <tab>
 set ph=10
 nnoremap <leader>SQ <space>SS:xa
 
@@ -392,7 +403,7 @@ call pathogen#runtime_append_all_bundles( )
 
 "let g:org_todo_setup= 'TODO | STARTED | DONE | WISH'
 let g:agenda_dirs = ["~/Dropbox"]
-let g:agenda_files = [ "/Users/mb14/Dropbox/org/mae_p.org", "/Users/mb14/Dropbox/org/main.org", "/Users/mb14/Dropbox/org/pc_p.org", "/Users/mb14/Dropbox/org/work.org"]
+"let g:agenda_files = ["/Users/mb14/Dropbox/org/main.org", "/Users/mb14/Dropbox/org/work.org"]
 let g:org_tag_setup='{@home(h) @work(w) @Ellie(u) } \n { Ellie(e) Sheena(s) Max&Ellie(m)  } \n {easy(y) hard(d)} \n {computer(c) phone(p) internet(i)}'
 " leave these as is:
 au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
@@ -442,7 +453,7 @@ hi OL3 cterm=underline
 "hi OL8 ctermbg=gray
 "hi OL9 ctermbg=gray
 "hi FoldText ctermbg=gray
-hi TODO ctermfg=darkred ctermbg=none cterm=bold
+hi TODO ctermfg=darkred ctermbg=none cterm=bold guifg=RED guibg=#70000
 hi link CANCELED DONE
 hi STARTED ctermfg=blue ctermbg=none cterm=bold
 hi link NEXT TODO
@@ -495,3 +506,19 @@ hi Conceal  ctermbg=none
 set conceallevel=2
  "CSV
  hi clear CSVColumnEven CSVColumnOdd CSVColumnHeaderEven CSVColumnHeaderOdd
+
+
+ "Gundo
+ let g:gundo_preview_bottom=1
+ let g:gundo_map_move_older='n'
+ let g:gundo_map_move_newer='e'
+:
+nnoremap <silent> <leader>ur :GundoRenderGraph<CR>p<C-W>p
+nnoremap <silent> <leader>uu :GundoToggle<CR><C-W>p
+:
+if has("gui_running")
+  colorscheme rubyblue
+  hi clear Folded
+  set guioptions=ge
+  nnoremap <silent> <leader>bf :set fu!<cr>
+end

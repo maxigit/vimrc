@@ -2,3 +2,4 @@ camelcasemotion.vba: call delete('/Users/mb14/.vim/autoload/camelcasemotion.vim'
 histwin.vba: call delete('/Users/mb14/.vim/autoload/histwin.vim')|call delete('/Users/mb14/.vim/plugin/histwinPlugin.vim')
 ZoomWin.vba: call delete('/Users/mb14/.vim/plugin/ZoomWinPlugin.vim')|call delete('/Users/mb14/.vim/doc/ZoomWin.txt')|call delete('/Users/mb14/.vim/autoload/ZoomWin.vim')
 csv-0.13.vba: call delete('/Users/mb14/.vim/ftplugin/csv.vim')|call delete('/Users/mb14/.vim/doc/ft_csv.txt')|call delete('/Users/mb14/.vim/syntax/csv.vim')|call delete('/Users/mb14/.vim/ftdetect/csv.vim')
+rainbow_parenthsis-4.0.vba: call delete('/Users/mb14/.vim/autoload/rainbow_parenthsis.vim')|call delete('/Users/mb14/.vim/doc/rainbow_parenthsis.txt')|call delete('/Users/mb14/.vim/plugin/rainbow_parenthsis.vim')|call delete('/Users/mb14/.vim/rainbow_parenthsis_options.vim')
