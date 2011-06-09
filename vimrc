@@ -363,13 +363,15 @@ set sessionoptions+=buffers
 let g:EasyMotion_leader_key ="<leader>f"
 nmap N <leader>fn
 nmap E <leader>fe
+nmap U <leader>ff
+nmap L <leader>fw
 
-map f <leader>ff
-map F <leader>fF
-map w <leader>fw
-map W <leader>fW
+"map f <leader>ff
+"map F <leader>fF
+"map w <leader>fw
+"map W <leader>fW
 "nnoremap ,f f
-noremap ,F F
+"noremap ,F F
 
 cab gems /Users/mb14/.rvm/gems/ruby-1.8.7-p174@sequencescape/gems
 
