@@ -263,12 +263,6 @@ noremap <space>kl :cp<CR>zv
 noremap <space>kw :cw<CR>zv
 noremap <space>kc :cc<CR>zv
 noremap <space>kq :ccl<CR>zv
-noremap <space>Cn :cn<CR>zv
-noremap <space>Cp :cp<CR>zv
-noremap <space>Cl :cp<CR>zv
-noremap <space>Cw :cw<CR>zv
-noremap <space>Cc :cc<CR>zv
-noremap <space>Cq :ccl<CR>zv
 
 inoremap 3# ###
 inoremap 4# ####
