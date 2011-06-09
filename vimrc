@@ -90,7 +90,7 @@ autocmd BufWritePost *.rb make -c -W0 %
 cab nw noa w
 
 
-set t_Co=16
+"set t_Co=16
 hi Comment ctermbg=gray ctermfg=darkgreen
 hi Statement ctermfg=blue
 hi Visual ctermbg=DarkYellow
@@ -512,13 +512,29 @@ set conceallevel=2
  let g:gundo_preview_bottom=1
  let g:gundo_map_move_older='n'
  let g:gundo_map_move_newer='e'
-:
+
 nnoremap <silent> <leader>ur :GundoRenderGraph<CR>p<C-W>p
 nnoremap <silent> <leader>uu :GundoToggle<CR><C-W>p
-:
+
+au ColorScheme * hi clear Folded
+au ColorScheme * hi SpellBad cterm=none
+au ColorScheme * hi SpellRare cterm=none
+
+"colorscheme rubyblue
+colorscheme darkZ
 if has("gui_running")
   colorscheme rubyblue
   hi clear Folded
   set guioptions=ge
   nnoremap <silent> <leader>bf :set fu!<cr>
+else
+  "set t_Co=256
 end
+
+au FileChangedShell * colorscheme dw_red
+nmap <silent> <localleader>cg :colorscheme github<cr>
+nmap <silent> <localleader>cc :colorscheme camo<cr>
+nmap <silent> <localleader>cd :colorscheme darkZ<cr>
+nmap <silent> <localleader>co :colorscheme dw_orange<cr>
+nmap <silent> <localleader>cr :colorscheme rubyblue<cr>
+nmap <silent> <localleader>cv :colorscheme org_dark<cr>
