@@ -161,8 +161,8 @@ vnoremap k n
 nnoremap j u
 map E fe
 map N fn
-noremap L [z
-noremap U ]z
+"noremap L [z
+"noremap U ]z
 
 noremap K Nzv
 noremap  
@@ -194,17 +194,18 @@ map <leader>gB :GitBlame %<CR>
 "let g:gsession_non_default_mapping = 1
 
 "quick inserst in insert mode
-inoremap II <Esc>I
-inoremap AA <Esc>A
-inoremap OO <Esc>O
-inoremap WW <Esc>:w<cr>
-inoremap EE <Esc>:e!
-inoremap ZZ <Esc>:wq
+inoremap III <Esc>I
+inoremap AAA <Esc>A
+inoremap OOO <Esc>O
+inoremap WWW <Esc>:w<cr>
+inoremap EEE <Esc>:e!
+inoremap ZZZ <Esc>:wq
 
-inoremap CC <Esc>C
-inoremap SS <Esc>S
-inoremap DD <Esc>dd
-inoremap UU <Esc>u
+
+inoremap CCC <Esc>C
+inoremap SSS <Esc>S
+inoremap DDD <Esc>dd
+inoremap UUU <Esc>u
 
 
 " paste 
