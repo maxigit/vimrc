@@ -16,6 +16,7 @@ set virtualedit=all
 
 set ignorecase
 set smartcase
+set mouse=a
 
 set hidden
 " we don't need it anymore, as we've learn gu and gU set tildeop we don't
@@ -82,7 +83,7 @@ autocmd FileType ruby noremap <leader>mm :w !ruby -c -W0<CR>
 autocmd FileType ruby 2match SpellRare '\<debugger\>'
 autocmd FileType cucumber compiler cucumber
 autocmd FileType cucumber nnoremap <localleader>s ?Scenario\s*:?ewy$:make --name "0$"
-autocmd FileType cucumber nnoremap <localleader>f /\%>0lFeature\s*:/ewy$:make --name "0$"
+autocmd FileType cucumber nnoremap <localleader>f /\%>0lFeature\s*:/ewy$:make --name "0$"''
 autocmd FileType cucumber 2match SpellBad "\S\s\zs\s"
 
 autocmd BufWritePost *.rb make -c -W0 %
@@ -233,9 +234,8 @@ au WinLeave * set nocursorline
 "au CursorMoved * set cursorline
 set cursorline
 hi CursorLine ctermbg=gray cterm=underline guifg=NONE
-au InsertLeave * hi CursorLine ctermbg=gray  cterm=underline guifg=NONE guibg=gray40 gui=underline
-
-au InsertEnter * hi CursorLine ctermbg=green cterm=none guifg=NONE guibg=slateblue gui=none
+au InsertLeave * hi CursorLine ctermbg=59  cterm=underline guifg=NONE guibg=gray40 gui=underline
+au InsertEnter * hi CursorLine ctermbg=98 cterm=none guifg=NONE guibg=slateblue gui=none
 
 "Window
 "
@@ -399,7 +399,7 @@ cab er edit ~/
 call pathogen#runtime_append_all_bundles( )
 
 "let g:org_todo_setup= 'TODO | STARTED | DONE | WISH'
-let g:agenda_dirs = ["~/Dropbox"]
+"let g:agenda_dirs = ["~/Dropbox"]
 "let g:agenda_files = ["/Users/mb14/Dropbox/org/main.org", "/Users/mb14/Dropbox/org/work.org"]
 let g:org_tag_setup='{@home(h) @work(w) @Ellie(u) } \n { Ellie(e) Sheena(s) Max&Ellie(m)  } \n {easy(y) hard(d)} \n {computer(c) phone(p) internet(i)}'
 " leave these as is:
@@ -412,28 +412,28 @@ au BufWritePost *.org :PostWriteTags
 "au FileType org :lcd %:p:h
 
 " various text item highlightings are below
-hi Properties guifg=pink ctermfg=darkred
-hi Tags guifg=pink ctermbg=lightred
-hi Dates guifg=magenta ctermfg=darkmagenta
-hi stars guifg=#444444 ctermfg=gray
-hi Props guifg=#ffa0a0 ctermfg=darkred
-hi code guifg=orange gui=bold ctermbg=14
-hi itals gui=italic guifg=#aaaaaa ctermbg=lightgray ctermfg=brown
-hi boldtext gui=bold guifg=#aaaaaa ctermbg=lightyellow
-hi undertext gui=underline guifg=#aaaaaa cterm=underline
-hi lnumber guifg=#999999 ctermfg=gray
-hi OL1 guifg=#7744ff ctermfg=darkblue
-hi OL2 guifg=#aaaa22 ctermfg=darkgreen
-hi OL3 guifg=#00ccff ctermfg=darkcyan
-hi OL4 guifg=#999999 gui=italic  	ctermfg=darkred
-hi OL5 guifg=#eeaaee ctermfg=darkmagenta
-hi OL6 guifg=#9966ff 	ctermfg=darkyellow
-hi OL7 guifg=#dd99dd  	ctermfg=black
-hi OL8 guifg=cyan	ctermfg=grey
-hi OL9 guifg=magenta	ctermfg=blue
-hi OL1 cterm=underline
-hi OL2 cterm=underline
-hi OL3 cterm=underline
+"hi Properties guifg=pink ctermfg=darkred
+"hi Tags guifg=pink ctermbg=lightred
+"hi Dates guifg=magenta ctermfg=darkmagenta
+"hi stars guifg=#444444 ctermfg=gray
+"hi Props guifg=#ffa0a0 ctermfg=darkred
+"hi code guifg=orange gui=bold ctermbg=14
+"hi itals gui=italic guifg=#aaaaaa ctermbg=lightgray ctermfg=brown
+"hi boldtext gui=bold guifg=#aaaaaa ctermbg=lightyellow
+"hi undertext gui=underline guifg=#aaaaaa cterm=underline
+"hi lnumber guifg=#999999 ctermfg=gray
+"hi OL1 guifg=#7744ff ctermfg=darkblue
+"hi OL2 guifg=#aaaa22 ctermfg=darkgreen
+"hi OL3 guifg=#00ccff ctermfg=darkcyan
+"hi OL4 guifg=#999999 gui=italic  	ctermfg=darkred
+"hi OL5 guifg=#eeaaee ctermfg=darkmagenta
+"hi OL6 guifg=#9966ff 	ctermfg=darkyellow
+"hi OL7 guifg=#dd99dd  	ctermfg=black
+"hi OL8 guifg=cyan	ctermfg=grey
+"hi OL9 guifg=magenta	ctermfg=blue
+"hi OL1 cterm=underline
+"hi OL2 cterm=underline
+"hi OL3 cterm=underline
 "hi OL4 cterm=underline
 "hi OL5 cterm=underline
 "hi OL6 cterm=underline
@@ -450,7 +450,7 @@ hi OL3 cterm=underline
 "hi OL8 ctermbg=gray
 "hi OL9 ctermbg=gray
 "hi FoldText ctermbg=gray
-hi TODO ctermfg=darkred ctermbg=none cterm=bold guifg=RED guibg=#70000
+hi TODO ctermfg=darkred ctermbg=none cterm=bold guifg=red guibg=NONE
 hi link CANCELED DONE
 hi STARTED ctermfg=blue ctermbg=none cterm=bold
 hi link NEXT TODO
@@ -527,11 +527,240 @@ if has("gui_running")
 else
   "set t_Co=256
 end
+au BufEnter * colorscheme darkZ | doau ColorScheme
+"au BufEnter */merged/* colorscheme github | doau ColorScheme
+"au BufEnter devel/edge/* colorscheme camo | doau ColorScheme
+"au BufEnter *.rb colorscheme rubyblue | doau ColorScheme |  hi Normal ctermbg=234<cr>g
+"
+function MyColor(scheme, force, bg)
+  if a:force
+    let b:colors_name=a:scheme
+    let b:colors_name_bg=a:bg
+  end
+  if exists("b:colors_name")
+    let  scheme = b:colors_name
+    let bg = b:colors_name_bg
+    exe 'echo "use '.scheme.' #'.bg.'"'
+  else
+    let scheme = a:scheme
+    let bg = a:bg
+  endif
 
-au FileChangedShell * colorscheme dw_red
-nmap <silent> <localleader>cg :colorscheme github<cr>
-nmap <silent> <localleader>cc :colorscheme camo<cr>
-nmap <silent> <localleader>cd :colorscheme darkZ<cr>
-nmap <silent> <localleader>co :colorscheme dw_orange<cr>
-nmap <silent> <localleader>cr :colorscheme rubyblue<cr>
+  if g:colors_name != scheme || !a:force
+    execute 'colorscheme '.scheme
+    execute 'doau ColorScheme'
+    if bg != 0
+      execute 'hi Normal ctermbg='.bg
+      execute 'hi NonText ctermbg='.bg
+    endif
+  endif
+endfunction
+"au BufEnter */merged/app/* colorscheme dw_red | doau ColorScheme
+"au BufEnter */edge/app/* colorscheme dw_orange | doau ColorScheme
+"au BufEnter */edge2/app/* colorscheme dw_red | doau ColorScheme
+"au BufEnter */Dropbox/* colorscheme camo | colorscheme org_dark | doau ColorScheme
+"au BufEnter *fugitive* colorscheme github | colorscheme org_dark | doau ColorScheme
+au BufEnter */merged/app/* call MyColor("dw_red", 0, 234)
+au BufEnter */edge/app/* call MyColor("dw_orange", 0, 232)
+"au BufEnter */edge2/app/* colorscheme dw_red | doau ColorScheme
+"au BufEnter */Dropbox/* colorscheme camo | colorscheme org_dark | doau ColorScheme
+"au BufEnter *fugitive* colorscheme github | colorscheme org_dark | doau ColorScheme
+nmap <silent> <localleader>cg :call MyColor("github", 1, "white")<cr>
+nmap <silent> <localleader>cc :call MyColor("camo", 1, 0)<cr>
+nmap <silent> <localleader>cd :cal MyColor("darkZ", 1, 0)<cr>
+nmap <silent> <localleader>co :call MyColor("dw_orange", 1, 234)<cr>
+nmap <silent> <localleader>cr :call MyColor("rubyblue", 1 , 234)<cr>
 nmap <silent> <localleader>cv :colorscheme org_dark<cr>
+syn match Dir "/\w\+" contains=@NoSpell
+syn match Upper "[A-Z]\w\+" contains=@NoSpell
+
+
+function! SyntaxItem()
+  return synIDattr(synID(line("."),col("."),1),"name")
+endfunction
+
+if has('statusline')&& 1
+  set statusline=%#IncSearch#                " set highlighting
+  set statusline+=%f\." >"                          " file name
+  set statusline+=%*                  " set highlighting
+  set statusline+=%{substitute(fugitive#statusline(),'GIT(\\([a-z0-9\\-_\\./:]\\+\\))','♆\ \\1','gi')}       " fugitive
+  set statusline+=%H%M%R%W\                    " flags
+  set statusline+=%#SpellBad#                " set highlighting
+  set statusline+=%{strlen(&ft)?&ft:'none'},   " file type
+  set statusline+=%{(&fenc==\"\"?&enc:&fenc)}, " encoding
+  set statusline+=%{((exists(\"+bomb\")\ &&\ &bomb)?\"B,\":\"\")} " BOM
+  set statusline+=%{&fileformat},              " file format
+  set statusline+=%{&spelllang},               " language of spelling checker
+  set statusline+=%{SyntaxItem()}              " syntax highlight group under cursor
+  set statusline+=%=                           " ident to the right
+  set statusline+=%f\                           " ident to the right
+  set statusline+=0x%-8B\                      " character code under cursor
+  set statusline+=%-7.(%l,%c%V%)\ %<%P         " cursor position/offset
+endif
+
+
+
+
+
+
+
+" Statusline {{{
+" Functions {{{
+" Statusline updater {{{
+" Inspired by StatusLineHighlight by Ingo Karkat
+function! s:StatusLine(new_stl, type, current)
+let current = (a:current ? "" : "NC")
+let type = a:type
+let new_stl = a:new_stl
+
+" Prepare current buffer specific text
+" Syntax: <CUR> ... </CUR>
+let new_stl = substitute(new_stl, '<CUR>\(.\{-,}\)</CUR>', (a:current ? '\1' : ''), 'g')
+
+" Prepare statusline colors
+" Syntax: #[ ... ]
+let new_stl = substitute(new_stl, '#\[\(\w\+\)\]', '%#StatusLine'.type.'\1'.current.'#', 'g')
+
+" Prepare statusline arrows
+" Syntax: [>] [>>] [<] [<<]
+if s:round_stl
+let new_stl = substitute(new_stl, '\[>\]', '⁍', 'g')
+let new_stl = substitute(new_stl, '\[>>\]', '❫', 'g')
+let new_stl = substitute(new_stl, '\[<\]', '⁌', 'g')
+let new_stl = substitute(new_stl, '\[<<\]', '❪', 'g')
+else
+let new_stl = substitute(new_stl, '\[>\]', '▶', 'g')
+let new_stl = substitute(new_stl, '\[>>\]', '❯', 'g')
+let new_stl = substitute(new_stl, '\[<\]', '❮', 'g')
+let new_stl = substitute(new_stl, '\[<<\]', '◀', 'g')
+endif
+
+if &l:statusline ==# new_stl
+" Statusline already set, nothing to do
+return
+endif
+
+if empty(&l:statusline)
+" No statusline is set, use my_stl
+let &l:statusline = new_stl
+else
+" Check if a custom statusline is set
+let plain_stl = substitute(&l:statusline, '%#StatusLine\w\+#', '', 'g')
+
+if &l:statusline ==# plain_stl
+" A custom statusline is set, don't modify
+return
+endif
+
+" No custom statusline is set, use my_stl
+let &l:statusline = new_stl
+endif
+endfunction
+
+
+" }}}
+" Color dict parser {{{
+function! s:StatusLineColors(colors)
+for type in keys(a:colors)
+for name in keys(a:colors[type])
+let colors = {'c': a:colors[type][name][0], 'nc': a:colors[type][name][1]}
+let type = (type == 'NONE' ? '' : type)
+let name = (name == 'NONE' ? '' : name)
+
+if exists("colors['c'][0]")
+exec 'hi StatusLine'.type.name.' ctermbg='.colors['c'][0].' ctermfg='.colors['c'][1].' cterm='.colors['c'][2]
+endif
+
+if exists("colors['nc'][0]")
+exec 'hi StatusLine'.type.name.'NC ctermbg='.colors['nc'][0].' ctermfg='.colors['nc'][1].' cterm='.colors['nc'][2]
+endif
+endfor
+endfor
+endfunction
+" }}}
+
+" }}}
+" Default statusline {{{
+let g:default_stl = ""
+let g:default_stl .= "<CUR>#[Mode] %{&paste ? 'PASTE [>] ' : ''}%{substitute(mode(), '', '^V', 'g')} #[ModeS][>>]</CUR>"
+let g:default_stl .= "#[Branch] %(%{substitute(fugitive#statusline(), 'GIT(\\([a-z0-9\\-_\\./:]\\+\\))', '♆ \\1', 'gi')}#[BranchS] [>] %)" " Git branch
+let g:default_stl .= "#[ModFlag]%{&readonly ? '☢ ' : ''}" " RO flag
+let g:default_stl .= "#[FileName]%f " " File name
+let g:default_stl .= "<CUR>#[Error]%(%{substitute(SyntasticStatuslineFlag(), '\\[Syntax: line:\\(\\d\\+\\) \\((\\(\\d\\+\\))\\)\\?\\]', '[>][>][>] SYNTAX đ \\1 \\2 [>][>][>]', 'i')} %)</CUR>" " Syntastic error flag
+let g:default_stl .= "#[ModFlag]%(%M %)" " Modified alag
+let g:default_stl .= "#[BufFlag]%(%H%W %)" " HLP,PRV flags
+let g:default_stl .= "#[FileNameS][>>]" " Separator
+let g:default_stl .= "#[FunctionName] " " Padding/HL group
+let g:default_stl .= "%<" " Truncate right
+"let g:default_stl .= "<CUR>%(%{cfi#format('%s', '')} %)</CUR>" " Function name
+let g:default_stl .= "%= " " Right align
+let g:default_stl .= "<CUR>#[FileFormat]%{&fileformat} </CUR>" " File format
+let g:default_stl .= "<CUR>#[FileEncoding]%{(&fenc == '' ? &enc : &fenc)} </CUR>" " File encoding
+let g:default_stl .= "<CUR>#[Separator][<] #[FileType]%{strlen(&ft) ? &ft : 'n/a'} </CUR>" " File type
+let g:default_stl .= "#[LinePercentS][<<]#[LinePercent] %p%% " " Line/column/virtual column, Line percentage
+let g:default_stl .= "#[LineNumberS][<<]#[LineNumber] đ %l#[LineColumn]:%c%V " " Line/column/virtual column, Line percentage
+let g:default_stl .= "%{exists('g:synid') && g:synid ? '[<] '.synIDattr(synID(line('.'), col('.'), 1), 'name').' ' : ''}" " Current syntax group
+" }}}
+
+
+" Color dict {{{
+let s:statuscolors = {
+\ 'NONE': {
+\ 'NONE' : [[ 236, 231, 'bold'], [ 232, 244, 'none']]
+\ }
+\ , 'Normal': {
+\ 'Mode' : [[ 214, 235, 'bold'], [ ]]
+\ , 'ModeS' : [[ 214, 240, 'bold'], [ ]]
+\ , 'Branch' : [[ 240, 250, 'none'], [ 234, 239, 'none']]
+\ , 'BranchS' : [[ 240, 246, 'none'], [ 234, 239, 'none']]
+\ , 'FileName' : [[ 240, 231, 'bold'], [ 234, 244, 'none']]
+\ , 'FileNameS' : [[ 240, 236, 'bold'], [ 234, 232, 'none']]
+\ , 'Error' : [[ 240, 202, 'bold'], [ 234, 239, 'none']]
+\ , 'ModFlag' : [[ 240, 196, 'bold'], [ 234, 239, 'none']]
+\ , 'BufFlag' : [[ 240, 250, 'none'], [ 234, 239, 'none']]
+\ , 'FunctionName' : [[ 236, 247, 'none'], [ 232, 239, 'none']]
+\ , 'FileFormat' : [[ 236, 244, 'none'], [ 232, 239, 'none']]
+\ , 'FileEncoding' : [[ 236, 244, 'none'], [ 232, 239, 'none']]
+\ , 'Separator' : [[ 236, 242, 'none'], [ 232, 239, 'none']]
+\ , 'FileType' : [[ 236, 248, 'none'], [ 232, 239, 'none']]
+\ , 'LinePercentS' : [[ 240, 236, 'none'], [ 234, 232, 'none']]
+\ , 'LinePercent' : [[ 240, 250, 'none'], [ 234, 239, 'none']]
+\ , 'LineNumberS' : [[ 252, 240, 'bold'], [ 234, 234, 'none']]
+\ , 'LineNumber' : [[ 252, 236, 'bold'], [ 234, 244, 'none']]
+\ , 'LineColumn' : [[ 252, 240, 'none'], [ 234, 239, 'none']]
+\ }
+\ , 'Insert': {
+\ 'Mode' : [[ 153, 23, 'bold'], [ ]]
+\ , 'ModeS' : [[ 153, 31, 'bold'], [ ]]
+\ , 'Branch' : [[ 31, 117, 'none'], [ ]]
+\ , 'BranchS' : [[ 31, 117, 'none'], [ ]]
+\ , 'FileName' : [[ 31, 231, 'bold'], [ ]]
+\ , 'FileNameS' : [[ 31, 24, 'bold'], [ ]]
+\ , 'Error' : [[ 31, 202, 'bold'], [ ]]
+\ , 'ModFlag' : [[ 31, 196, 'bold'], [ ]]
+\ , 'BufFlag' : [[ 31, 75, 'none'], [ ]]
+\ , 'FunctionName' : [[ 24, 117, 'none'], [ ]]
+\ , 'FileFormat' : [[ 24, 75, 'none'], [ ]]
+\ , 'FileEncoding' : [[ 24, 75, 'none'], [ ]]
+\ , 'Separator' : [[ 24, 37, 'none'], [ ]]
+\ , 'FileType' : [[ 24, 81, 'none'], [ ]]
+\ , 'LinePercentS' : [[ 31, 24, 'none'], [ ]]
+\ , 'LinePercent' : [[ 31, 117, 'none'], [ ]]
+\ , 'LineNumberS' : [[ 117, 31, 'bold'], [ ]]
+\ , 'LineNumber' : [[ 117, 23, 'bold'], [ ]]
+\ , 'LineColumn' : [[ 117, 31, 'none'], [ ]]
+\ }
+\ }
+" }}}
+" }}}
+"
+"augroup StatusLineHighlight
+"autocmd!
+
+"let s:round_stl = 0
+
+"au ColorScheme * call <SID>StatusLineColors(s:statuscolors)
+"au BufEnter,BufWinEnter,WinEnter,CmdwinEnter,CursorHold,BufWritePost,InsertLeave * call <SID>StatusLine((exists('b:stl') ? b:stl : g:default_stl), 'Normal', 1)
+"au BufLeave,BufWinLeave,WinLeave,CmdwinLeave * call <SID>StatusLine((exists('b:stl') ? b:stl : g:default_stl), 'Normal', 0)
+"au InsertEnter,CursorHoldI * call <SID>StatusLine((exists('b:stl') ? b:stl : g:default_stl), 'Insert', 1)
+"augroup END
