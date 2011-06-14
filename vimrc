@@ -249,8 +249,8 @@ au WinLeave * set nocursorline
 "au CursorHold * set nocursorline
 "au CursorMoved * set cursorline
 set cursorline
-hi CursorLine ctermbg=gray cterm=underline guifg=NONE
-au InsertLeave * hi CursorLine ctermbg=59  cterm=underline guifg=NONE guibg=gray40 gui=underline
+hi CursorLine ctermbg=none cterm=underline guifg=NONE
+au InsertLeave * hi CursorLine ctermbg=NONE  cterm=underline guifg=NONE guibg=NONE gui=underline
 au InsertEnter * hi CursorLine ctermbg=98 cterm=none guifg=NONE guibg=slateblue gui=none
 
 "Window
@@ -572,16 +572,14 @@ function MyColor(scheme, force, bg)
     endif
   endif
 endfunction
-"au BufEnter */merged/app/* colorscheme dw_red | doau ColorScheme
-"au BufEnter */edge/app/* colorscheme dw_orange | doau ColorScheme
-"au BufEnter */edge2/app/* colorscheme dw_red | doau ColorScheme
-"au BufEnter */Dropbox/* colorscheme camo | colorscheme org_dark | doau ColorScheme
-"au BufEnter *fugitive* colorscheme github | colorscheme org_dark | doau ColorScheme
-au BufEnter */merged/app/* call MyColor("dw_red", 0, 234)
-au BufEnter */edge/app/* call MyColor("dw_orange", 0, 232)
-"au BufEnter */edge2/app/* colorscheme dw_red | doau ColorScheme
-"au BufEnter */Dropbox/* colorscheme camo | colorscheme org_dark | doau ColorScheme
-"au BufEnter *fugitive* colorscheme github | colorscheme org_dark | doau ColorScheme
+"au BufEnter */merged/app/* call MyColor("dw_red", 0, 234)
+"au BufEnter */edge/app/* call MyColor("dw_orange", 0, 232)
+au BufEnter * call MyColor("rubyblue", 0, 232)
+au BufEnter *..* call MyColor("dw_orange", 0, 232)
+au BufEnter mb14/* call MyColor("dw_green", 0, 232)
+au BufEnter */Dropbox* call MyColor("dw_blue", 0, 232)
+au BufEnter *.feature call MyColor("camo", 0, 232)
+au BufEnter *.rb call MyColor("rubyblue", 0, 232)
 nmap <silent> <localleader>cg :call MyColor("github", 1, "white")<cr>
 nmap <silent> <localleader>cc :call MyColor("camo", 1, 0)<cr>
 nmap <silent> <localleader>cd :cal MyColor("darkZ", 1, 0)<cr>
@@ -596,3 +594,14 @@ function! SyntaxItem()
   return synIDattr(synID(line("."),col("."),1),"name")
 endfunction
 
+augroup BgHighlight
+    autocmd!
+    autocmd WinEnter * set fdc=1
+    autocmd WinLeave * set fdc=0
+    autocmd ColorScheme * hi clear FoldColumn
+    autocmd ColorScheme * hi link FoldColumn StatusLine
+    "autocmd WinEnter * set number
+    "autocmd WinLeave * set nonumber
+    "autocmd ColorScheme * hi clear LineNr
+    "autocmd ColorScheme * hi link LineNr StatusLine
+augroup END
