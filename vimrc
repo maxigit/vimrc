@@ -7,12 +7,11 @@ set directory ^=~/.vim_swap//
 syntax on
 set spell
 
-" Maxime  et un  Maxami et
 "basic vim setting
 set modeline
 set modelines=5
-set ruler
-set number
+"set ruler
+"set number
 set virtualedit=all
 
 set ignorecase
@@ -221,21 +220,30 @@ inoremap PP <Esc>:set paste<Cr>i
 
 set laststatus=2
 "set statusline ="-- %{fugitive#statusLine()}"
-set statusline=%P\ %#Error#%{&paste?'PASTE\ ':''}%#Special#%t%q\ %#Error#%(%M%R\ %)%*
-set statusline+=%#PmenuSel#%(%{substitute(fugitive#statusline(),'GIT(\\([a-z0-9\\-_\\./:]\\+\\))','♆\ \\1','gi')}\ %)%*
+set statusline=%P\ %#Error#%{&paste?'PASTE\ ':''}%#Special#▶\ %t%q\ %#Error#%(%M%R\ %)%*
+set statusline+=%#PmenuSel#%(%{substitute(fugitive#statusline(),'GIT(\\([a-z0-9\\-_\\./:]\\+\\)).*','♆\ \\1','gi')}\ %)
+"set statusline+=%#Pmenu#
+"set statusline+=%#Special#
+set statusline+=%{MyGitName()}%*
 "set statusline+=%<%(%50F%)%*\ 
-set statusline+=%<%(%50{MyGitDir()}%)%*\ 
-set statusline+=%=%#PmenuSel#%(%Y\ %)
+set statusline+=%<%(%50{MyDir()}%)%*\ 
+set statusline+=%=◀\ %#PmenuSel#%(%Y\ %)
 set statusline+=%(%{SyntaxItem()}\ %)
-set statusline+=%#Special#%-10.(%l,%c%V\ 0x%B%)\ 
+set statusline+=%#Special#⌦\ \ %-10.(%l,%c%V\ 0x%B%)\ 
 "set statusline+=%P
 
-function MyGitDir()
+function MyGitName()
   if exists("b:git_dir")
-    return substitute(b:git_dir, ".git$", "", "")
+    return substitute(b:git_dir, '.\{-}\([^/]\+\)/\.git$', '⌦  \1', '')
   else
-    return getcwd()
-  endif
+    return ""
+  end
+endfunction
+function MyDir()
+    let bufname = expand('%:p:h')
+    let curdir = glob(getcwd())
+    let bufname = substitute(bufname, "^".curdir, './','')
+    return simplify(substitute(bufname, '^'.$HOME, '~', ""))
 endfunction
 
 
