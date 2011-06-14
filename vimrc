@@ -196,12 +196,12 @@ map <leader>gB :GitBlame %<CR>
 "let g:gsession_non_default_mapping = 1
 
 "quick inserst in insert mode
-inoremap III <Esc>I
-inoremap AAA <Esc>A
-inoremap OOO <Esc>O
-inoremap WWW <Esc>:w<cr>
+inoremap II <Esc>I
+inoremap AA <Esc>A
+inoremap OO <Esc>O
+inoremap WW <Esc>:w<cr>
 inoremap EEE <Esc>:e!
-inoremap ZZZ <Esc>:wq
+inoremap ZZ <Esc>:wq
 
 
 inoremap CCC <Esc>C
