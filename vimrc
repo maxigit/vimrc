@@ -218,19 +218,26 @@ inoremap XX <Esc>xi
 
 inoremap PP <Esc>:set paste<Cr>i
 
+let g:fileformat_map = {'unix': 'ⓤ ', 'mac': 'ⓜ ', 'dos': 'ⓓ '}
 set laststatus=2
 "set statusline ="-- %{fugitive#statusLine()}"
-set statusline=%P\ %#Error#%{&paste?'PASTE\ ':''}%#Special#▶\ %t%q\ %#Error#%(%M%R\ %)%*
+set statusline=%#Error#%{&paste?'PASTE\ ':''}
+set statusline+=%#Special#
+set statusline+=%{&modified?'✘':'✔'}\ %t%q\ %{&readonly?'☂\ ':''}%*
 set statusline+=%#PmenuSel#%(%{substitute(fugitive#statusline(),'GIT(\\([a-z0-9\\-_\\./:]\\+\\)).*','♆\ \\1','gi')}\ %)
 "set statusline+=%#Pmenu#
 "set statusline+=%#Special#
 set statusline+=%{MyGitName()}%*
 "set statusline+=%<%(%50F%)%*\ 
-set statusline+=%<%(%50{MyDir()}%)%*\ 
+set statusline+=%<%(%20{MyDir()}%)%*\ 
 set statusline+=%=◀\ %#PmenuSel#%(%Y\ %)
 set statusline+=%(%{SyntaxItem()}\ %)
+set statusline+=%{&binary?'ⓑ\ ':g:fileformat_map[&fileformat]}
 set statusline+=%#Special#⌦\ \ %-10.(%l,%c%V\ 0x%B%)\ 
 "set statusline+=%P
+"
+function MyFlag()
+endfunction
 
 function MyGitName()
   if exists("b:git_dir")
