@@ -28,3 +28,9 @@
 [submodule "bundle/vim-abolish"]
 	path = bundle/vim-abolish
 	url = http://github.com/tpope/vim-abolish
+[submodule "gundo"]
+	path = gundo
+	url = http://github.com/sjl/gundo.vim.git
+[submodule "bundle/gundo"]
+	path = bundle/gundo
+	url = http://github.com/sjl/gundo.vim.git
