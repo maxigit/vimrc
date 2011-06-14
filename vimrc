@@ -221,11 +221,22 @@ inoremap PP <Esc>:set paste<Cr>i
 
 set laststatus=2
 "set statusline ="-- %{fugitive#statusLine()}"
-set statusline=%<%#WildMenu#%f\ %1*%h%m%r%*
-set statusline+=%{substitute(fugitive#statusline(),'GIT(\\([a-z0-9\\-_\\./:]\\+\\))','♆\ \\1','gi')}
-set statusline+=%#SpellBad#%(%Y%)%*\ 
-set statusline+=%=%{SyntaxItem()}\ |
-set statusline+=%-14.(%l,%c%V\ x%B%)\ %P
+set statusline=%P\ %#Error#%{&paste?'PASTE\ ':''}%#Special#%t%q\ %#Error#%(%M%R\ %)%*
+set statusline+=%#PmenuSel#%(%{substitute(fugitive#statusline(),'GIT(\\([a-z0-9\\-_\\./:]\\+\\))','♆\ \\1','gi')}\ %)%*
+"set statusline+=%<%(%50F%)%*\ 
+set statusline+=%<%(%50{MyGitDir()}%)%*\ 
+set statusline+=%=%#PmenuSel#%(%Y\ %)
+set statusline+=%(%{SyntaxItem()}\ %)
+set statusline+=%#Special#%-10.(%l,%c%V\ 0x%B%)\ 
+"set statusline+=%P
+
+function MyGitDir()
+  if exists("b:git_dir")
+    return substitute(b:git_dir, ".git$", "", "")
+  else
+    return getcwd()
+  endif
+endfunction
 
 
 "au InsertEnter * hi StatusLine ctermb=0 ctermfg=2
