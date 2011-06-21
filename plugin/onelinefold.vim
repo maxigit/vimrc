@@ -1,6 +1,6 @@
 " author: Maxime Bourget
 function! OneLineFold()
-  let sep = "   ¦ "
+  let sep = " ║ "
   let line = getline(v:foldstart)
   let nnum = nextnonblank(v:foldstart + 1)
   if (v:foldend-v:foldstart)>20
@@ -8,12 +8,12 @@ function! OneLineFold()
   end
   while nnum < v:foldend+1
     let line = line . sep. substitute(getline(nnum), "^ *", "", "g")
-    let sep =   " ¦ "
+    let sep =   " ║ "
     let line_left = v:foldend-nnum
     let nnum = nnum + 1
     if len(line) > (winwidth(0)*2/3) && line_left>1
       let endline = substitute(getline(v:foldend), "^\\s*", '', 'g')
-      let line  = line.'  ... ('.(line_left).') ¦ '.endline
+      let line  = line.'  ... ('.(line_left).')'.sep.endline
       break
     end
   endwhile
