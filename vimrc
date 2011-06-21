@@ -11,7 +11,7 @@ set spell
 set modeline
 set modelines=5
 "set ruler
-"set number
+set number
 set virtualedit=all
 
 set ignorecase
@@ -78,8 +78,8 @@ imap <%= <%=  %>ODODOC
 "autocmd FileType ruby set omnifunc=rubycomple#Complete
 "autocmd FileType eruby set omnifunc=rubycomple#Complete
 autocmd FileType ruby compiler ruby
-autocmd FileType ruby noremap <leader>mr :Rake<CR>
-autocmd FileType ruby noremap <leader>mm :w !ruby -c -W0<CR>
+autocmd FileType ruby noremap <leader>mr :Rake<CR> "rake
+autocmd FileType ruby noremap <leader>ms :w !ruby -c -W0<CR> "syntax check
 autocmd FileType ruby 2match SpellRare '\<debugger\>'
 autocmd FileType cucumber compiler cucumber
 autocmd FileType cucumber nnoremap <localleader>s ?Scenario\s*:?ewy$:make --name "0$"
@@ -223,19 +223,20 @@ let g:fileformat_map = {'unix': 'ⓤ ', 'mac': 'ⓜ ', 'dos': 'ⓓ '}
 set laststatus=2
 "set statusline ="-- %{fugitive#statusLine()}"
 set statusline=%#Error#%{&paste?'PASTE\ ':''}
-set statusline+=%#Special#
+set statusline+=%#SLName#
 set statusline+=%{&modified?'✘':'✔'}\ %t%q\ %{&readonly?'☂\ ':''}%*
 set statusline+=%#PmenuSel#%(%{substitute(fugitive#statusline(),'GIT(\\([a-z0-9\\-_\\./:]\\+\\)).*','♆\ \\1','gi')}\ %)
 "set statusline+=%#Pmenu#
-"set statusline+=%#Special#
+"set statusline+=%#SLName#
 set statusline+=%{MyGitName()}%*
 "set statusline+=%<%(%50F%)%*\ 
 set statusline+=%<%(%20{MyDir()}%)%*\ 
 set statusline+=%=◀\ %#PmenuSel#%(%Y\ %)
 set statusline+=%(%{SyntaxItem()}\ %)
 set statusline+=%{&binary?'ⓑ\ ':g:fileformat_map[&fileformat]}
-set statusline+=%#Special#⌦\ \ %-10.(%l,%c%V\ 0x%B%)\ 
+set statusline+=%#SLName#⌦\ \ %-10.(%l,%c%V\ 0x%B%)\ 
 "set statusline+=%P
+"
 "
 function MyFlag()
 endfunction
@@ -549,6 +550,8 @@ nnoremap <silent> <leader>uu :GundoToggle<CR><C-W>p
 au ColorScheme * hi clear Folded
 au ColorScheme * hi SpellBad cterm=none
 au ColorScheme * hi SpellRare cterm=none
+"au BufEnter * hi Special cterm=underline
+au ColorScheme * hi SLName cterm=reverse guibg=blue guifg=white
 
 "colorscheme rubyblue
 colorscheme darkZ
@@ -560,13 +563,12 @@ if has("gui_running")
 else
   "set t_Co=256
 end
-au BufEnter * colorscheme darkZ | doau ColorScheme
 "au BufEnter */merged/* colorscheme github | doau ColorScheme
 "au BufEnter devel/edge/* colorscheme camo | doau ColorScheme
 "au BufEnter *.rb colorscheme rubyblue | doau ColorScheme |  hi Normal ctermbg=234<cr>g
 "
 function MyColor(scheme, force, bg)
-  if a:force
+  if a:force && (a:scheme != "none")
     let b:colors_name=a:scheme
     let b:colors_name_bg=a:bg
   end
@@ -575,6 +577,9 @@ function MyColor(scheme, force, bg)
     let bg = b:colors_name_bg
     exe 'echo "use '.scheme.' #'.bg.'"'
   else
+    if a:scheme == "none"
+      return
+    endif
     let scheme = a:scheme
     let bg = a:bg
   endif
@@ -588,14 +593,23 @@ function MyColor(scheme, force, bg)
     endif
   endif
 endfunction
+command -nargs=1 Color call MyColor("<args>",1,0)
+command -nargs=1 ColorDark call MyColor("<args>",1,232)
+command -nargs=1 ColorLigh call MyColor("<args>",1,"white")
 "au BufEnter */merged/app/* call MyColor("dw_red", 0, 234)
 "au BufEnter */edge/app/* call MyColor("dw_orange", 0, 232)
+augroup AutoColor
+au BufEnter * colorscheme darkZ | doau ColorScheme
 au BufEnter * call MyColor("rubyblue", 0, 232)
 au BufEnter *..* call MyColor("dw_orange", 0, 232)
 au BufEnter mb14/* call MyColor("dw_green", 0, 232)
 au BufEnter */Dropbox* call MyColor("dw_blue", 0, 232)
 au BufEnter *.feature call MyColor("camo", 0, 232)
 au BufEnter *.rb call MyColor("rubyblue", 0, 232)
+au!
+au WinEnter * call MyColor("none",0,0)
+augroup END
+
 nmap <silent> <localleader>cg :call MyColor("github", 1, "white")<cr>
 nmap <silent> <localleader>cc :call MyColor("camo", 1, 0)<cr>
 nmap <silent> <localleader>cd :cal MyColor("darkZ", 1, 0)<cr>
@@ -612,12 +626,22 @@ endfunction
 
 augroup BgHighlight
     autocmd!
-    autocmd WinEnter * set fdc=1
-    autocmd WinLeave * set fdc=0
-    autocmd ColorScheme * hi clear FoldColumn
-    autocmd ColorScheme * hi link FoldColumn StatusLine
+    "autocmd WinEnter * set fdc=2 | set nonumber
+    "autocmd WinLeave * set fdc=0 | set nu | set  nuw=2
+    "autocmd ColorScheme * hi clear FoldColumn
+    "autocmd ColorScheme * hi link FoldColumn StatusLine
     "autocmd WinEnter * set number
     "autocmd WinLeave * set nonumber
     "autocmd ColorScheme * hi clear LineNr
     "autocmd ColorScheme * hi link LineNr StatusLine
+  "autocmd WinLeave * let w:syntax=&syntax | setl syntax=off | set nospell
+  "autocmd WinEnter * call MySyntax()
 augroup END
+function MySyntax()
+  if exists("w:syntax")
+    let &syntax=w:syntax
+  endif
+endfunction
+cab m3 3match StatusLine
+cab m2 2match Todo
+cab m1 match Error
