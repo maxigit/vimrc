@@ -153,7 +153,8 @@ noremap ` :
 "noremap n l
 "
 noremap n j
-noremap e k
+nnoremap e k
+xnoremap e k
 nnoremap \ l
 nnoremap l b
 nnoremap u e
