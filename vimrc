@@ -7,6 +7,7 @@ set directory ^=~/.vim_swap//
 syntax on
 set spell
 
+"let g:CSApprox_loaded=1
 "basic vim setting
 set modeline
 set modelines=5
@@ -17,6 +18,7 @@ set virtualedit=all
 set ignorecase
 set smartcase
 set mouse=a
+set background=dark
 
 set hidden
 " we don't need it anymore, as we've learn gu and gU set tildeop we don't
@@ -47,16 +49,17 @@ nnoremap <S-tab> zA
 set foldexpr=IndentFold()
 set foldmethod=expr
 setlocal foldtext=OneLineFold()
+"set foldtext=OneLineFold()
 nnoremap G Gzv
 
 "nnoremap <leader>a z
 nnoremap zV zMzv
 "nnoremap zZ vizzc<esc>
 
-map ]] ]zzj
-map [[ [z
-map ]- t_
-map [- T_
+"map ]] ]zzj
+"map [[ [z
+"map ]- t_
+"map [- T_
 
 set tags+=../tags
 set tags+=../../tags
@@ -70,9 +73,15 @@ map c& xPp%xPPc%
 "imap () ()<esc>i
 "imap [] []<esc>i
 "imap {} {}<esc>i
-"
-imap <%% <%  %>ODODOD
-imap <%= <%=  %>ODODOC
+"inoremap ( ()<left>
+"inoremap ) <esc>f)a
+"inoremap [ []<left>
+"inoremap ] <esc>f]a
+"inoremap { {}<left>
+"inoremap } <esc>f}a
+
+"imap <%% <%  %>ODODOD
+"imap <%= <%=  %>ODODOC
 
 
 "autocmd FileType ruby set omnifunc=rubycomple#Complete
@@ -86,7 +95,9 @@ autocmd FileType cucumber nnoremap <localleader>s ?Scenario\s*:?ewy$:make --nam
 autocmd FileType cucumber nnoremap <localleader>f /\%>0lFeature\s*:/ewy$:make --name "0$"''
 autocmd FileType cucumber 2match SpellBad "\S\s\zs\s"
 
-autocmd BufWritePost *.rb make -c -W0 %
+autocmd FileType rspec compiler rspec
+
+"autocmd BufWritePost *.rb make -c -W0 %
 
 cab nw noa w
 
@@ -96,7 +107,7 @@ hi Comment ctermbg=gray ctermfg=darkgreen
 hi Statement ctermfg=blue
 hi Visual ctermbg=DarkYellow
 hi String ctermbg=red
-hi Folded ctermfg=darkblue ctermbg=none
+"hi Folded ctermfg=darkblue ctermbg=none
 
 set hlsearch
 "set incsearch
@@ -223,6 +234,7 @@ let g:fileformat_map = {'unix': 'ⓤ ', 'mac': 'ⓜ ', 'dos': 'ⓓ '}
 set laststatus=2
 "set statusline ="-- %{fugitive#statusLine()}"
 set statusline=%#Error#%{&paste?'PASTE\ ':''}
+set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%#SLName#
 set statusline+=%{&modified?'✘':'✔'}\ %t%q\ %{&readonly?'☂\ ':''}%*
 set statusline+=%#PmenuSel#%(%{substitute(fugitive#statusline(),'GIT(\\([a-z0-9\\-_\\./:]\\+\\)).*','♆\ \\1','gi')}\ %)
@@ -239,6 +251,10 @@ set statusline+=%#SLName#⌦\ \ %-10.(%l,%c%V\ 0x%B%)\
 "
 "
 function MyFlag()
+endfunction
+
+function SyntasticStatusLine()
+  call SyntasticStatusLineFlag()
 endfunction
 
 function MyGitName()
@@ -265,6 +281,7 @@ au WinLeave * set nocursorline
 
 "au CursorHold * set nocursorline
 "au CursorMoved * set cursorline
+"
 set cursorline
 hi CursorLine ctermbg=none cterm=underline guifg=NONE
 au InsertLeave * hi CursorLine ctermbg=NONE  cterm=underline guifg=NONE guibg=NONE gui=underline
@@ -297,6 +314,36 @@ noremap <space>kw :cw<CR>zv
 noremap <space>kc :cc<CR>zv
 noremap <space>kq :ccl<CR>zv
 
+"nnoremap qn :cn<CR>zv
+"nnoremap Qn :cp<CR>zv
+"nnoremap qe :cnf<CR>zv
+"nnoremap Qe :cpf<CR>zv
+"nnoremap qE :clast<CR>zv
+"nnoremap QE :cfirst<CR>zv
+"nnoremap qN :cnewer<CR>zv
+"nnoremap QN :colder<CR>zv
+
+" n , previous/next error
+" N first/last file
+" e previous/next file
+" e olber/newer list
+nnoremap ]n :cn<CR>zv
+nnoremap [n :cp<CR>zv
+nnoremap ]N :clast<CR>zv
+nnoremap [N :cfirst<CR>zv
+nnoremap ]e :cnf<CR>zv
+nnoremap [e :cpf<CR>zv
+nnoremap ]E :cnewer<CR>zv
+nnoremap [E :colder<CR>zv
+
+nmap q ]
+nmap Q [
+nnoremap ]] q
+nnoremap ]Q Q
+nmap <C-Q> <C-]>
+nnoremap \q q
+
+
 inoremap 3# ###
 inoremap 4# ####
 inoremap 5# #####
@@ -314,6 +361,8 @@ set suffixes+=.hi
 "cab mma w %<CR>:make %<CR>
 "spelling mistake
 iab lenght length
+iab widht width
+iab height heigth
 
 
 nmap WW <space>SS:qa<Cr>
@@ -352,6 +401,8 @@ hi PmenuSel ctermbg=Yellow ctermfg=darkblue
 
 nnoremap <silent>  <C-K><C-K> :set spell!<CR>
 
+"use tab as completion
+
 inoremap <Tab>l <C-X><C-L>
 inoremap <Tab>o <C-X><C-O>
 inoremap <Tab><tab> <C-X><C-O>
@@ -360,13 +411,28 @@ inoremap <Tab>d <C-X><C-K>
 inoremap <Tab>h <C-X><C-K>
 inoremap <Tab>t <C-X><C-]>
 
-inoremap <S-Tab> <tab>
+"use s-tab for dodgy command
+"inoremap <S-Tab> <tab>
+inoremap <tab><s-tab> <tab>
+inoremap <tab><space> <space>
+inoremap <s-tab><space> <space>
+inoremap <s-tab><s-tab> <tab>
+
+inoremap <s-tab> <C-O>
+inoremap <s-tab><s-tab> <C-R>
+inoremap <s-tab>W <esc>:w<cr>i
+inoremap <s-tab>@ <esc>@
+inoremap @@ <esc>@@
+inoremap \@ @
 set ph=10
 nnoremap <leader>SQ <space>SS:xa
 
 "macro and makeprg
 nnoremap <leader>mm :w<CR>:make %<CR>
 nnoremap <leader>bb :b#<CR>
+nnoremap <leader>bn :BufSurfBack<CR>
+nnoremap <leader>be :BufSurfForward<CR>
+nnoremap <leader>bE :BufExplorer
 
 "let Tlist_Show_One_File=1
 nnoremap <leader>rc :Rcontroller<CR>
@@ -386,6 +452,8 @@ noremap <leader>pP P
 noremap <leader>pi ".P
 noremap <leader>pI ".P
 noremap <leader>pD "-P
+noremap <leader>py "0p
+noremap <leader>pY "0P
 
 noremap § u
 noremap ± 
@@ -432,19 +500,27 @@ cab er edit ~/
 
 call pathogen#runtime_append_all_bundles( )
 
-"let g:org_todo_setup= 'TODO | STARTED | DONE | WISH'
-"let g:agenda_dirs = ["~/Dropbox"]
-"let g:agenda_files = ["/Users/mb14/Dropbox/org/main.org", "/Users/mb14/Dropbox/org/work.org"]
-let g:org_tag_setup='{@home(h) @work(w) @Ellie(u) } \n { Ellie(e) Sheena(s) Max&Ellie(m)  } \n {easy(y) hard(d)} \n {computer(c) phone(p) internet(i)}'
-" leave these as is:
-au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
-au BufRead,BufNewFile *.org            call org#SetOrgFileType()
-au BufRead *.org :PreLoadTags
-au BufWrite *.org :PreWriteTags
-au BufWritePost *.org :PostWriteTags
-" to help for git. we need to be in the good directory
-"au FileType org :lcd %:p:h
+""let g:org_todo_setup= 'TODO | STARTED | DONE | WISH'
+""let g:agenda_dirs = ["~/Dropbox"]
+""let g:agenda_files = ["/Users/mb14/Dropbox/org/main.org", "/Users/mb14/Dropbox/org/work.org"]
+"let g:org_tag_setup='{@home(h) @work(w) @Ellie(u) } \n { Ellie(e) Sheena(s) Max&Ellie(m)  } \n {easy(y) hard(d)} \n {computer(c) phone(p) internet(i)}'
+"" leave these as is:
+"au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
+"au BufRead,BufNewFile *.org            call org#SetOrgFileType()
+"au BufRead *.org :PreLoadTags
+"au BufWrite *.org :PreWriteTags
+"au BufWritePost *.org :PostWriteTags
+"" to help for git. we need to be in the good directory
+""au FileType org :lcd %:p:h
+"let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks', '|', 'Todo', 'TagsProperties', 'Date', 'Misc', '|', 'Export']
+"vit works
+"let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks']
 
+" crash vit
+"let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks', '|', 'Todo', 'TagsProperties', 'Date']
+"work
+"let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks', '|', 'Date']
+let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks', '|', 'Todo', 'Date', 'Misc', '|', 'Export']
 " various text item highlightings are below
 "hi Properties guifg=pink ctermfg=darkred
 "hi Tags guifg=pink ctermbg=lightred
@@ -491,23 +567,30 @@ hi link NEXT TODO
 hi DONE ctermfg=darkgreen ctermbg=none cterm=bold
 
 noremap <silent> T :CommandT<CR>
-noremap <silent> <leader>tt :CommandT<CR>
-noremap <silent> <leader>tb :CommandTBuffer<CR>
+"noremap <silent> <leader>tt :CommandT<CR>
+noremap <silent> <leader>tt :CommandTBuffer<CR>
 noremap <silent> <leader>th :CommandT ~/<CR>
 noremap <silent> <leader>tv :CommandT ~/.vim<CR>
 noremap <silent> <leader>td :CommandT ~/Dropbox<CR>
+noremap <silent> <leader>tb :CommandT ~/private/mae/beanstalk<CR>
 
 " We swap t and g, that's a big change !!!
-nnoremap t g
-nnoremap tt gg
-nnoremap g t
-"nnoremap T G
-nnoremap tT G
-map tf gf
+"nnoremap t g
+"nnoremap tt gg
+"nnoremap g t
+""nnoremap T G
+"nnoremap tT G
+"map tf gf
 "nnoremap G T use by commandT
+nmap t g
+nnoremap \t t
+nnoremap tt gg
 
 nnoremap tn <C-d>
-nnoremap te <c-u>
+nnoremap te <C-u>
+nnoremap tN <C-F>
+nnoremap tE <C-B>
+nnoremap tL ge
 
 let g:CommandTMaxHeight=10
 let g:CommandTSelectPrevMap=['<C-e>']
@@ -521,9 +604,11 @@ syntax match doubleSpace " \zs "
 hi doubleSpace cterm=underline ctermbg=red
 "
 "conceal
+function MyConceal()
 syntax match hsNiceOperator "\\" conceal cchar=λ
 syntax match hsNiceOperator "<-" conceal cchar=←
 syntax match hsNiceOperator "->" conceal cchar=→
+syntax match hsNiceOperator "=>" conceal cchar=→
 syntax match hsNiceOperator "\<sum\>" conceal cchar=∑
 syntax match hsNiceOperator "\<product\>" conceal cchar=∏
 syntax match hsNiceOperator "\<sqrt\>" conceal cchar=√
@@ -532,7 +617,8 @@ syntax match hsNiceOperator "\<undefined\>" conceal cchar=⟘
 syntax match hsNiceOperator "==" conceal cchar=≡
 syntax match hsNiceOperator "\/=" conceal cchar=≠
 syntax match hsNiceOperator ">>" conceal cchar=»
-hi Conceal  ctermbg=none
+hi Conceal  ctermbg=none guibg=NONE
+endfunction
        
 set conceallevel=2
  "CSV
@@ -547,21 +633,27 @@ set conceallevel=2
 nnoremap <silent> <leader>ur :GundoRenderGraph<CR>p<C-W>p
 nnoremap <silent> <leader>uu :GundoToggle<CR><C-W>p
 
-au ColorScheme * hi clear Folded
+"au ColorScheme * hi clear Folded
 au ColorScheme * hi SpellBad cterm=none
 au ColorScheme * hi SpellRare cterm=none
 "au BufEnter * hi Special cterm=underline
 au ColorScheme * hi SLName cterm=reverse guibg=blue guifg=white
+au ColorScheme * hi NonText ctermbg=NONE guibg=NONE ctermfg=brown guifg=#cccc00
+
 
 "colorscheme rubyblue
 colorscheme darkZ
 if has("gui_running")
-  colorscheme rubyblue
+  colorscheme molokai
   hi clear Folded
   set guioptions=ge
   nnoremap <silent> <leader>bf :set fu!<cr>
 else
   "set t_Co=256
+  au ColorScheme * hi Normal ctermbg=black
+  au ColorScheme distinguished hi Comment ctermbg=237
+  "au ColorScheme distinguished hi link Folded Comment
+  color distinguished
 end
 "au BufEnter */merged/* colorscheme github | doau ColorScheme
 "au BufEnter devel/edge/* colorscheme camo | doau ColorScheme
@@ -615,6 +707,7 @@ nmap <silent> <localleader>cc :call MyColor("camo", 1, 0)<cr>
 nmap <silent> <localleader>cd :cal MyColor("darkZ", 1, 0)<cr>
 nmap <silent> <localleader>co :call MyColor("dw_orange", 1, 234)<cr>
 nmap <silent> <localleader>cr :call MyColor("rubyblue", 1 , 234)<cr>
+nmap <silent> <localleader>cs :call MyColor("solarized", 1 , 234)<cr>
 nmap <silent> <localleader>cv :colorscheme org_dark<cr>
 syn match Dir "/\w\+" contains=@NoSpell
 syn match Upper "[A-Z]\w\+" contains=@NoSpell
@@ -645,3 +738,83 @@ endfunction
 cab m3 3match StatusLine
 cab m2 2match Todo
 cab m1 match Error
+
+
+let delimitMate_expand_cr = 1
+let delimitMate_expand_space = 1
+
+
+" Execute open rspec buffer
+" Thanks to Ian Smith-Heisters
+function! RunSpec(args)
+ if exists("b:rails_root") && filereadable(b:rails_root . "/script/spec")
+   let spec = b:rails_root . "/script/spec"
+ else
+   let spec = "spec"
+ end
+ let cmd = ":! " . spec . " % -cfn " . a:args
+ execute cmd
+endfunction
+ 
+" Mappings
+" run one rspec example or describe block based on cursor position
+autocmd FileType rspec nnoremap <localleader>s !s :call RunSpec("-l " . <C-r>=line('.')<CR>)<CR>
+" run full rspec file
+autocmd FileType rspec nnoremap <localleader>f :call RunSpec("")<CR>
+
+
+
+let g:user_zen_leader_key = '<leader>z'
+"let g:user_zen_expandabbr_key = '<c-y>'
+imap <tab>i <esc><leader>z,
+imap <tab>I <esc><leader>z;
+
+
+"nnoremap <silent> ,/ :noh<cr>
+
+" forcing myself to use proper mapping
+nmap <Esc> <nop>
+"nmap : <nop>
+"
+"dbext
+nmap <leader>sp vipsE
+let g:syntastic_enable_signs=1
+
+let g:tagbar_ctags_bin="/usr/local/bin/ctags"
+
+
+ab fmae ftp://mae@ftp.realtecuk.com
+
+
+autocmd BufReadPre *.xls set ro | setf csv
+autocmd BufReadPost *.xls silent! %!xls2csv -q -x "%" -c -
+autocmd BufReadPost *.xls redraw
+
+
+"test heatmap
+function! IndentationHeatMap()
+    set conceallevel=1
+    for i in range(1,9)
+        let indentation = repeat(" ", &sts *t it i i)
+        exe 'syntax match NonText "^t it e ig' . indentation . '" conceal cchar=' . i
+    endfor
+endfunction
+
+
+let g:indent_guides_start_level=2
+let g:indent_guides_guide_size=1
+"let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_color_change_percent=5
+"let g:indent_guides_auto_colors=0
+autocmd VimEnter, Colorscheme * :hi IndentGuidesOdd guibg=NONE ctermbg=none
+autocmd VimEnter, Colorscheme * :hi IndentGuidesEven  guibg=gray30 ctermbg=darkgray
+autocmd Colorscheme molokai :hi NonText guifg=yellow guibg=NONE
+
+let g:context=5
+
+cab mae ~/private/mae/beanstalk
+
+
+"folding
+nmap ,, zm
+nmap ,. zr
