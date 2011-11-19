@@ -31,10 +31,10 @@
 "        | Highlight group                |    FG |    BG |      Attributes |
 "        |--------------------------------|-------|-------|-----------------|
 call s:ColorDictParser({
-	\   'Normal'                      : [    230, 'none',           'none']
-	\ , 'Visual'                      : [ 'none',    239,           'none']
+	\   'Normal'                      : [    145, 'none',           'none']
+	\ , 'Visual'                      : [ 'none',    12,           'none']
 	\
-	\ , 'CursorLine'                  : [    231,    237,           'underline']
+	\ , 'CursorLine'                  : [    'darkgreen', 233,     'underline']
 	\ , 'CursorColumn'                : [    231,    237,           'none']
 	\
 	\ , 'Folded'                      : [    249,    'none',           'none']
@@ -57,7 +57,7 @@ call s:ColorDictParser({
 	\ , 'WarningMsg'                  : [    202, 'none',           'bold']
 	\ , 'ErrorMsg'                    : [    196, 'none',           'bold']
 	\
-	\ , 'Comment'                     : [    243,    237,           'none']
+	\ , 'Comment'                     : [    243,    233,           'none']
 	\ , 'vimCommentTitleLeader'       : [    250,    233,           'none']
 	\ , 'vimCommentTitle'             : [    250,    233,           'none']
 	\ , 'vimCommentString'            : [    245,    233,           'none']
@@ -78,7 +78,7 @@ call s:ColorDictParser({
 	\ , 'Statement'                   : [    186, 'none',           'bold']
 	\ , 'PreProc'                     : [    144, 'none',           'none']
 	\ , 'Type'                        : [     67, 'none',           'bold']
-	\ , 'String'                      : [    143, 'none',           'none']
+	\ , 'String'                      : [    143,    234,           'none']
 	\ , 'Number'                      : [    173, 'none',           'none']
 	\ , 'Define'                      : [    173, 'none',           'none']
 	\ , 'Error'                       : [    208,    124,           'none']
@@ -86,7 +86,7 @@ call s:ColorDictParser({
 	\ , 'Include'                     : [    173, 'none',           'none']
 	\ , 'PreCondit'                   : [    173, 'none',           'none']
 	\ , 'Keyword'                     : [    173, 'none',           'none']
-	\ , 'Search'                      : [     16,    227, 'bold']
+	\ , 'Search'                      : [     16,    214, 'bold']
 	\ , 'Title'                       : [     15, 'none',           'none']
 	\
 	\ , 'TODO'                        : [    228,     94,           'bold']
@@ -116,12 +116,13 @@ call s:ColorDictParser({
 	\
 	\ , 'DiffAdd'                     : [    112,     22,           'none']
 	\ , 'DiffChange'                  : [    220,     94,           'none']
-	\ , 'DiffDelete'                  : [    160, 'none',           'none']
+	\ , 'DiffDelete'                  : [    160, 88,           'none']
 	\ , 'DiffText'                    : [    220,     94,   'reverse,bold']
 	\
 	\ , 'diffLine'                    : [     68, 'none',           'bold']
 	\ , 'diffFile'                    : [    242, 'none',           'none']
 	\ , 'diffNewFile'                 : [    242, 'none',           'none']
+	\ , 'SpellBad'                 : [    196,88,           'none']
 \ })
 
 hi link htmlTag            xmlTag
@@ -136,5 +137,3 @@ hi link diffAdded          DiffAdd
 hi link diffChanged        DiffChange
 hi link diffRemoved        DiffDelete
 
-hi clear SpellRare
-hi link SpellRare MatchParen

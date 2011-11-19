@@ -11,13 +11,14 @@ import re
 from UserList import UserList
 
 from orgmode.liborgmode.base import MultiPurposeList, flatten_list
+from orgmode.liborgmode.orgdate import OrgTimeRange
 from orgmode.liborgmode.orgdate import get_orgdate
 
 
 REGEX_HEADING = re.compile(
-		r'^(?P<level>\*+)(\s+(?P<title>.*?))?\s*(\s(?P<tags>:[\w_:]+:))?$',
+		r'^(?P<level>\*+)(\s+(?P<title>.*?))?\s*(\s(?P<tags>:[\w_:@]+:))?$',
 		flags=re.U | re.L)
-REGEX_TAGS = re.compile(r'^\s*((?P<title>[^\s]*?)\s+)?(?P<tags>:[\w_:]+:)$',
+REGEX_TAGS = re.compile(r'^\s*((?P<title>[^\s]*?)\s+)?(?P<tags>:[\w_:@]+:)$',
 		flags=re.U | re.L)
 REGEX_TODO = re.compile(r'^[^\s]*$')
 
@@ -196,6 +197,7 @@ class Heading(object):
 				return False
 			elif not self.active_date and not other.active:
 				return False
+
 	def copy(self, including_children=True, parent=None):
 		u"""
 		Create a copy of the current heading. The heading will be completely
@@ -276,7 +278,12 @@ class Heading(object):
 			new_heading._document = document
 
 		# try to find active dates
-		new_heading.active_date = get_orgdate(data)
+		tmp_orgdate = get_orgdate(data)
+		if tmp_orgdate and tmp_orgdate.active \
+				and not isinstance(tmp_orgdate, OrgTimeRange):
+			new_heading.active_date = tmp_orgdate
+		else:
+			new_heading.active_date = None
 
 		return new_heading
 

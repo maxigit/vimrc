@@ -194,17 +194,22 @@ syn match org_timestamp /\(<%%(diary-float.\+>\)/
 
 "[2003-09-16 Tue]
 syn match org_timestamp_inactive /\(\[\d\d\d\d-\d\d-\d\d \a\a\a\]\)/
-"[2003-09-16 Tue 12:00-12:30]
+"[2003-09-16 Tue 12:00]
 syn match org_timestamp_inactive /\(\[\d\d\d\d-\d\d-\d\d \a\a\a \d\d:\d\d\]\)/
 
 "[2003-09-16 Tue]--[2003-09-16 Tue]
 syn match org_timestamp_inactive /\(\[\d\d\d\d-\d\d-\d\d \a\a\a\]--\[\d\d\d\d-\d\d-\d\d \a\a\a\]\)/
-"[2003-09-16 Tue 12:00-12:30]--[2003-09-16 Tue 12:00-12:30]
+"[2003-09-16 Tue 12:00]--[2003-09-16 Tue 12:00]
 syn match org_timestamp_inactive /\(\[\d\d\d\d-\d\d-\d\d \a\a\a \d\d:\d\d\]--\[\d\d\d\d-\d\d-\d\d \a\a\a \d\d:\d\d\]\)/
 syn match org_timestamp_inactive /\(\[%%(diary-float.\+\]\)/
 
 hi def link org_timestamp PreProc
 hi def link org_timestamp_inactive Comment
+
+" Lists
+let s:listLeader = "^\\s*[\\+*-]\\s*"
+exec "syn match org_list_description /".s:listLeader."\\zs.\\{-}\\ze ::/"
+hi def link org_list_description Identifier
 
 " Deadline/Schedule
 syn match org_deadline_scheduled /^\s*\(DEADLINE\|SCHEDULED\):/

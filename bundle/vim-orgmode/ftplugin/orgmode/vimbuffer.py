@@ -4,7 +4,7 @@
 	vimbuffer
 	~~~~~~~~~~
 
-	VimBuffer and VimBufferContest are the interface between liborgmode and
+	VimBuffer and VimBufferContent are the interface between liborgmode and
 	vim.
 
 	VimBuffer extends the liborgmode.document.Document().
@@ -36,6 +36,7 @@ class VimBuffer(Document):
 		Document.__init__(self)
 		self._bufnr            = vim.current.buffer.number if bufnr == 0 else bufnr
 		self._changedtick      = -1
+		self._cached_heading   = None
 
 		if self._bufnr == vim.current.buffer.number:
 			self._content = VimBufferContent(vim.current.buffer)
@@ -246,7 +247,7 @@ class VimBuffer(Document):
 
 	def previous_heading(self, position=None):
 		u""" Find the next heading (search forward) and return the related object
-		:returns:	 Heading object or None
+		:returns:	Heading object or None
 		"""
 		h = self.current_heading(position=position)
 		if h:
@@ -258,13 +259,54 @@ class VimBuffer(Document):
 		"""
 		if position is None:
 			position = vim.current.window.cursor[0] - 1
-		for h in self.all_headings():
-			if h.start <= position and h.end >= position:
-				return h
+
+		if not self.headings:
+			return
+
+		def binaryFindInDocument():
+			hi = len(self.headings)
+			lo = 0
+			while lo < hi:
+				mid = (lo+hi)//2
+				h = self.headings[mid]
+				if h.end_of_last_child < position:
+					lo = mid + 1
+				elif h.start > position:
+					hi = mid
+				else:
+					return binaryFindHeading(h)
+
+		def binaryFindHeading(heading):
+			if not heading.children or heading.end >= position:
+				return heading
+
+			hi = len(heading.children)
+			lo = 0
+			while lo < hi:
+				mid = (lo+hi)//2
+				h = heading.children[mid]
+				if h.end_of_last_child < position:
+					lo = mid + 1
+				elif h.start > position:
+					hi = mid
+				else:
+					return binaryFindHeading(h)
+
+		# look at the cache to find the heading
+		h_tmp = self._cached_heading
+		if h_tmp is not None:
+			if h_tmp.end_of_last_child > position and \
+					h_tmp.start < position:
+				if h_tmp.end < position:
+					self._cached_heading = binaryFindHeading(h_tmp)
+				return self._cached_heading
+
+		self._cached_heading = binaryFindInDocument()
+		return self._cached_heading
 
 	def next_heading(self, position=None):
 		u""" Find the next heading (search forward) and return the related object
-		:returns:	 Heading object or None
+		:returns:	Heading object or None
 		"""
 		h = self.current_heading(position=position)
 		if h:
@@ -281,7 +323,7 @@ class VimBuffer(Document):
 
 		:heading:	The base class for the returned heading
 
-		:returns:	 Heading object or None
+		:returns:	Heading object or None
 		"""
 		return self.find_heading(vim.current.window.cursor[0] - 1 \
 				if position is None else position, \

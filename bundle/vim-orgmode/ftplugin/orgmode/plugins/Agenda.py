@@ -5,6 +5,7 @@ import os
 
 from orgmode import ORGMODE, settings
 from orgmode import get_bufnumber
+from orgmode import get_bufname
 from orgmode import echoe
 from orgmode.keybinding import Keybinding, Plug
 from orgmode.menu import Submenu, ActionEntry
@@ -48,15 +49,17 @@ class Agenda(object):
 				u'setlocal buftype=nofile',
 				u'setlocal modifiable',
 				u'setlocal nonumber',
-				# call opendoc() on enter
-				u'nnoremap <silent> <buffer> <CR> :exec "py ORGMODE.plugins[u\'Agenda\'].opendoc()"<CR>'.encode(u'utf-8'),
+				# call opendoc() on enter the original todo item
+				u'nnoremap <silent> <buffer> <CR> :exec "py ORGMODE.plugins[u\'Agenda\'].opendoc()"<CR>',
+				u'nnoremap <silent> <buffer> <TAB> :exec "py ORGMODE.plugins[u\'Agenda\'].opendoc(switch=True)"<CR>',
+				u'nnoremap <silent> <buffer> <S-CR> :exec "py ORGMODE.plugins[u\'Agenda\'].opendoc(split=True)"<CR>',
 				# statusline
 				u'setlocal statusline=Org\\ %s' % bufname
 				]
 		if vim_commands:
 			cmds.extend(vim_commands)
 		for cmd in cmds:
-			vim.command(cmd)
+			vim.command(cmd.encode(u'utf-8'))
 
 	@classmethod
 	def _get_agendadocuments(self):
@@ -69,36 +72,55 @@ class Agenda(object):
 		# load org files of agenda
 		agenda_files = settings.get(u'org_agenda_files', u',')
 		if not agenda_files or agenda_files == ',':
-			echoe("No org_agenda_files defined. Use \
-					':let org_agenda_files=['~/org/index.org'] to define \
-					some files for the agenda view.")
+			echoe((u"No org_agenda_files defined. Use :let "
+				u"g:org_agenda_files=['~/org/index.org'] to add " 
+				u"files to the agenda view."))
 			return
+
 		agenda_files = [os.path.expanduser(f) for f in agenda_files]
-		for agenda_file in agenda_files:
-			vim.command('badd %s' % agenda_file)
+
+		for agenda_file in agenda_files: 
+			vim.command((u'badd %s' % agenda_file).encode(u'utf-8'))
 
 		# determine the buffer nr of the agenda files
-		agenda_numbers = [get_bufnumber(fn) for fn in agenda_files]
+		agenda_nums = [get_bufnumber(fn) for fn in agenda_files]
 
 		# collect all documents of the agenda files and create the agenda
-		return [ORGMODE.get_document(i) for i in agenda_numbers]
+		return [ORGMODE.get_document(i) for i in agenda_nums if i is not None]
 
 	@classmethod
-	def opendoc(cls):
-		"""
+	def opendoc(cls, split=False, switch=False):
+		u"""
 		If you are in the agenda view jump to the document the item in the
-		current line belongs to.
+		current line belongs to. cls.line2doc is used for that.
+
+		:split: if True, open the document in a new split window.
+		:switch: if True, switch to another window and open the the document
+			there.
 		"""
 		row, _ = vim.current.window.cursor
 		try:
-			bufnr, destrow = cls.line2doc[row]
-			print bufnr, destrow
+			bufname, bufnr, destrow = cls.line2doc[row]
 		except:
 			return
 
-		vim.command("buffer %s" % bufnr)
-		tmp = "normal %sgg <CR>" % str(destrow + 1)
-		vim.command(tmp)
+		# reload source file if it is not loaded
+		if get_bufname(bufnr) is None:
+			vim.command((u'badd %s' % bufname).encode(u'utf-8'))
+			bufnr = get_bufnumber(bufname)
+			tmp = cls.line2doc[row]
+			cls.line2doc[bufnr] = tmp
+			# delete old endry
+			del cls.line2doc[row]
+
+		if split:
+			vim.command((u"sbuffer %s" % bufnr).encode(u'utf-8'))
+		elif switch:
+			vim.command(u"wincmd w".encode(u'utf-8'))
+			vim.command((u"buffer %d" % bufnr).encode(u'utf-8'))
+		else:
+			vim.command((u"buffer %s" % bufnr).encode(u'utf-8'))
+		vim.command((u"normal! %dgg <CR>" % (destrow + 1)).encode(u'utf-8'))
 
 	@classmethod
 	def list_next_week(cls):
@@ -111,49 +133,55 @@ class Agenda(object):
 		# create buffer at bottom
 		cmd = [u'setlocal filetype=orgagenda',
 				]
-		cls._switch_to('AGENDA', cmd)
+		cls._switch_to(u'AGENDA', cmd)
 
+		# line2doc is a dic with the mapping:
+		#     line in agenda buffer --> source document
+		# It's easy to jump to the right document this way
 		cls.line2doc = {}
 		# format text for agenda
 		last_date = raw_agenda[0].active_date
-		final_agenda = ['Week Agenda:', str(last_date)]
+		final_agenda = [u'Week Agenda:', unicode(last_date)]
 		for i, h in enumerate(raw_agenda):
-			# insert date information for every new date
-			if h.active_date != last_date:
+			# insert date information for every new date (not datetime)
+			if unicode(h.active_date)[1:11] != unicode(last_date)[1:11]:
 				today = date.today()
 				# insert additional "TODAY" string
 				if h.active_date.year == today.year and \
 						h.active_date.month == today.month and \
 						h.active_date.day == today.day:
-					section = str(h.active_date) + " TODAY"
+					section = unicode(h.active_date) + u" TODAY"
 					today_row = len(final_agenda) + 1
 				else:
-					section = str(h.active_date)
+					section = unicode(h.active_date)
 				final_agenda.append(section)
 
 				# update last_date
 				last_date = h.active_date
 
-			formated = "  {bufname}  {todo}  {title}".format(
-					bufname=os.path.basename(vim.buffers[h.document.bufnr].name),
-					todo=str(h.todo),
-					title=str(h.title)
-			)
+			bufname = os.path.basename(vim.buffers[h.document.bufnr-1].name)
+			bufname = bufname[:-4] if bufname.endswith(u'.org') else bufname
+			formated = u"  %(bufname)s (%(bufnr)d)  %(todo)s  %(title)s" % {
+					'bufname': bufname,
+					'bufnr':   h.document.bufnr,
+					'todo':    h.todo,
+					'title':   h.title
+			}
 			final_agenda.append(formated)
-			cls.line2doc[len(final_agenda)] = (h.document.bufnr, h.start)
+			cls.line2doc[len(final_agenda)] = (get_bufname(h.document.bufnr), h.document.bufnr, h.start)
 
 		# show agenda
-		vim.current.buffer[:] = final_agenda
-		vim.command(u'setlocal nomodifiable')
+		vim.current.buffer[:] = [ i.encode(u'utf-8') for i in final_agenda ]
+		vim.command(u'setlocal nomodifiable  conceallevel=2 concealcursor=nc'.encode(u'utf-8'))
 		# try to jump to the positon of today
 		try:
-			vim.command('normal %sgg<CR>' % today_row)
+			vim.command((u'normal! %sgg<CR>' % today_row).encode(u'utf-8'))
 		except:
 			pass
 
 	@classmethod
 	def list_all_todos(cls):
-		"""
+		u"""
 		List all todos in all agenda files in one buffer.
 		"""
 		agenda_documents = cls._get_agendadocuments()
@@ -164,19 +192,18 @@ class Agenda(object):
 		cls.line2doc = {}
 		# create buffer at bottom
 		cmd = [u'setlocal filetype=orgagenda']
-		cls._switch_to('AGENDA', cmd)
+		cls._switch_to(u'AGENDA', cmd)
 
 		# format text of agenda
 		final_agenda = []
 		for i, h in enumerate(raw_agenda):
-			tmp = "%s %s" % (str(h.todo).encode(u'utf-8'),
-					str(h.title).encode(u'utf-8'))
+			tmp = u"%s %s" % (h.todo, h.title)
 			final_agenda.append(tmp)
-			cls.line2doc[len(final_agenda)] = (h.document.bufnr, h.start)
+			cls.line2doc[len(final_agenda)] = (get_bufname(h.document.bufnr), h.document.bufnr, h.start)
 
 		# show agenda
-		vim.current.buffer[:] = final_agenda
-		vim.command(u'setlocal nomodifiable')
+		vim.current.buffer[:] = [ i.encode(u'utf-8') for i in final_agenda ]
+		vim.command(u'setlocal nomodifiable  conceallevel=2 concealcursor=nc'.encode(u'utf-8'))
 
 	@classmethod
 	def list_timeline(cls):
@@ -189,20 +216,19 @@ class Agenda(object):
 
 		# create buffer at bottom
 		cmd = [u'setlocal filetype=orgagenda']
-		cls._switch_to('AGENDA', cmd)
+		cls._switch_to(u'AGENDA', cmd)
 
 		cls.line2doc = {}
 		# format text of agenda
 		final_agenda = []
 		for i, h in enumerate(raw_agenda):
-			tmp = "%s %s" % (str(h.todo).encode(u'utf-8'),
-					str(h.title).encode(u'utf-8'))
+			tmp = u"%s %s" % (h.todo, h.title)
 			final_agenda.append(tmp)
-			cls.line2doc[len(final_agenda)] = (h.document.bufnr, h.start)
+			cls.line2doc[len(final_agenda)] = (get_bufname(h.document.bufnr), h.document.bufnr, h.start)
 
 		# show agenda
-		vim.current.buffer[:] = final_agenda
-		vim.command(u'setlocal nomodifiable')
+		vim.current.buffer[:] = [ i.encode(u'utf-8') for i in final_agenda ]
+		vim.command(u'setlocal nomodifiable conceallevel=2 concealcursor=nc'.encode(u'utf-8'))
 
 	def register(self):
 		u"""
@@ -210,20 +236,17 @@ class Agenda(object):
 
 		Key bindings and other initialization should be done here.
 		"""
-		settings.set(u'org_leader', u',')
-		leader = settings.get(u'org_leader', u',')
-
-		self.keybindings.append(Keybinding(u'%scat' % leader,
+		self.keybindings.append(Keybinding(u'<localleader>cat',
 				Plug(u'OrgAgendaTodo',
 				u':py ORGMODE.plugins[u"Agenda"].list_all_todos()<CR>')))
 		self.menu + ActionEntry(u'Agenda for all TODOs', self.keybindings[-1])
 
-		self.keybindings.append(Keybinding(u'%scaa' % leader,
+		self.keybindings.append(Keybinding(u'<localleader>caa',
 				Plug(u'OrgAgendaWeek',
 				u':py ORGMODE.plugins[u"Agenda"].list_next_week()<CR>')))
 		self.menu + ActionEntry(u'Agenda for the week', self.keybindings[-1])
 
-		self.keybindings.append(Keybinding(u'%scaL' % leader,
+		self.keybindings.append(Keybinding(u'<localleader>caL',
 				Plug(u'OrgAgendaTimeline',
 				u':py ORGMODE.plugins[u"Agenda"].list_timeline()<CR>')))
 		self.menu + ActionEntry(u'Timeline for this buffer',

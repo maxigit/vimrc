@@ -141,12 +141,22 @@ def get_user_input(message):
 
 def get_bufnumber(bufname):
 	"""
-	Return the number of the buffer with bufname if it exist; else None.
+	Return the number of the buffer for the given bufname if it exist;
+	else None.
 	"""
 	for b in vim.buffers:
 		if b.name == bufname:
 			return int(b.number)
-	echom("not found")
+
+
+def get_bufname(bufnr):
+	"""
+	Return the name of the buffer for the given bufnr if it exist; else None.
+	"""
+	for b in vim.buffers:
+		if b.number == bufnr:
+			return b.name
+
 
 def indent_orgmode():
 	u""" Set the indent value for the current line in the variable
@@ -158,22 +168,27 @@ def indent_orgmode():
 	:returns: None
 	"""
 	line = int(vim.eval(u'v:lnum'.encode(u'utf-8')))
-	d = ORGMODE.get_document(allow_dirty=True)
-	heading = d.find_current_heading(position=line - 1)
+	d = ORGMODE.get_document()
+	heading = d.current_heading(line - 1)
 	if heading and line != heading.start_vim:
 		vim.command((u'let b:indent_level = %d' % (heading.level + 1))
 				.encode(u'utf-8'))
 
 
-def fold_text():
+def fold_text(allow_dirty=False):
 	u""" Set the fold text
 		:setlocal foldtext=Method-which-calls-foldtext
 
+	:allow_dirty:	Perform a query without (re)building the DOM if True
 	:returns: None
 	"""
 	line = int(vim.eval(u'v:foldstart'.encode(u'utf-8')))
-	d = ORGMODE.get_document(allow_dirty=True)
-	heading = d.find_current_heading(position=line - 1)
+	d = ORGMODE.get_document(allow_dirty=allow_dirty)
+	heading = None
+	if allow_dirty:
+		heading = d.find_current_heading(line - 1)
+	else:
+		heading = d.current_heading(line - 1)
 	if heading:
 		str_heading = unicode(heading)
 
@@ -193,7 +208,7 @@ def fold_text():
 		#		.replace(u'"', u'\\"'), )).encode('utf-8'))
 
 
-def fold_orgmode():
+def fold_orgmode(allow_dirty=False):
 	u""" Set the fold expression/value for the current line in the variable
 	b:fold_expr
 
@@ -201,11 +216,16 @@ def fold_orgmode():
 		:setlocal foldmethod=expr
 		:setlocal foldexpr=Method-which-calls-fold_orgmode
 
+	:allow_dirty:	Perform a query without (re)building the DOM if True
 	:returns: None
 	"""
 	line = int(vim.eval(u'v:lnum'.encode(u'utf-8')))
-	d = ORGMODE.get_document(allow_dirty=True)
-	heading = d.find_current_heading(position=line - 1)
+	d = ORGMODE.get_document(allow_dirty=allow_dirty)
+	heading = None
+	if allow_dirty:
+		heading = d.find_current_heading(line - 1)
+	else:
+		heading = d.current_heading(line - 1)
 	if heading:
 		if line == heading.start_vim:
 			vim.command((u'let b:fold_expr = ">%d"' % heading.level).encode(u'utf-8'))

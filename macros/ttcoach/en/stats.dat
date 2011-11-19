@@ -149,3 +149,87 @@ Time:			0s
 Characters per minute:	0
 Words per minute:	0
 ======================================
+Date: Wed 15 Jun 16:00:56 2011
+Lesson: 14JF.ttc
+Number of keystrokes:	47
+Number of faults:	10
+Accuracy:		78.72%
+Time:			15s
+Characters per minute:	188
+Words per minute:	5
+---- Faults per letter -----
+    o:		1	10%
+    s:		1	10%
+    t:		1	10%
+    i:		1	10%
+    n:		1	10%
+    e:		1	10%
+     :		1	10%
+    J:		1	10%
+    a:		1	10%
+    m:		1	10%
+---- Faults per finger -----
+L. pinky:	1	10%
+Left ring:	1	10%
+Left middle:	1	10%
+Left index:	1	10%
+Thumbs:		1	10%
+Right index:	3	30%
+Right middle:	1	10%
+Right ring:	1	10%
+R. pinky:	0	0%
+======================================
+Date: Fri 17 Jun 15:51:41 2011
+Lesson: sh1.ttc
+Number of keystrokes:	635
+Number of faults:	120
+Accuracy:		81.10%
+Time:			10s
+Characters per minute:	3810
+Words per minute:	112
+---- Faults per letter -----
+    s:		3	2%
+    r:		9	7%
+    m:		5	4%
+    i:		6	5%
+    a:		9	7%
+    u:		5	4%
+    e:		13	10%
+    d:		7	5%
+     :		16	13%
+    l:		6	5%
+    Ã:		3	2%
+    n:		9	7%
+    g:		5	4%
+    f:		2	1%
+    w:		2	1%
+    h:		4	3%
+    b:		3	2%
+    c:		1	0%
+    ,:		3	2%
+    k:		1	0%
+    ':		3	2%
+    o:		1	0%
+    y:		1	0%
+    t:		2	1%
+    v:		1	0%
+---- Faults per finger -----
+L. pinky:	9	7%
+Left ring:	5	4%
+Left middle:	21	17%
+Left index:	22	18%
+Thumbs:		16	13%
+Right index:	24	20%
+Right middle:	10	8%
+Right ring:	7	5%
+R. pinky:	3	2%
+======================================
+Date: Tue 21 Jun 13:25:27 2011
+Lesson: sh1.ttc
+Number of keystrokes:	0
+Number of faults:	0
+Accuracy:		100%
+Time:			0s
+Characters per minute:	0
+Words per minute:	0
+======================================

@@ -1,6 +1,7 @@
 let mapleader = " "
 let maplocalleader = ","
 
+filetype off
 filetype indent on
 filetype plugin on
 set directory ^=~/.vim_swap//
@@ -14,6 +15,7 @@ set modelines=5
 "set ruler
 set number
 set virtualedit=all
+set nowrap
 
 set ignorecase
 set smartcase
@@ -46,6 +48,11 @@ set fillchars+=fold:\
 nnoremap <tab> za
 nnoremap <S-tab> zA
 
+function! RubyMethodFold(line)
+  let line_is_method_or_end = synIDattr(synID(a:line,1,0), 'name') == 'rubyMethodBlock'
+  let line_is_def = getline(a:line) =~ '\s*def '
+  return line_is_method_or_end || line_is_def
+endfunction
 set foldexpr=IndentFold()
 set foldmethod=expr
 setlocal foldtext=OneLineFold()
@@ -91,11 +98,15 @@ autocmd FileType ruby noremap <leader>mr :Rake<CR> "rake
 autocmd FileType ruby noremap <leader>ms :w !ruby -c -W0<CR> "syntax check
 autocmd FileType ruby 2match SpellRare '\<debugger\>'
 autocmd FileType cucumber compiler cucumber
-autocmd FileType cucumber nnoremap <localleader>s ?Scenario\s*:?ewy$:make --name "0$"
+autocmd Filetype cucumber nnoremap <localleader>s ?Scenario\s*:?ewy$:make --name "0$"
 autocmd FileType cucumber nnoremap <localleader>f /\%>0lFeature\s*:/ewy$:make --name "0$"''
 autocmd FileType cucumber 2match SpellBad "\S\s\zs\s"
 
 autocmd FileType rspec compiler rspec
+
+
+autocmd FileType php set fdm=indent
+autocmd FileType php set nolist
 
 "autocmd BufWritePost *.rb make -c -W0 %
 
@@ -284,8 +295,13 @@ au WinLeave * set nocursorline
 "
 set cursorline
 hi CursorLine ctermbg=none cterm=underline guifg=NONE
-au InsertLeave * hi CursorLine ctermbg=NONE  cterm=underline guifg=NONE guibg=NONE gui=underline
-au InsertEnter * hi CursorLine ctermbg=98 cterm=none guifg=NONE guibg=slateblue gui=none
+"au InsertLeave * hi CursorLine ctermbg=NONE  cterm=underline guifg=NONE guibg=NONE gui=underline
+au InsertLeave * hi CursorLine ctermbg=233 ctermfg=none  cterm=underline guifg=NONE guibg=NONE gui=underline
+"au InsertEnter * hi CursorLine ctermbg=98 cterm=none guifg=NONE guibg=slateblue gui=none
+"au InsertEnter * hi CursorLine ctermfg=green guifg=NONE guibg=slateblue gui=none
+au InsertEnter * set nocursorline
+au InsertLeave * set cursorline
+
 
 "Window
 "
@@ -350,6 +366,7 @@ inoremap 5# #####
 
 "Ack
 set grepprg=ack
+"set grepprg="grep -R"
 
 
 "file completions
@@ -400,6 +417,7 @@ hi Pmenu ctermbg=gray ctermfg=darkblue
 hi PmenuSel ctermbg=Yellow ctermfg=darkblue
 
 nnoremap <silent>  <C-K><C-K> :set spell!<CR>
+nnoremap <silent>  <leader>iw:set wrap!<CR>
 
 "use tab as completion
 
@@ -502,7 +520,7 @@ call pathogen#runtime_append_all_bundles( )
 
 ""let g:org_todo_setup= 'TODO | STARTED | DONE | WISH'
 ""let g:agenda_dirs = ["~/Dropbox"]
-""let g:agenda_files = ["/Users/mb14/Dropbox/org/main.org", "/Users/mb14/Dropbox/org/work.org"]
+"let g:agenda_files = ["/Users/mb14/Dropbox/org/main.org", "/Users/mb14/Dropbox/org/work.org"]
 "let g:org_tag_setup='{@home(h) @work(w) @Ellie(u) } \n { Ellie(e) Sheena(s) Max&Ellie(m)  } \n {easy(y) hard(d)} \n {computer(c) phone(p) internet(i)}'
 "" leave these as is:
 "au! BufRead,BufWrite,BufWritePost,BufNewFile *.org 
@@ -514,13 +532,14 @@ call pathogen#runtime_append_all_bundles( )
 ""au FileType org :lcd %:p:h
 "let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks', '|', 'Todo', 'TagsProperties', 'Date', 'Misc', '|', 'Export']
 "vit works
+let g:org_agenda_files = ["/Users/mb14/Dropbox/org/main.org", "/Users/mb14/Dropbox/org/work.org"]
 "let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks']
 
 " crash vit
 "let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks', '|', 'Todo', 'TagsProperties', 'Date']
 "work
 "let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks', '|', 'Date']
-let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks', '|', 'Todo', 'Date', 'Misc', '|', 'Export']
+"let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Hyperlinks', '|', 'Todo', 'Date', 'Misc', '|', 'Export']
 " various text item highlightings are below
 "hi Properties guifg=pink ctermfg=darkred
 "hi Tags guifg=pink ctermbg=lightred
@@ -624,6 +643,11 @@ set conceallevel=2
  "CSV
  hi clear CSVColumnEven CSVColumnOdd CSVColumnHeaderEven CSVColumnHeaderOdd
 
+ hi link  CSVColumnEven Type
+ hi link CSVColumnOdd String
+ hi clear Conceal
+ hi link Conceal Special
+hi Conceal  ctermbg=none guibg=NONE
 
  "Gundo
  let g:gundo_preview_bottom=1
@@ -633,7 +657,7 @@ set conceallevel=2
 nnoremap <silent> <leader>ur :GundoRenderGraph<CR>p<C-W>p
 nnoremap <silent> <leader>uu :GundoToggle<CR><C-W>p
 
-"au ColorScheme * hi clear Folded
+au ColorScheme * hi Folded ctermbg=none
 au ColorScheme * hi SpellBad cterm=none
 au ColorScheme * hi SpellRare cterm=none
 "au BufEnter * hi Special cterm=underline
@@ -644,12 +668,14 @@ au ColorScheme * hi NonText ctermbg=NONE guibg=NONE ctermfg=brown guifg=#cccc00
 "colorscheme rubyblue
 colorscheme darkZ
 if has("gui_running")
-  colorscheme molokai
+  "colorscheme molokai
+  colorscheme ambient
   hi clear Folded
   set guioptions=ge
   nnoremap <silent> <leader>bf :set fu!<cr>
 else
   "set t_Co=256
+  let g:solarized_termcolors=256
   au ColorScheme * hi Normal ctermbg=black
   au ColorScheme distinguished hi Comment ctermbg=237
   "au ColorScheme distinguished hi link Folded Comment
@@ -803,12 +829,13 @@ endfunction
 
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
-"let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_enable_on_vim_startup=1
 let g:indent_guides_color_change_percent=5
 "let g:indent_guides_auto_colors=0
 autocmd VimEnter, Colorscheme * :hi IndentGuidesOdd guibg=NONE ctermbg=none
-autocmd VimEnter, Colorscheme * :hi IndentGuidesEven  guibg=gray30 ctermbg=darkgray
+autocmd VimEnter, Colorscheme * :hi IndentGuidesEven  guibg=gray30 ctermbg=234
 autocmd Colorscheme molokai :hi NonText guifg=yellow guibg=NONE
+autocmd Colorscheme * :hi NonText guifg=yellow guibg=NONE
 
 let g:context=5
 
@@ -818,3 +845,41 @@ cab mae ~/private/mae/beanstalk
 "folding
 nmap ,, zm
 nmap ,. zr
+
+nnoremap : ;
+nnoremap ; :
+
+"nnoremap <silent> <leader>ig :IndentGuidesToggle<cr>
+nnoremap  <leader>ig :IndentGuidesToggle<cr>
+nnoremap <leader>iw :set wrap!<cr>
+
+cnoremap ; !
+cnoremap ! ;
+
+nnoremap ]t vatatv
+nnoremap [t vatatov
+
+let g:rbpt_colorpairs = [
+    \ ['magenta',   'RoyalBlue3'],
+    \ ['green',     'DarkOrchid3'],
+    \ ['cyan',    'firebrick3'],
+    \ ['yellow',         'firebrick3'],
+    \ ['magenta',   'RoyalBlue3'],
+    \ ['green',     'DarkOrchid3'],
+    \ ['cyan',    'firebrick3'],
+    \ ['yellow',         'firebrick3'],
+    \ ['magenta',   'RoyalBlue3'],
+    \ ['green',     'DarkOrchid3'],
+    \ ['cyan',    'firebrick3'],
+    \ ['yellow',         'firebrick3'],
+    \ ['magenta',   'RoyalBlue3'],
+    \ ['green',     'DarkOrchid3'],
+    \ ['cyan',    'firebrick3'],
+    \ ['yellow',         'firebrick3'],
+    \ ]
+
+let g:rbpt_max = 16
+ au VimEnter * RainbowParenthesesToggle
+ au Syntax * RainbowParenthesesLoadRound
+ au Syntax * RainbowParenthesesLoadSquare
+ au Syntax * RainbowParenthesesLoadBraces
