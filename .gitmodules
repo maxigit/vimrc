@@ -31,3 +31,87 @@
 [submodule "bundle/gundo"]
 	path = bundle/gundo
 	url = http://github.com/sjl/gundo.vim.git
+[submodule "git"]
+	path = git
+	url = https://github.com/jceb/vim-orgmode.git
+[submodule "bundle/NrrwRgn"]
+	path = bundle/NrrwRgn
+	url = http://github.com/chrisbra/NrrwRgn
+[submodule "bundle/delimitMate"]
+	path = bundle/delimitMate
+	url = https://github.com/Raimondi/delimitMate.git
+[submodule "bundle/doc"]
+	path = bundle/doc
+	url = git@github.com:maxigit/vimrc.git
+[submodule "bundle/extradite"]
+	path = bundle/extradite
+	url = https://github.com/int3/vim-extradite.git
+[submodule "bundle/gitv"]
+	path = bundle/gitv
+	url = https://github.com/gregsexton/gitv.git
+[submodule "bundle/https:"]
+	path = bundle/https:
+	url = git@github.com:maxigit/vimrc.git
+[submodule "bundle/plugin"]
+	path = bundle/plugin
+	url = git@github.com:maxigit/vimrc.git
+[submodule "bundle/quickfixsigns_vim"]
+	path = bundle/quickfixsigns_vim
+	url = http://github.com/tomtom/quickfixsigns_vim
+[submodule "bundle/rainbow_parentheses.vim"]
+	path = bundle/rainbow_parentheses.vim
+	url = https://github.com/kien/rainbow_parentheses.vim.git
+[submodule "bundle/syntastic"]
+	path = bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "bundle/threesome.vim"]
+	path = bundle/threesome.vim
+	url = https://github.com/sjl/threesome.vim.git
+[submodule "bundle/tjumps_vim"]
+	path = bundle/tjumps_vim
+	url = https://github.com/tomtom/tjumps_vim.git
+[submodule "bundle/tlib_vim"]
+	path = bundle/tlib_vim
+	url = http://github.com/tomtom/tlib_vim
+[submodule "bundle/tregisters_vim"]
+	path = bundle/tregisters_vim
+	url = http://github.com/tomtom/tregisters_vim
+[submodule "bundle/ttags_vim"]
+	path = bundle/ttags_vim
+	url = https://github.com/tomtom/ttags_vim.git
+[submodule "bundle/ttoc_vim"]
+	path = bundle/ttoc_vim
+	url = http://github.com/tomtom/ttoc_vim
+[submodule "bundle/vim-bufsurf"]
+	path = bundle/vim-bufsurf
+	url = https://github.com/ton/vim-bufsurf.git
+[submodule "bundle/vim-distinguished"]
+	path = bundle/vim-distinguished
+	url = https://github.com/Lokaltog/vim-distinguished.git
+[submodule "bundle/vim-editqf"]
+	path = bundle/vim-editqf
+	url = https://github.com/jceb/vim-editqf.git
+[submodule "bundle/vim-fastwordcompleter"]
+	path = bundle/vim-fastwordcompleter
+	url = https://github.com/jceb/vim-fastwordcompleter.git
+[submodule "bundle/vim-indent-guides"]
+	path = bundle/vim-indent-guides
+	url = https://github.com/nathanaelkane/vim-indent-guides
+[submodule "bundle/vim-notes"]
+	path = bundle/vim-notes
+	url = https://github.com/xolox/vim-notes.git
+[submodule "bundle/vim-repeat"]
+	path = bundle/vim-repeat
+	url = http://github.com/tpope/vim-repeat
+[submodule "bundle/vim-rspec"]
+	path = bundle/vim-rspec
+	url = https://github.com/taq/vim-rspec.git
+[submodule "bundle/vim-speeddating"]
+	path = bundle/vim-speeddating
+	url = http://github.com/tpope/vim-speeddating
+[submodule "bundle/vim-vividchalk"]
+	path = bundle/vim-vividchalk
+	url = http://github.com/tpope/vim-vividchalk
+[submodule "bundle/zencoding-vim"]
+	path = bundle/zencoding-vim
+	url = http://github.com/mattn/zencoding-vim/

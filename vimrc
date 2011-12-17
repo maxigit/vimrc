@@ -850,8 +850,9 @@ nnoremap : ;
 nnoremap ; :
 
 "nnoremap <silent> <leader>ig :IndentGuidesToggle<cr>
-nnoremap  <leader>ig :IndentGuidesToggle<cr>
+nnoremap <leader>ig :IndentGuidesToggle<cr>
 nnoremap <leader>iw :set wrap!<cr>
+nnoremap <leader>it :IndentGuidesToggle<cr>
 
 cnoremap ; !
 cnoremap ! ;
@@ -879,7 +880,16 @@ let g:rbpt_colorpairs = [
     \ ]
 
 let g:rbpt_max = 16
- au VimEnter * RainbowParenthesesToggle
- au Syntax * RainbowParenthesesLoadRound
- au Syntax * RainbowParenthesesLoadSquare
- au Syntax * RainbowParenthesesLoadBraces
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+
+"changes
+nnoremap ]h g;
+nnoremap [h g,
+
+
+call matchadd("Question","\d\{1,3}\>")
+call matchadd("Question","\d\{1,3}\d\{6}\>")
