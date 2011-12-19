@@ -21,14 +21,18 @@ set ignorecase
 set smartcase
 set mouse=a
 set background=dark
+set backspace=2
 
+set t_Co=256
 set hidden
+"let Powerline_symbols="fancy"
+let Powerline_cache_file=""
 " we don't need it anymore, as we've learn gu and gU set tildeop we don't
 
 
-"set ht=2
-"set ts=2
-"set sw=2
+set ht=2
+set ts=2
+set sw=2
 
 set switchbuf=useopen
 
@@ -829,7 +833,7 @@ endfunction
 
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
-let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_enable_on_vim_startup=0
 let g:indent_guides_color_change_percent=5
 "let g:indent_guides_auto_colors=0
 autocmd VimEnter, Colorscheme * :hi IndentGuidesOdd guibg=NONE ctermbg=none
@@ -893,3 +897,4 @@ nnoremap [h g,
 
 call matchadd("Question","\d\{1,3}\>")
 call matchadd("Question","\d\{1,3}\d\{6}\>")
+
