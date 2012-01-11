@@ -59,7 +59,7 @@ let g:utl__file = expand("<sfile>")
 
 "   (:Utl not as "command! to not override a possible user command of this name.
 "     Fails with an error in this case.)
-command -complete=custom,s:completeArgs -range -nargs=* Utl call Utl(<f-args>)
+command! -complete=custom,s:completeArgs -range -nargs=* Utl call Utl(<f-args>)
 
 "-------------------------------------------------------------------------------
 " Intended as command line completion function called back by command :Utl.

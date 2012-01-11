@@ -1,3 +1,4 @@
+runtime macros/tplugin.vim
 let mapleader = " "
 let maplocalleader = ","
 
@@ -114,8 +115,6 @@ autocmd FileType php set nolist
 
 "autocmd BufWritePost *.rb make -c -W0 %
 
-cab nw noa w
-
 
 "set t_Co=16
 hi Comment ctermbg=gray ctermfg=darkgreen
@@ -124,8 +123,8 @@ hi Visual ctermbg=DarkYellow
 hi String ctermbg=red
 "hi Folded ctermfg=darkblue ctermbg=none
 
-set hlsearch
-"set incsearch
+"set hlsearch
+set incsearch
 
 "autocmd FileType haskell ab comment s/^/--/
 "autocmd FileType haskell ab ucomment s/^--//
@@ -269,21 +268,21 @@ function MyFlag()
 endfunction
 
 function SyntasticStatusLine()
-  call SyntasticStatusLineFlag()
+call SyntasticStatusLineFlag()
 endfunction
 
 function MyGitName()
-  if exists("b:git_dir")
-    return substitute(b:git_dir, '.\{-}\([^/]\+\)/\.git$', '⌦  \1', '')
-  else
-    return ""
-  end
+if exists("b:git_dir")
+  return substitute(b:git_dir, '.\{-}\([^/]\+\)/\.git$', '⌦  \1', '')
+else
+  return ""
+end
 endfunction
 function MyDir()
-    let bufname = expand('%:p:h')
-    let curdir = glob(getcwd())
-    let bufname = substitute(bufname, "^".curdir, './','')
-    return simplify(substitute(bufname, '^'.$HOME, '~', ""))
+  let bufname = expand('%:p:h')
+  let curdir = glob(getcwd())
+  let bufname = substitute(bufname, "^".curdir, './','')
+  return simplify(substitute(bufname, '^'.$HOME, '~', ""))
 endfunction
 
 
@@ -318,6 +317,8 @@ map <leader>wN <C-W>J
 map <leader>wL <C-W>K
 map <leader>wE <C-W>L
 
+map <leader>o <C-W>O " Toggle Zoom window
+map <leader>O <C-W>o "  Other zoom
 "Tab
 noremap <leader>tn :tabp<cr>
 noremap <leader>te :tabn<cr>
@@ -397,8 +398,8 @@ hi DiffText ctermbg=yellow
 
 " Java
 function SetAnt()
-  set makeprg=vimAnt
-  set efm=\ %#[javac]\ %#%f:%l:%c:%*\\d:%*\\d:\ %t%[%^:]%#:%m,\ \%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
+set makeprg=vimAnt
+set efm=\ %#[javac]\ %#%f:%l:%c:%*\\d:%*\\d:\ %t%[%^:]%#:%m,\ \%A\ %#[javac]\ %f:%l:\ %m,%-Z\ %#[javac]\ %p^,%-C%.%#
 endfunction
 
 set undofile
@@ -521,6 +522,7 @@ cab er edit ~/
 
 
 call pathogen#runtime_append_all_bundles( )
+TPluginRoot ~/.vim/repo
 
 ""let g:org_todo_setup= 'TODO | STARTED | DONE | WISH'
 ""let g:agenda_dirs = ["~/Dropbox"]
@@ -670,7 +672,7 @@ au ColorScheme * hi NonText ctermbg=NONE guibg=NONE ctermfg=brown guifg=#cccc00
 
 
 "colorscheme rubyblue
-colorscheme darkZ
+"colorscheme darkZ
 if has("gui_running")
   "colorscheme molokai
   colorscheme ambient

@@ -27,9 +27,9 @@ if exists("g:command_t_loaded")
 endif
 let g:command_t_loaded = 1
 
-command CommandTBuffer call <SID>CommandTShowBufferFinder()
-command -nargs=? -complete=dir CommandT call <SID>CommandTShowFileFinder(<q-args>)
-command CommandTFlush call <SID>CommandTFlush()
+command! CommandTBuffer call <SID>CommandTShowBufferFinder()
+command! -nargs=? -complete=dir CommandT call <SID>CommandTShowFileFinder(<q-args>)
+command! CommandTFlush call <SID>CommandTFlush()
 
 if !hasmapto(':CommandT<CR>')
   silent! nmap <unique> <silent> <Leader>t :CommandT<CR>

@@ -1,0 +1,122 @@
+
+
+times in msec
+ clock   self+sourced   self:  sourced script
+ clock   elapsed:              other lines
+
+000.014  000.014: --- VIM STARTING ---
+000.164  000.150: Allocated generic buffers
+000.659  000.495: locale set
+000.676  000.017: GUI prepared
+000.682  000.006: clipboard setup
+000.691  000.009: window checked
+001.728  001.037: inits 1
+001.744  000.016: parsing arguments
+001.800  000.056: expanding arguments
+008.583  006.783: shell init
+009.275  000.692: Termcap init
+009.376  000.101: inits 2
+013.572  004.196: init highlight
+014.043  000.316  000.316: sourcing $VIM/vimrc
+017.758  000.027  000.027: sourcing /Users/mb14/.vim/bundle/_tplugin.vim
+018.080  003.159  003.132: sourcing /Users/mb14/.vim/macros/tplugin.vim
+018.309  000.063  000.063: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/ftoff.vim
+048.139  000.114  000.114: sourcing /Users/mb14/.vim/ftdetect/csv.vim
+048.725  000.491  000.491: sourcing /Users/mb14/.vim/ftdetect/ruby.vim
+049.139  000.102  000.102: sourcing /Users/mb14/.vim/ftdetect/csv.vim
+049.746  000.519  000.519: sourcing /Users/mb14/.vim/ftdetect/ruby.vim
+049.917  031.432  030.206: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/filetype.vim
+050.190  000.092  000.092: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/indent.vim
+050.398  000.029  000.029: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/filetype.vim
+050.672  000.104  000.104: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/ftplugin.vim
+051.744  000.512  000.512: sourcing /Users/mb14/.vim/syntax/syncolor.vim
+052.445  000.561  000.561: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/syntax/syncolor.vim
+052.988  000.387  000.387: sourcing /Users/mb14/.vim/syntax/syncolor.vim
+053.187  002.131  000.671: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/syntax/synload.vim
+053.272  002.426  000.295: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/syntax/syntax.vim
+071.044  000.413  000.413: sourcing /Users/mb14/.vim/syntax/syncolor.vim
+071.837  000.629  000.629: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/syntax/syncolor.vim
+072.356  000.382  000.382: sourcing /Users/mb14/.vim/syntax/syncolor.vim
+075.996  000.319  000.319: sourcing /Users/mb14/.vim/autoload/pathogen.vim
+248.478  168.076  168.076: sourcing /Users/mb14/.vim/repo/_tplugin.vim
+250.504  000.489  000.489: sourcing /Users/mb14/.vim/syntax/syncolor.vim
+251.374  000.693  000.693: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/syntax/syncolor.vim
+262.015  000.528  000.528: sourcing /Users/mb14/.vim/syntax/syncolor.vim
+264.093  001.894  001.894: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/syntax/syncolor.vim
+265.009  000.504  000.504: sourcing /Users/mb14/.vim/syntax/syncolor.vim
+265.889  000.709  000.709: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/syntax/syncolor.vim
+270.206  020.764  015.947: sourcing /Users/mb14/.vim/bundle/vim-distinguished/colors/distinguished.vim
+271.797  257.075  029.187: sourcing $HOME/.vimrc
+271.808  000.845: sourcing vimrc file(s)
+274.263  000.272  000.272: sourcing /Users/mb14/.vim/plugin/AlignPlugin.vim
+274.578  000.224  000.224: sourcing /Users/mb14/.vim/plugin/BufOnly.vim
+275.113  000.445  000.445: sourcing /Users/mb14/.vim/plugin/DrawItPlugin.vim
+276.168  000.961  000.961: sourcing /Users/mb14/.vim/plugin/ScrollColor.vim
+276.573  000.315  000.315: sourcing /Users/mb14/.vim/plugin/ZoomWinPlugin.vim
+277.194  000.530  000.530: sourcing /Users/mb14/.vim/plugin/browser.vim
+280.991  003.706  003.706: sourcing /Users/mb14/.vim/plugin/calendar.vim
+283.774  002.667  002.667: sourcing /Users/mb14/.vim/plugin/camelcasemotion.vim
+285.114  001.244  001.244: sourcing /Users/mb14/.vim/plugin/cecutil.vim
+288.208  003.000  003.000: sourcing /Users/mb14/.vim/plugin/color_sample_pack.vim
+304.288  015.982  015.982: sourcing /Users/mb14/.vim/plugin/command-t.vim
+304.755  000.353  000.353: sourcing /Users/mb14/.vim/plugin/conque_term.vim
+304.992  000.141  000.141: sourcing /Users/mb14/.vim/plugin/foldmiss.vim
+306.414  001.242  001.242: sourcing /Users/mb14/.vim/plugin/genutils.vim
+307.283  000.772  000.772: sourcing /Users/mb14/.vim/plugin/greplace.vim
+309.157  001.780  001.780: sourcing /Users/mb14/.vim/plugin/matchit.vim
+309.828  000.576  000.576: sourcing /Users/mb14/.vim/plugin/matchparen++.vim
+310.715  000.793  000.793: sourcing /Users/mb14/.vim/plugin/mpage.vim
+312.756  001.948  001.948: sourcing /Users/mb14/.vim/plugin/multvals.vim
+315.189  002.335  002.335: sourcing /Users/mb14/.vim/plugin/netrwPlugin.vim
+315.383  000.076  000.076: sourcing /Users/mb14/.vim/plugin/no_escape.vim
+315.592  000.107  000.107: sourcing /Users/mb14/.vim/plugin/onelinefold.vim
+315.852  000.115  000.115: sourcing /Users/mb14/.vim/plugin/protect_mark.vim
+317.545  000.186  000.186: sourcing /Users/mb14/.vim/plugin/ruby-matchit.vim
+318.001  000.351  000.351: sourcing /Users/mb14/.vim/plugin/scratch.vim
+318.275  000.175  000.175: sourcing /Users/mb14/.vim/plugin/tcalc.vim
+319.228  000.856  000.856: sourcing /Users/mb14/.vim/plugin/ttcplug.vim
+322.138  002.807  002.807: sourcing /Users/mb14/.vim/plugin/utl.vim
+322.873  000.632  000.632: sourcing /Users/mb14/.vim/plugin/utl_rc.vim
+324.165  001.193  001.193: sourcing /Users/mb14/.vim/plugin/utl_scm.vim
+324.782  000.519  000.519: sourcing /Users/mb14/.vim/plugin/utl_uri.vim
+325.392  000.511  000.511: sourcing /Users/mb14/.vim/plugin/word_complete.vim
+325.593  000.105  000.105: sourcing /Users/mb14/.vim/plugin/zoom.vim
+336.566  010.617  010.617: sourcing /Users/mb14/.vim/bundle/NERD_commenter/plugin/NERD_commenter.vim
+337.334  000.361  000.361: sourcing /Users/mb14/.vim/bundle/vim-powerline/plugin/Powerline.vim
+338.518  000.249  000.249: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/plugin/getscriptPlugin.vim
+339.108  000.489  000.489: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/plugin/gzip.vim
+339.266  000.057  000.057: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/plugin/matchparen.vim
+339.437  000.071  000.071: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/plugin/netrwPlugin.vim
+339.657  000.121  000.121: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/plugin/rrhelper.vim
+339.851  000.095  000.095: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/plugin/spellfile.vim
+340.400  000.450  000.450: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/plugin/tarPlugin.vim
+340.663  000.155  000.155: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/plugin/tohtml.vim
+341.161  000.397  000.397: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/plugin/vimballPlugin.vim
+341.577  000.312  000.312: sourcing /Applications/MacVim.app/Contents/Resources/vim/runtime/plugin/zipPlugin.vim
+341.987  000.047  000.047: sourcing /Users/mb14/.vim/after/plugin/snipMate.vim
+341.000  009.852: loading plugins
+342.012  000.012: inits 3
+343.906  001.894: reading viminfo
+343.948  000.042: setting raw mode
+343.960  000.012: start termcap
+343.984  000.024: clearing screen
+344.494  000.510: opening buffers
+348.535  001.412  001.412: sourcing /Users/mb14/.vim/bundle/vim-powerline/autoload/Pl.vim
+349.133  000.215  000.215: sourcing /Users/mb14/.vim/bundle/vim-powerline/powerline/distinguished.vim
+354.033  000.799  000.799: sourcing /Users/mb14/.vim/bundle/vim-powerline/autoload/Pl/Colors.vim
+393.271  042.176  041.377: sourcing /Users/mb14/.vim/bundle/vim-powerline/powerline/distinguished/00-default.vim
+408.836  015.305  015.305: sourcing /Users/mb14/.vim/bundle/vim-powerline/powerline/distinguished/50-command-t.vim
+432.036  022.973  022.973: sourcing /Users/mb14/.vim/bundle/vim-powerline/powerline/distinguished/50-gundo.vim
+446.368  014.011  014.011: sourcing /Users/mb14/.vim/bundle/vim-powerline/powerline/distinguished/50-help.vim
+457.591  010.551  010.551: sourcing /Users/mb14/.vim/bundle/vim-powerline/powerline/distinguished/50-lusty.vim
+468.353  010.554  010.554: sourcing /Users/mb14/.vim/bundle/vim-powerline/powerline/distinguished/50-nerdtree.vim
+478.580  009.977  009.977: sourcing /Users/mb14/.vim/bundle/vim-powerline/powerline/distinguished/50-syntastic.vim
+490.145  011.376  011.376: sourcing /Users/mb14/.vim/bundle/vim-powerline/powerline/distinguished/50-tagbar.vim
+491.362  008.318: BufEnter autocommands
+491.366  000.004: editing files in windows
+494.272  000.233  000.233: sourcing /Users/mb14/.vim/repo/rainbow_parentheses.vim/plugin/rainbow_parentheses.vim
+498.136  001.726  001.726: sourcing /Users/mb14/.vim/repo/rainbow_parentheses.vim/autoload/rainbow_parentheses.vim
+500.501  007.176: VimEnter autocommands
+500.504  000.003: before starting main loop
+503.543  003.039: first screen update
+503.546  000.003: --- VIM STARTED ---
