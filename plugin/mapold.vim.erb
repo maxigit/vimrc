@@ -1,6 +1,0 @@
-<% chars = []
-	?a.upto(?z) { |c| chars << c}
-	?A.upto(?Z) { |c| chars << c} %>
-<% chars.map { |c| c.chr }.each  do |c|  %>
-	noremap v<%=c%> <%= c%>
-<% end %>
