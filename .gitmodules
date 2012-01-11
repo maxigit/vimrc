@@ -87,7 +87,7 @@
 	url = https://github.com/ton/vim-bufsurf.git
 [submodule "bundle/vim-distinguished"]
 	path = bundle/vim-distinguished
-	url = https://github.com/Lokaltog/vim-distinguished.git
+	url = git@github.com:maxigit/vim-distinguished.git
 [submodule "bundle/vim-editqf"]
 	path = bundle/vim-editqf
 	url = https://github.com/jceb/vim-editqf.git
