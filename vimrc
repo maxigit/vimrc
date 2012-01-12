@@ -1,7 +1,8 @@
 set noswapfile
 syntax on
-noremap ' `
-noremap ` :
+"nnoremap ' `
+"nnoremap ` :
+
 let maplocalleader = " "
 "Colemak remap
 noremap n j
@@ -39,11 +40,21 @@ nmap Q [
 
 noremap § u
 noremap ± 
-nnoremap ; :
-nnoremap : ;
+"nnoremap ; :
+"nnoremap : ;
+"nnoremap , :
+nnoremap : ,
+
+"No escape
+nnoremap  :
+noremap!  <esc>
 
 cnoremap ; !
 cnoremap ! ;
+
+"fold
+nnoremap <tab> za
+nnoremap <s-tab> zA
 
 map t g
 nmap tn <C-D>
