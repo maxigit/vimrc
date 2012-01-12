@@ -40,3 +40,6 @@ cnoremap ; !
 cnoremap ! ;
 
 map t g
+
+filetype plugin indent on
+runtime bundle/vim-unbundle/unbundle.vim
