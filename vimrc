@@ -1,3 +1,4 @@
+set noswapfile
 noremap ' `
 noremap ` :
 
