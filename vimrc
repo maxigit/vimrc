@@ -2,10 +2,11 @@ set noswapfile
 syntax on
 noremap ' `
 noremap ` :
-
+let maplocalleader = " "
 "Colemak remap
 noremap n j
 nnoremap e k
+xnoremap e k //visual mode but not operator
 nnoremap \ l
 nnoremap l b
 nnoremap u e
@@ -18,19 +19,22 @@ vnoremap k n
 "Insert mode remap
 inoremap AA <Esc>A
 inoremap WW <Esc>:w<cr>
+inoremap ZZ <Esc>:wq
 
 
 
 "Window Colemak
-map <leader>w <C-W>
-map <leader>wn <C-W>j
-map <leader>wl <C-W>k
-map <leader>we <C-W>l
-map <leader>wN <C-W>J
-map <leader>wL <C-W>K
-map <leader>wE <C-W>L
+map <localleader>w <C-W>
+map <localleader>wn <C-W>j
+map <localleader>wl <C-W>k
+map <localleader>we <C-W>l
+map <localleader>wN <C-W>J
+map <localleader>wL <C-W>K
+map <localleader>wE <C-W>L
 
 nmap q ]
+nnoremap qq q
+nnoremap QQ Q
 nmap Q [
 
 noremap § u
@@ -42,6 +46,8 @@ cnoremap ; !
 cnoremap ! ;
 
 map t g
+nmap tn <C-D>
+nmap te <C-U>
 
 filetype plugin indent on
 runtime bundle/vim-unbundle/unbundle.vim
