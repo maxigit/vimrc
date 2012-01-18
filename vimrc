@@ -7,7 +7,8 @@ let maplocalleader = " "
 "Colemak remap
 "noremap n j
 "noremap e k
-set langmap=nj,NJ,ek,EK,je,JE,kn,KN
+"set langmap=nj,NJ,ek,EK,ju,JU,ue,UE,kn,KN 
+set langmap=njuek;juekn,NJUEK;JUEKN "same as above but
 "
 "noremap j e
 "noremap J E
