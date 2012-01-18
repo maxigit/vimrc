@@ -5,19 +5,18 @@ syntax on
 
 let maplocalleader = " "
 "Colemak remap
-noremap n j
-nnoremap e k
-xnoremap e k "visual mode but not operator
-nnoremap \ l
-nnoremap l b
-nnoremap u e
-nnoremap j u
+"noremap n j
+"noremap e k
+set langmap=nj,NJ,ek,EK,je,JE,kn,KN
+"
+"noremap j e
+"noremap J E
+"
+"nnoremap k nzv
+"noremap k nzv
+"vnoremap k n
 
-nnoremap k nzv
-noremap K Nzv
-vnoremap k n
-
-"Insert mode remap
+"insert mode remap
 inoremap AA <Esc>A
 inoremap WW <Esc>:w<cr>
 inoremap ZZ <Esc>:wq
@@ -26,13 +25,13 @@ inoremap ZZ <Esc>:wq
 
 "Window Colemak
 nnoremap <localleader>w <C-W>
-nnoremap <localleader>wn <C-W>j
-noremap <localleader>wl <C-W>k
-nnoremap <localleader>we <C-W>l
-nnoremap <localleader>wN <C-W>J
-nnoremap <localleader>wL <C-W>K
-nnoremap <localleader>wE <C-W>L
-
+"nnoremap <localleader>wn <C-W>j
+"noremap <localleader>wl <C-W>k
+"nnoremap <localleader>we <C-W>l
+"nnoremap <localleader>wN <C-W>J
+"nnoremap <localleader>wL <C-W>K
+"nnoremap <localleader>wE <C-W>L
+"
 "nmap q ]
 "nnoremap qq q
 "nnoremap QQ Q
@@ -46,8 +45,8 @@ noremap ± 
 nnoremap : ,
 
 "No escape
-nnoremap  :
-noremap!  <esc>
+nnoremap <bs> :
+noremap! <bs> <esc>
 
 cnoremap ; !
 cnoremap ! ;
@@ -58,18 +57,17 @@ inoremap <s-tab> <C-O>
 "nnoremap <tab> za 
 "nnoremap <s-tab> zA
 "
-nnoremap <localleader>a z
+noremap <localleader>a z
 		
-nnoremap g t
-nnoremap G T
-nnoremap t g
-nnoremap G T
-nmap tt gg
-nmap tn <C-D>
-nmap te <C-U>
+"map t g
+"nnoremap \t t
+"nnoremap tt gg
+set langmap+=tg,gt,TG,GT
+nmap gJ <C-D>
+nmap gK <C-U>
 
 command T CommandT
-nnoremap <cr> :CommandT<cr>
+nnoremap <localleader>g :CommandT<cr> " t
 
 let maplocalleader = ","
 filetype plugin indent on
