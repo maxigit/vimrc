@@ -136,3 +136,9 @@
 [submodule "bundle/voom"]
 	path = bundle/voom
 	url = https://github.com/vim-scripts/VOoM.git
+[submodule "ftbundle/org/vim-orgmode"]
+	path = ftbundle/org/vim-orgmode
+	url = https://github.com/jceb/vim-orgmode.git
+[submodule "ftbundle/markdown/vim-markdown"]
+	path = ftbundle/markdown/vim-markdown
+	url = https://github.com/plasticboy/vim-markdown.git
