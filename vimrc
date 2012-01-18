@@ -33,12 +33,12 @@ nnoremap <localleader>wN <C-W>J
 nnoremap <localleader>wL <C-W>K
 nnoremap <localleader>wE <C-W>L
 
-nmap q ]
-nnoremap qq q
-nnoremap QQ Q
-nmap Q [
+"nmap q ]
+"nnoremap qq q
+"nnoremap QQ Q
+"nmap Q [
 
-noremap § u
+noremap § U
 noremap ± 
 "nnoremap ; :
 "nnoremap : ;
