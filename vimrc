@@ -1,5 +1,7 @@
 set noswapfile
 syntax on
+set rnu
+set modeline
 
 let maplocalleader = " "
 "Colemak remap
@@ -14,9 +16,7 @@ inoremap ZZ <Esc>:wq
 "Window Colemak
 nnoremap <localleader>w <C-W>
 
-noremap § U
-noremap ± 
-nnoremap : ,
+map § <C-R>
 
 "No escape
 nnoremap <bs> :
@@ -28,8 +28,8 @@ cnoremap ! ;
 "fold
 noremap <localleader>a z
 		
-nmap gJ <C-D>
-nmap gK <C-U>
+nmap <localleader>j <C-D>
+nmap <localleader>k <C-U>
 
 command T CommandT
 nnoremap <localleader>g :CommandT<cr> " t
