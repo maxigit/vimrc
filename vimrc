@@ -34,9 +34,12 @@ nmap <localleader>k <C-U>
 command T CommandT
 nnoremap <localleader>g :CommandT<cr> " t
 
+
 let maplocalleader = ","
 filetype plugin indent on
 runtime bundle/vim-unbundle/unbundle.vim
 
 "Color
-colorscheme distinguished
+"colorscheme distinguished
+set bg=light
+colorscheme solarized
