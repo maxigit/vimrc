@@ -64,7 +64,7 @@ filetype plugin indent on
 runtime bundle/vim-unbundle/unbundle.vim
 
 if exists("$VIM_CS")
-	colorscheme $VIM_CS
+	execute "colorscheme ".$VIM_CS
 else
 "Color
 "colorscheme distinguished
@@ -97,3 +97,10 @@ cnoremap <C-y> <C-w>
 cnoremap <C-'> <C-r>
 "set list
 "set listchars=trail:_
+"
+command Wc w !pbcopy
+" Rainbow
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
