@@ -58,9 +58,6 @@
 [submodule "bundle/quickfixsigns_vim"]
 	path = bundle/quickfixsigns_vim
 	url = http://github.com/tomtom/quickfixsigns_vim
-[submodule "bundle/rainbow_parentheses.vim"]
-	path = bundle/rainbow_parentheses.vim
-	url = https://github.com/kien/rainbow_parentheses.vim.git
 [submodule "bundle/syntastic"]
 	path = bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git

@@ -43,8 +43,8 @@ nnoremap <localleader>w <C-W>
 nnoremap <bs> :
 noremap! <bs> <esc>
 
-cnoremap ; !
-cnoremap ! ;
+"cnoremap ; !
+"cnoremap ! ;
 
 
 "undo easier
@@ -99,8 +99,5 @@ cnoremap <C-'> <C-r>
 "set listchars=trail:_
 "
 command Wc w !pbcopy
-" Rainbow
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
+
+nmap  :Ggrep /\<\><cr>
