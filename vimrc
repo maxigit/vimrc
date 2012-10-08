@@ -63,6 +63,8 @@ let maplocalleader = ","
 filetype plugin indent on
 runtime bundle/vim-unbundle/unbundle.vim
 
+set t_Co=256
+let g:solarized_termcolors=256
 if exists("$VIM_CS")
 	execute "colorscheme ".$VIM_CS
 else
