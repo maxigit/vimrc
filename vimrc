@@ -29,7 +29,6 @@ let maplocalleader = " "
 "Colemak remap
 set langmap=njuek;juekn,NJUEK;JUEKN "same as above but
 set langmap+=tg,gt,TG,GT
-set langmap+='`,`'
 
 "insert mode remap
 inoremap AA <Esc>A
@@ -42,9 +41,12 @@ nnoremap <localleader>w <C-W>
 "No escape
 nnoremap <bs> :
 noremap! <bs> <esc>
+inoremap ii <esc>
 
 "cnoremap ; !
 "cnoremap ! ;
+cab qa; qa!
+cab q; q!
 
 
 "undo easier
@@ -55,14 +57,11 @@ noremap <localleader>a z
 nmap <localleader>j <C-D>
 nmap <localleader>k <C-U>
 
-command T CommandT
-nnoremap <localleader>g :CommandT<cr> " t
-
-
 let maplocalleader = ","
 filetype plugin indent on
 runtime bundle/vim-unbundle/unbundle.vim
 
+set t_Co=256
 if exists("$VIM_CS")
 	execute "colorscheme ".$VIM_CS
 else
@@ -100,4 +99,10 @@ cnoremap <C-'> <C-r>
 "
 command Wc w !pbcopy
 
-nmap  :Ggrep /\<\><cr>
+nmap <leader>gw  :Ggrep <cr>
+nmap <leader>gg :Ggrep 
+command GG Ggrep
+
+" vertical separator 
+set fillchars=vert:║,fold:-
+hi VertSplit ctermbg=NONE  ctermfg=10
