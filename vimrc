@@ -40,6 +40,8 @@ inoremap ZZ <Esc>:wq
 nnoremap <localleader>w <C-W>
 
 "No escape
+nnoremap  :
+noremap!  <esc>
 nnoremap <bs> :
 noremap! <bs> <esc>
 
@@ -102,4 +104,4 @@ cnoremap <C-'> <C-r>
 "
 command Wc w !pbcopy
 
-nmap  :Ggrep /\<\><cr>
+"nmap  :Ggrep /\<\><cr>
