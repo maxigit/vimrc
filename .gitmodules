@@ -157,3 +157,6 @@
 [submodule "ftbundle/vim-ruby"]
 	path = ftbundle/vim-ruby
 	url = https://github.com/tooky/vim-ruby.git
+[submodule "bundle/vim-ruby"]
+	path = bundle/vim-ruby
+	url = git://github.com/vim-ruby/vim-ruby.git
