@@ -31,6 +31,7 @@ let maplocalleader = " "
 "Colemak remap
 set langmap=njuek;juekn,NJUEK;JUEKN "same as above but
 set langmap+=tg,gt,TG,GT
+set langmap+='`,`'
 
 "insert mode remap
 inoremap AA <Esc>A
