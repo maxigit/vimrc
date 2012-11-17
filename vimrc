@@ -111,6 +111,5 @@ nmap <leader>gw  :Ggrep <cr>
 nmap <leader>gg :Ggrep 
 command GG Ggrep
 
-" vertical separator 
-set fillchars=vert:║,fold:-
-hi VertSplit ctermbg=NONE  ctermfg=10
+" resize windows when resizing vim
+autocmd VimResized * normal =
