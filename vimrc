@@ -87,11 +87,12 @@ au WinLeave * set nocursorcolumn nocursorline
 set cursorcolumn cursorline
 "hi CursorLine ctermbg=NONE cterm=underline
 "hi CursorColumn ctermbg=NONE cterm=bold ctermfg=black
-"
-nnoremap <silent> <C-n> :exe '/\%'.col(".").'c\w'<CR>
-nnoremap <silent> <C-e> :exe '?\%'.col(".").'c\w'<CR>
-nnoremap <silent> <C-n> :exe '/^\s*\%'.col(".").'c\zs\w'<CR>
-nnoremap <silent> <C-e> :exe '?^\s*\%<'.col(".").'c\W\zs\w'<CR>
+
+" Add C-u to remove initial range "<,>" set by typing ':'
+noremap <silent> <C-n> :<C-u>exe '/\%'.col(".").'c\w'<CR>
+noremap <silent> <C-e> :<C-u>exe '?\%'.col(".").'c\w'<CR>
+noremap <silent> <C-n> :<C-u>exe '/^\s*\%'.col(".").'c\zs\w'<CR>
+noremap <silent> <C-e> :<C-u>exe '?^\s*\%<'.col(".").'c\W\zs\w'<CR>
 
 hi TrailingSpaces cterm=reverse ctermfg=red
 au BufNew * call matchadd('TrailingSpaces', '\S\zs\s\+$')
