@@ -52,6 +52,12 @@ noremap!  <esc>
 "undo easier
 nnoremap g= g+
 "fold
+set fdm=indent
+set foldlevel=3
+set fillchars+=fold:\ 
+au ColorScheme * hi clear Folded
+au ColorScheme * hi link Folded Type
+
 noremap <localleader>a z
 		
 nmap <localleader>j <C-D>
