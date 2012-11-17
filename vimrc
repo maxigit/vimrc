@@ -52,16 +52,21 @@ noremap!  <esc>
 "undo easier
 nnoremap g= g+
 "fold
+
 set fdm=indent
 set foldlevel=3
 set fillchars+=fold:\ 
 au ColorScheme * hi clear Folded
 au ColorScheme * hi link Folded Type
+set foldtext=getline(v:foldstart).'[...]'.getline(v:foldend).'\ '
 
 noremap <localleader>a z
 		
 nmap <localleader>j <C-D>
 nmap <localleader>k <C-U>
+
+"ctrl 
+nnoremap <silent> <localleader>p :CtrlP<CR>
 
 let maplocalleader = ","
 filetype plugin indent on
