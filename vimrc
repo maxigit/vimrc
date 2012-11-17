@@ -5,6 +5,8 @@ set modeline
 set sessionoptions=options,localoptions,sesdir
 set hidden
 
+set laststatus=2
+
 set secure
 set exrc
 
@@ -29,6 +31,7 @@ let maplocalleader = " "
 "Colemak remap
 set langmap=njuek;juekn,NJUEK;JUEKN "same as above but
 set langmap+=tg,gt,TG,GT
+set langmap+='`,`'
 
 "insert mode remap
 inoremap AA <Esc>A
@@ -41,19 +44,20 @@ nnoremap <localleader>w <C-W>
 "No escape
 nnoremap  :
 noremap!  <esc>
-nnoremap <bs> :
-noremap! <bs> <esc>
-inoremap ii <esc>
 
 "cnoremap ; !
 "cnoremap ! ;
-cab qa; qa!
-cab q; q!
 
 
 "undo easier
 nnoremap g= g+
 "fold
+set fdm=indent
+set foldlevel=3
+set fillchars+=fold:\ 
+au ColorScheme * hi clear Folded
+au ColorScheme * hi link Folded Type
+
 noremap <localleader>a z
 		
 nmap <localleader>j <C-D>
@@ -83,11 +87,12 @@ au WinLeave * set nocursorcolumn nocursorline
 set cursorcolumn cursorline
 "hi CursorLine ctermbg=NONE cterm=underline
 "hi CursorColumn ctermbg=NONE cterm=bold ctermfg=black
-"
-nnoremap <silent> <C-n> :exe '/\%'.col(".").'c\w'<CR>
-nnoremap <silent> <C-e> :exe '?\%'.col(".").'c\w'<CR>
-nnoremap <silent> <C-n> :exe '/^\s*\%'.col(".").'c\zs\w'<CR>
-nnoremap <silent> <C-e> :exe '?^\s*\%<'.col(".").'c\W\zs\w'<CR>
+
+" Add C-u to remove initial range "<,>" set by typing ':'
+noremap <silent> <C-n> :<C-u>exe '/\%'.col(".").'c\w'<CR>
+noremap <silent> <C-e> :<C-u>exe '?\%'.col(".").'c\w'<CR>
+noremap <silent> <C-n> :<C-u>exe '/^\s*\%'.col(".").'c\zs\w'<CR>
+noremap <silent> <C-e> :<C-u>exe '?^\s*\%<'.col(".").'c\W\zs\w'<CR>
 
 hi TrailingSpaces cterm=reverse ctermfg=red
 au BufNew * call matchadd('TrailingSpaces', '\S\zs\s\+$')
@@ -109,3 +114,6 @@ command GG Ggrep
 " vertical separator 
 "set fillchars=vert:|,fold:-
 hi VertSplit ctermbg=NONE  ctermfg=10
+
+" resize windows when resizing vim
+autocmd VimResized * normal =
