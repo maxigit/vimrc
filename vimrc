@@ -42,14 +42,11 @@ inoremap ZZ <Esc>:wq
 nnoremap <localleader>w <C-W>
 
 "No escape
-nnoremap <bs> :
-noremap! <bs> <esc>
-inoremap ii <esc>
+nnoremap  :
+noremap!  <esc>
 
 "cnoremap ; !
 "cnoremap ! ;
-cab qa; qa!
-cab q; q!
 
 
 "undo easier
