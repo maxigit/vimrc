@@ -5,6 +5,8 @@ set modeline
 set sessionoptions=options,localoptions,sesdir
 set hidden
 
+set laststatus=2
+
 set secure
 set exrc
 
