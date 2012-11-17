@@ -87,7 +87,7 @@
 	url = git@github.com:maxigit/vim-distinguished.git
 [submodule "bundle/vim-editqf"]
 	path = bundle/vim-editqf
-	url = https://github.com/jceb/vim-editqf.git
+	url = git://github.com/jceb/vim-editqf.git
 [submodule "bundle/vim-fastwordcompleter"]
 	path = bundle/vim-fastwordcompleter
 	url = https://github.com/jceb/vim-fastwordcompleter.git
@@ -157,3 +157,6 @@
 [submodule "ftbundle/vim-ruby"]
 	path = ftbundle/vim-ruby
 	url = https://github.com/tooky/vim-ruby.git
+[submodule "bundle/vim-ham"]
+	path = bundle/vim-ham
+	url = https://github.com/tpope/vim-haml.git
