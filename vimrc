@@ -2,7 +2,6 @@ set noswapfile
 "syntax on
 set rnu
 set modeline
-set sessionoptions=options,localoptions,sesdir
 set hidden
 
 set laststatus=2
@@ -14,9 +13,7 @@ set exrc
 set wildmenu
 set wildmode=longest:full,full
 set wildmode=full
-"cnoremap <C-N> <C-P>
 cnoremap <C-O> <C-P>
-"cnoremap <C-P> <C-N>
 
 
 set virtualedit=all
@@ -53,15 +50,12 @@ noremap!  <esc>
 nnoremap g= g+
 "fold
 
-set fdm=indent
 set foldlevel=3
 set fillchars+=fold:\ 
 au ColorScheme * hi clear Folded
 au ColorScheme * hi link Folded Macro
 set foldtext=getline(v:foldstart).'[...]'.getline(v:foldend).'\ '
 
-noremap <localleader>a z
-		
 nmap <localleader>j <C-D>
 nmap <localleader>k <C-U>
 
@@ -90,8 +84,6 @@ end
 au WinEnter * set cursorcolumn cursorline
 au WinLeave * set nocursorcolumn nocursorline
 set cursorcolumn cursorline
-"hi CursorLine ctermbg=NONE cterm=underline
-"hi CursorColumn ctermbg=NONE cterm=bold ctermfg=black
 
 " Add C-u to remove initial range "<,>" set by typing ':'
 noremap <silent> <C-n> :<C-u>exe '/\%'.col(".").'c\w'<CR>
