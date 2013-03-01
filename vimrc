@@ -1,5 +1,5 @@
 set noswapfile
-syntax on
+"syntax on
 set rnu
 set modeline
 set sessionoptions=options,localoptions,sesdir
@@ -57,7 +57,7 @@ set fdm=indent
 set foldlevel=3
 set fillchars+=fold:\ 
 au ColorScheme * hi clear Folded
-au ColorScheme * hi link Folded Type
+au ColorScheme * hi link Folded Macro
 set foldtext=getline(v:foldstart).'[...]'.getline(v:foldend).'\ '
 
 noremap <localleader>a z
@@ -112,9 +112,7 @@ cnoremap <C-'> <C-r>
 "
 command Wc w !pbcopy
 
-nmap <leader>gw  :Ggrep <cr>
-nmap <leader>gg :Ggrep 
-command GG Ggrep
+nmap  :Ggrep /\<\><cr>
 
 " vertical separator 
 "set fillchars=vert:|,fold:-
