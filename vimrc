@@ -1,5 +1,5 @@
 set noswapfile
-syntax on
+"syntax on
 set rnu
 set modeline
 set sessionoptions=options,localoptions,sesdir
@@ -87,11 +87,12 @@ if exists("$VIM_BG")
 else
 set bg=light
 end
-au WinEnter * set cursorcolumn cursorline
-au WinLeave * set nocursorcolumn nocursorline
-set cursorcolumn cursorline
-"hi CursorLine ctermbg=NONE cterm=underline
-"hi CursorColumn ctermbg=NONE cterm=bold ctermfg=black
+if exists("$VIM_TBG")
+	execute "hi Normal ctermbg=".$VIM_TBG
+endif
+if exists("$VIM_TFG")
+	execute "hi Normal ctermfg=".$VIM_TFG
+endif
 
 " Add C-u to remove initial range "<,>" set by typing ':'
 noremap <silent> <C-n> :<C-u>exe '/\%'.col(".").'c\w'<CR>
@@ -122,3 +123,5 @@ hi VertSplit ctermbg=NONE  ctermfg=10
 
 " resize windows when resizing vim
 autocmd VimResized * normal =
+
+let vimrplugin_screenplugin = 0
