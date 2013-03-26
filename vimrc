@@ -78,6 +78,7 @@ else
 "Color
 "colorscheme distinguished
 "colorscheme solarized
+colorscheme default
 " Cursor lines
 endif
 if exists("$VIM_BG")
