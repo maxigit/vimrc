@@ -79,7 +79,6 @@ else
 "colorscheme distinguished
 "colorscheme solarized
 colorscheme default
-" Cursor lines
 endif
 if exists("$VIM_BG")
 	let &bg=$VIM_BG
@@ -92,6 +91,12 @@ endif
 if exists("$VIM_TFG")
 	execute "hi Normal ctermfg=".$VIM_TFG
 endif
+" Cursor lines
+au WinEnter * set cursorcolumn cursorline
+au WinLeave * set nocursorcolumn nocursorline
+set cursorcolumn cursorline
+hi clear CursorLine
+hi link CursorLine Search
 
 " Add C-u to remove initial range "<,>" set by typing ':'
 noremap <silent> <C-n> :<C-u>exe '/\%'.col(".").'c\w'<CR>
