@@ -73,7 +73,7 @@ if exists("$VIM_CS")
 else
 "Color
 "colorscheme distinguished
-colorscheme solarized
+"colorscheme solarized
 " Cursor lines
 endif
 if exists("$VIM_BG")
@@ -81,9 +81,10 @@ if exists("$VIM_BG")
 else
 set bg=light
 end
-au WinEnter * set cursorcolumn cursorline
-au WinLeave * set nocursorcolumn nocursorline
-set cursorcolumn cursorline
+
+"au WinEnter * set cursorcolumn cursorline
+"au WinLeave * set nocursorcolumn nocursorline
+"set cursorcolumn cursorline
 
 " Add C-u to remove initial range "<,>" set by typing ':'
 noremap <silent> <C-n> :<C-u>exe '/\%'.col(".").'c\w'<CR>
