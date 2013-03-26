@@ -5,6 +5,10 @@ set modeline
 set sessionoptions=options,localoptions,sesdir
 set hidden
 
+set ts=2
+set sts=2
+set sw=2
+
 set laststatus=2
 
 set secure
@@ -124,4 +128,3 @@ hi VertSplit ctermbg=NONE  ctermfg=10
 " resize windows when resizing vim
 autocmd VimResized * normal =
 
-let vimrplugin_screenplugin = 0
