@@ -126,3 +126,14 @@ hi VertSplit ctermbg=NONE  ctermfg=10
 " resize windows when resizing vim
 autocmd VimResized * normal =
 
+au ColorScheme * hi clear PreProc
+au ColorScheme * hi link PreProc Statement
+au ColorScheme * hi clear Statement
+au ColorScheme * hi clear Identifier
+au ColorScheme * hi clear Special
+"au ColorScheme * hi clear Constant
+au ColorScheme * hi clear Type
+au ColorScheme * hi clear Comment
+au ColorScheme * hi Constant ctermfg=blue
+au ColorScheme * hi link Comment String
+au ColorScheme * hi clear Lever16c 
