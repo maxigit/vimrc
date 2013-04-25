@@ -32,7 +32,7 @@ let maplocalleader = " "
 "Colemak remap
 set langmap=njuek;juekn,NJUEK;JUEKN "same as above but
 set langmap+=tg,gt,TG,GT
-set langmap+='`,`'
+"set langmap+='`,`'
 
 "insert mode remap
 inoremap AA <Esc>A
@@ -43,8 +43,11 @@ inoremap ZZ <Esc>:wq
 nnoremap <localleader>w <C-W>
 
 "No escape
-nnoremap  :
-noremap!  <esc>
+"nnoremap  :
+"noremap!  <esc>
+nnoremap <cr> :
+
+
 
 "cnoremap ; !
 "cnoremap ! ;
