@@ -81,7 +81,7 @@ else
 "Color
 "colorscheme distinguished
 "colorscheme solarized
-colorscheme default
+"colorscheme default
 endif
 if exists("$VIM_BG")
 	let &bg=$VIM_BG
@@ -94,6 +94,7 @@ endif
 if exists("$VIM_TFG")
 	execute "hi Normal ctermfg=".$VIM_TFG
 endif
+colorscheme solarized
 " Cursor lines
 au WinEnter * set cursorcolumn cursorline
 au WinLeave * set nocursorcolumn nocursorline
