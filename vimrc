@@ -43,10 +43,13 @@ inoremap ZZ <Esc>:wq
 nnoremap <localleader>w <C-W>
 
 "No escape
-"nnoremap  :
-"noremap!  <esc>
-nnoremap <cr> :
+nnoremap <C-C> :
+"noremap <C-C> <C-O>
+inoremap <C-O> <C-C>
+nnoremap <C-O> :
 
+nnoremap : ,
+nnoremap , :
 
 
 "cnoremap ; !
@@ -61,6 +64,7 @@ set foldlevel=3
 set fillchars+=fold:\ 
 au ColorScheme * hi clear Folded
 au ColorScheme * hi link Folded Macro
+au ColorScheme * hi Normal ctermfg=black
 set foldtext=getline(v:foldstart).'[...]'.getline(v:foldend).'\ '
 
 nmap <localleader>j <C-D>
@@ -69,7 +73,7 @@ nmap <localleader>k <C-U>
 "ctrl 
 nnoremap <silent> <localleader>p :CtrlP<CR>
 
-let maplocalleader = ","
+let maplocalleader = ":"
 filetype plugin indent on
 runtime bundle/vim-unbundle/unbundle.vim
 
@@ -100,7 +104,8 @@ au WinEnter * set cursorcolumn cursorline
 au WinLeave * set nocursorcolumn nocursorline
 set cursorcolumn cursorline
 hi clear CursorLine
-hi link CursorLine Search
+hi CursorLine cterm=underline
+"hi link CursorLine Search
 
 " Add C-u to remove initial range "<,>" set by typing ':'
 noremap <silent> <C-n> :<C-u>exe '/\%'.col(".").'c\w'<CR>
@@ -130,14 +135,28 @@ hi VertSplit ctermbg=NONE  ctermfg=10
 " resize windows when resizing vim
 autocmd VimResized * normal =
 
-au ColorScheme * hi clear PreProc
-au ColorScheme * hi link PreProc Statement
-au ColorScheme * hi clear Statement
-au ColorScheme * hi clear Identifier
-au ColorScheme * hi clear Special
-"au ColorScheme * hi clear Constant
-au ColorScheme * hi clear Type
-au ColorScheme * hi clear Comment
-au ColorScheme * hi Constant ctermfg=blue
-au ColorScheme * hi link Comment String
-au ColorScheme * hi clear Lever16c 
+"au ColorScheme * hi clear PreProc
+"au ColorScheme * hi link PreProc Statement
+"au ColorScheme * hi clear Statement
+"au ColorScheme * hi clear Identifier
+"au ColorScheme * hi clear Special
+""au ColorScheme * hi clear Constant
+"au ColorScheme * hi clear Type
+"au ColorScheme * hi clear Comment
+"au ColorScheme * hi Constant ctermfg=blue
+"au ColorScheme * hi link Comment String
+"au ColorScheme * hi clear Lever16c 
+au ColorScheme * hi clear VertSplit
+au ColorScheme * hi link VertSplit StatusLineNC
+hi clear VertSplit
+hi link VertSplit StatusLineNC
+
+
+inoremap PP <C-r>"
+
+
+
+nnoremap ]q :cnext<CR>
+nnoremap [q :cprevious<CR>
+nnoremap ]Q :cnf<CR>
+nnoremap [Q :cpf<CR>
