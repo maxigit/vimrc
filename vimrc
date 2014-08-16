@@ -1,12 +1,15 @@
 set noswapfile
 "syntax on
 set rnu
+set nu
 set modeline
 set hidden
 
-set ts=2
-set sts=2
-set sw=2
+set ts=4
+set sts=4
+set sw=4
+set smarttab
+set expandtab
 
 set laststatus=2
 
@@ -46,7 +49,7 @@ nnoremap <localleader>w <C-W>
 nnoremap <C-C> :
 "noremap <C-C> <C-O>
 inoremap <C-O> <C-C>
-nnoremap <C-O> :
+nnoremap <esc> :
 
 nnoremap : ,
 nnoremap , :
@@ -98,13 +101,13 @@ endif
 if exists("$VIM_TFG")
 	execute "hi Normal ctermfg=".$VIM_TFG
 endif
-colorscheme solarized
+colorscheme github
 " Cursor lines
-au WinEnter * set cursorcolumn cursorline
-au WinLeave * set nocursorcolumn nocursorline
-set cursorcolumn cursorline
-hi clear CursorLine
-hi CursorLine cterm=underline
+"au WinEnter * set cursorcolumn cursorline
+"au WinLeave * set nocursorcolumn nocursorline
+"set cursorcolumn cursorline
+"hi clear CursorLine
+"hi CursorLine cterm=underline
 "hi link CursorLine Search
 
 " Add C-u to remove initial range "<,>" set by typing ':'
@@ -152,6 +155,7 @@ hi clear VertSplit
 hi link VertSplit StatusLineNC
 
 
+let g:haddock_browser="/Application/Firefox"
 inoremap PP <C-r>"
 
 
@@ -160,3 +164,32 @@ nnoremap ]q :cnext<CR>
 nnoremap [q :cprevious<CR>
 nnoremap ]Q :cnf<CR>
 nnoremap [Q :cpf<CR>
+
+
+"\   'operators': '_[^(){}[\]]_',
+"\   'operators': '_[,;$%@#&:+=!\-<>*.]_',
+
+"autocmd BufEnter *.hs compiler ghc
+let g:rainbow_active=0
+let g:rainbow_conf = {
+\   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+\   'ctermfgs': ['blue', 'magenta', 'red', 'brown', 'green', 'cyan'],
+\   'parentheses': [['(',')'], ['\[','\]'], ['{','}'], ['\$', '$']],
+\   'operators': '_[^(){}[\]]_',
+\   'separately': {
+\       '*': {},
+\       'lisp': {
+\           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+\           'ctermfgs': ['darkgray', 'darkblue', 'darkmagenta', 'darkcyan', 'darkred', 'darkgreen'],
+\       },
+\       'html': {
+\           'operators': '',
+\           'parentheses': [['(',')'], ['\[','\]'], ['{','}'], ['<\a[^>]*[^/]>\|<\a>','</[^>]*>']],
+\       },
+\       'tex': {
+\           'operators': '',
+\           'parentheses': [['(',')'], ['\[','\]']],
+\       },
+\   }
+\}
+
