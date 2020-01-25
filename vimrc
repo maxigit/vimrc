@@ -266,3 +266,12 @@ highlight yellow ctermbg=yellow guibg=yellow
 highlight red ctermbg=red guibg=red
 highlight green ctermbg=green guibg=green
 highlight cyan ctermbg=cyan guibg=cyan
+
+
+vnoremap <space>rt :call Haskell_type_at()<CR>
+
+function Haskell_type_at()
+  let l:command = printf (":type-at %s %d %d %d %d\n", expand("%"), line('.'), col('.'), line("'>"), col("'>")+1)
+  call tbone#send_keys("+", l:command)
+  "execute "edit! +" . &errorfile
+endfunction
