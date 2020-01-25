@@ -1,6 +1,6 @@
 " Vim compiler file
 " Compiler: Haskell repl - ghci
-" Mainter: Maxime Bourget
+" Author: Maxime Bourget
 
 if exists("current_compiler")
   finish
@@ -13,6 +13,8 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 CompilerSet makeprg=stack\ repl
+
+CompilerSet errorformat+=%f:%.%l%.%c%.%#
 
 let &cpo = s:cpo_save
 unlet s:cpo_save

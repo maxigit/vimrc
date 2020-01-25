@@ -250,8 +250,12 @@ packadd vim-dispatch
 packadd vim-tbone
 
 nnoremap <space>rr :call tbone#send_keys("+", ":r\n")<CR>
-nnoremap <space>rb :call tbone#send_keys("+", ":l " . expand("%")."\n")<CR>
+nnoremap <space>rb :call tbone#send_keys("+", ":l " . expand("%:p")."\n")<CR>
+nnoremap <space>rc :call tbone#send_keys("+", ":set +c\n:l " . expand("%:p")."\n")<CR>
 nnoremap <space>rt :call tbone#send_keys("+", ":t " . expand("<cword>")."\n")<CR>
+nmap <space>rT viw<space>rtv
+nmap <space>rU viw<space>ruv
+nmap <space>rL viw<space>rlv
 nnoremap <space>ri :call tbone#send_keys("+", ":i " . expand("<cword>")."\n")<CR>
 nnoremap <space>rs :AbortDispatch<CR>
 nnoremap <space>ro :Copen<CR>:cc<CR>
@@ -268,10 +272,13 @@ highlight green ctermbg=green guibg=green
 highlight cyan ctermbg=cyan guibg=cyan
 
 
-vnoremap <space>rt :call Haskell_type_at()<CR>
+vnoremap <space>rt :call Haskell_type_at("type-at")<CR>gv
+vnoremap <space>ru :call Haskell_type_at("uses")<CR>gv
+vnoremap <space>rl :call Haskell_type_at("loc-at")<CR>gv
 
-function Haskell_type_at() range
-  let l:command = printf (":type-at %s %d %d %d %d\n", expand("%"), line('.'), col("'<"), line("'>"), col("'>")+1)
+function Haskell_type_at(mode) range
+  " mode can be type-at uses loc-at
+  let l:command = printf (":%s %s %d %d %d %d\n",a:mode,  expand("%:p"), line('.'), col("'<"), line("'>"), col("'>")+1)
   call tbone#send_keys("+", l:command)
   "execute "edit! +" . &errorfile
 endfunction
