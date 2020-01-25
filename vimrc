@@ -4,6 +4,7 @@ set secure
 " Undo
 set undofile
 set undodir=$HOME/.vim/undo
+set history=10000
 " Tab
 set expandtab
 set tabstop=2
@@ -74,7 +75,7 @@ nnoremap <space>fT :Tags <C-R><C-W><CR>
 nnoremap <space>fh :Helptags!<CR>
 nnoremap <space>fr :History<CR>
 nnoremap <space>f: :Commands<CR>
-nnoremap <space>f; :History:<CR>
+nnoremap <space>; :History:<CR>
 nnoremap <space>f/ :History/<CR>
 nnoremap <space>fm :Marks<CR>
 nnoremap <space>f<space> :Maps<CR>
@@ -176,6 +177,7 @@ nnoremap <space>e, :cpf<CR>
 nnoremap <space>fed :e ~/.vim/vimrc<CR>
 nnoremap <space>fer :so ~/.vim/vimrc<CR>
 nnoremap <Tab> za
+nnoremap <S-Tab> zA
 
 " DB profile
 let g:dbext_default_profile_prod = 'type=mysql:host=127.0.0.1:user=root:passwd=@askg:dbname=fa:port=3016'
@@ -240,6 +242,15 @@ command! -bar -count=99999 FoldLMisses call s:FoldMisses(getloclist(0), <count>)
 " extra plugin
 packadd quickfixsigns_vim
 packadd cfilter
+
+" ctrlspace
+let g:CtrlSpaceDefaultMappingKey = "<space>w"
+packadd vim-ctrlspace
+packadd vim-dispatch
+packadd vim-tbone
+
+nnoremap <space>rr call tbone#send_keys("+", ":r\n")
+nnoremap <space>rb call tbone#send_keys("+", ":l " . expand("%")."\n")
 
 "nnoremap <space>z0 :echo 'Cfilter /\%>' . getline('.') . "l/"
 autocmd FileType qf nnoremap <buffer> <space>c0 :Cfilter! /.*/<CR>
