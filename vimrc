@@ -14,7 +14,7 @@ set termguicolors
 "color parchment
 "let ayucolor="mirage"
 "color ayu
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 set bg=light
 "autocmd  ColorScheme * hi Folded guibg=Yellow guifg=black
@@ -43,7 +43,7 @@ filetype plugin indent on
 autocmd FileType php setlocal includeexpr=substitute(v:fname,'^/','','') 
 autocmd FileType php setlocal suffixesadd=.php,.inc
 
-set complete=.,i " current buffer and words in included files
+" set complete=.,i,w " current buffer and words in included files
 set completeopt=menu,longest,preview
 "===========
 let mapleader = " "
@@ -100,7 +100,8 @@ nnoremap z* :folddo s/\<C-R>C-W>\><CR>
 
 
 
-nnoremap <space><space> :Commands<CR>
+"nnoremap <space><space> :Commands<CR>
+nnoremap <space>: :Commands<CR>
 
 nnoremap <space>/ :Rg <CR>
 nnoremap <space>* :Rg <C-R><C-W><CR>
@@ -249,10 +250,15 @@ packadd vim-ctrlspace
 packadd vim-dispatch
 packadd vim-tbone
 
-nnoremap <space>rr :call tbone#send_keys("+", ":r\n")<CR>
-nnoremap <space>rb :call tbone#send_keys("+", ":l " . expand("%")."\n")<CR>
-nnoremap <space>rt :call tbone#send_keys("+", ":t " . expand("<cword>")."\n")<CR>
-nnoremap <space>ri :call tbone#send_keys("+", ":i " . expand("<cword>")."\n")<CR>
+let g:dispatch_pane = "+"
+nnoremap <space>rr :call tbone#send_keys(g:dispatch_pane, ":r\n")<CR>
+nnoremap <space>rb :call tbone#send_keys(g:dispatch_pane, ":l " . expand("%:p")."\n")<CR>
+nnoremap <space>rc :call tbone#send_keys(g:dispatch_pane, ":set +c\n:l " . expand("%:p")."\n")<CR>
+nnoremap <space>rt :call tbone#send_keys(g:dispatch_pane, ":t " . expand("<cword>")."\n")<CR>
+nmap <space>rT viw<space>rtv
+nmap <space>rU viw<space>ruv
+nmap <space>rL viw<space>rlv
+nnoremap <space>ri :call tbone#send_keys(g:dispatch_pane, ":i " . expand("<cword>")."\n")<CR>
 nnoremap <space>rs :AbortDispatch<CR>
 nnoremap <space>ro :Copen<CR>:cc<CR>
 
@@ -268,10 +274,30 @@ highlight green ctermbg=green guibg=green
 highlight cyan ctermbg=cyan guibg=cyan
 
 
-vnoremap <space>rt :call Haskell_type_at()<CR>
+vnoremap <space>rt :call Haskell_type_at("type-at")<CR>gv
+vnoremap <space>ru :call Haskell_type_at("uses")<CR>gv
+vnoremap <space>rl :call Haskell_type_at("loc-at")<CR>gv
 
-function Haskell_type_at() range
-  let l:command = printf (":type-at %s %d %d %d %d\n", expand("%"), line('.'), col("'<"), line("'>"), col("'>")+1)
-  call tbone#send_keys("+", l:command)
+function Haskell_type_at(mode) range
+  " mode can be type-at uses loc-at
+  let l:command = printf (":%s %s %d %d %d %d\n",a:mode,  expand("%:p"), line('.'), col("'<"), line("'>"), col("'>")+1)
+  call tbone#send_keys(g:dispatch_pane, l:command)
   "execute "edit! +" . &errorfile
 endfunction
+
+" easy motion
+map <space><space> <Plug>(easymotion-s2)
+imap <C-F> <esc>byle:<C-u>call EasyYank()<CR>
+"
+"
+"echo sp
+"
+vmap <CR> ygi<C-R>0
+function! EasyYank()
+  call EasyMotion#S(2,0,2)
+  execute "normal ve"
+endfunction
+
+
+let g:context_highlight_normal = 'yellow'
+packadd context.vim
