@@ -57,7 +57,7 @@ nnoremap <space>ee :cc<CR>
 nnoremap <space>el :cw<CR>
 nnoremap <space>e. :cnf<CR>
 nnoremap <space>e, :cpf<CR>
-nnoremap <space>eo :execute "new ".&errorfile<CR>
+nnoremap <space>eo :execute "edit! + ".&errorfile<CR>
 
 nnoremap <space>fs :w<CR>
 nnoremap <space>fq :x<CR>
@@ -249,8 +249,12 @@ packadd vim-ctrlspace
 packadd vim-dispatch
 packadd vim-tbone
 
-nnoremap <space>rr call tbone#send_keys("+", ":r\n")
-nnoremap <space>rb call tbone#send_keys("+", ":l " . expand("%")."\n")
+nnoremap <space>rr :call tbone#send_keys("+", ":r\n")<CR>
+nnoremap <space>rb :call tbone#send_keys("+", ":l " . expand("%")."\n")<CR>
+nnoremap <space>rt :call tbone#send_keys("+", ":t " . expand("<cword>")."\n")<CR>
+nnoremap <space>ri :call tbone#send_keys("+", ":i " . expand("<cword>")."\n")<CR>
+nnoremap <space>rs :AbortDispatch<CR>
+nnoremap <space>ro :Copen<CR>:cc<CR>
 
 "nnoremap <space>z0 :echo 'Cfilter /\%>' . getline('.') . "l/"
 autocmd FileType qf nnoremap <buffer> <space>c0 :Cfilter! /.*/<CR>
