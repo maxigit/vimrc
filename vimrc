@@ -15,6 +15,12 @@ set termguicolors
 "let ayucolor="mirage"
 "color ayu
 set clipboard=unnamedplus
+set incsearch
+set hls
+set ruler
+set switchbuf=usetab,uselast
+set smartcase
+set ignorecase
 
 set bg=light
 "autocmd  ColorScheme * hi Folded guibg=Yellow guifg=black
@@ -23,6 +29,11 @@ autocmd  ColorScheme * hi Folded guibg=#dddddd guifg=blue
 autocmd  ColorSchemePre ayu let g:ayucolor="light"
 autocmd ColorScheme * hi StatusLineNC guibg=orange guifg=black
 autocmd ColorScheme * hi StatusLine guibg=black guifg=orange
+autocmd ColorScheme * hi IncSearch guifg=green guibg=black
+autocmd ColorScheme * hi Search guifg=yellow guibg=black
+autocmd ColorScheme * hi Visual cterm=None gui=None guibg=orange
+
+
 color gruvbox
 "color flattened_light
 set wildmode=list:longest,full
@@ -63,8 +74,31 @@ nnoremap <space>fs :w<CR>
 nnoremap <space>fq :x<CR>
 " fuzzy finder
 source /usr/share/vim/vimfiles/plugin/fzf.vim
-"nnoremap <space>ff :FZF<CR>
-nnoremap <space>ff :Files<CR>
+let g:fzf_buffers_jump=1
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview("up"), <bang>0)
+"
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview("up"), <bang>0)
+
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'spit',
+  \ 'ctrl-o': 'sbuffer',
+  \ 'ctrl-v': 'vsplit' }
+let g:fzf_layout = {'down': '~70%'}
+
+
+nnoremap <space>ff :Files!<CR>
+nnoremap <space>fF :FZF ~<CR>
 nnoremap <space>fv :FZF ~/.vim<CR>
 nnoremap <space>fg :GFiles!<CR>
 nnoremap <space>bb :Buffers<CR>
@@ -72,19 +106,25 @@ nnoremap <space>bq :q<CR>
 nnoremap <space>fc :Colors!<CR>
 nnoremap <space>ft :Tags<CR>
 nnoremap <space>fT :Tags <C-R><C-W><CR>
-nnoremap <space>fh :Helptags!<CR>
+nnoremap <space>fh :vert Helptags!<CR>
 nnoremap <space>fr :History<CR>
 nnoremap <space>f: :Commands<CR>
 nnoremap <space>; :History:<CR>
+nnoremap <space>w :Windows<CR>
 nnoremap <space>f/ :History/<CR>
 nnoremap <space>fm :Marks<CR>
-nnoremap <space>f<space> :Maps<CR>
+"nnoremap <space>f<space> :Maps<CR>
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
 nnoremap <space>fy :Filetypes<CR>
-nnoremap <space>ss :BLine<CR>
-nnoremap <space>sS :BLine <C-R><C-W><CR>
-nnoremap <space>Ss :Line<CR>
-nnoremap <space>SS :Line <C-R><C-W><CR>
+nnoremap <space>ss :BLine!<CR>
+nnoremap <space>sS :BLine! <C-R><C-W><CR>
+nnoremap <space>Ss :Line!<CR>
+nnoremap <space>SS :Line! <C-R><C-W><CR>
 nnoremap <space>sq :g/\<<C-R><C-W>\>/laddexpr expand("%") . ":" . line(".") . ":" .  getline(".")<CR>:lopen<CR>
+nnoremap <space>sQ :g//laddexpr expand("%") . ":" . line(".") . ":" .  getline(".")<CR>:lopen<CR>
+nnoremap <space>sc :noh<CR>
 " Using foldutil
 nnoremap <space>z* :FoldMatching! \<<C-R><C-A>\> 0<CR>*
 nnoremap <space>z/ :FoldMatching! // 0<CR>*
@@ -103,15 +143,15 @@ nnoremap z* :folddo s/\<C-R>C-W>\><CR>
 "nnoremap <space><space> :Commands<CR>
 nnoremap <space>: :Commands<CR>
 
-nnoremap <space>/ :Rg <CR>
-nnoremap <space>* :Rg <C-R><C-W><CR>
+nnoremap <space>/ :Rg! <CR>
+nnoremap <space>* :Rg! <C-R><C-W><CR>
 
 "tig
 nnoremap <space>gs :Tig status<CR>
 nnoremap <space>gb :TigBlame<CR>
 nnoremap <space>gf :Tig %<CR>
 nnoremap <space>gc :Commits
-nnoremap <space>gS :GFiles?
+nnoremap <space>gS :GFiles?!
 nnoremap <space>gh :BCommits
 
 "ranger
@@ -245,8 +285,8 @@ packadd quickfixsigns_vim
 packadd cfilter
 
 " ctrlspace
-let g:CtrlSpaceDefaultMappingKey = "<space>w"
-packadd vim-ctrlspace
+let g:CtrlSpaceDefaultMappingKey = "<space>W"
+"packadd vim-ctrlspace
 packadd vim-dispatch
 packadd vim-tbone
 
@@ -285,19 +325,29 @@ function Haskell_type_at(mode) range
   "execute "edit! +" . &errorfile
 endfunction
 
-" easy motion
-map <space><space> <Plug>(easymotion-s2)
-imap <C-F> <esc>byle:<C-u>call EasyYank()<CR>
-"
-"
-"echo sp
+" asy motion
+map ; <Plug>(easymotion-s2)
+imap <C-F> <esc>:<C-u>call EasyYank()<CR>
 "
 vmap <CR> ygi<C-R>0
 function! EasyYank()
-  call EasyMotion#S(2,0,2)
+  "call EasyMotion#S(2,0,2)
+  call EasyMotion#OverwinF(2)
   execute "normal ve"
 endfunction
 
 
-let g:context_highlight_normal = 'yellow'
+"let g:context_highlight_normal = 'yellow'
+let g:context_highlight_normal = 'PMenu'
 packadd context.vim
+
+
+
+cnoremap .. .*
+
+" Macro
+"nnoremap <space>xx :execute ":normal ".getline('.')<CR>k
+"nnoremap <space>x: :execute getline('.')<CR>k
+
+
+
