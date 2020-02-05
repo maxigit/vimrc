@@ -302,6 +302,18 @@ nnoremap <space>ri :call tbone#send_keys(g:dispatch_pane, ":i " . expand("<cword
 nnoremap <space>rs :AbortDispatch<CR>
 nnoremap <space>ro :Copen<CR>:cc<CR>
 
+" search word within function
+function! SearchInBlock(regex='') 
+  let end = search('^\S', 'Ws')
+  let start = search('^\S', 'bW')
+  return '\%>' . (start-1) . 'l\%<' . end . 'l' . a:regex
+endfunction
+
+" word within block
+nnoremap <space>Sv /<C-R>=SearchInBlock('\C\<<C-R><C-W>\>')<CR><CR>
+" start search within block
+nnoremap <space>sv /<C-R>=SearchInBlock()<CR>
+
 "nnoremap <space>z0 :echo 'Cfilter /\%>' . getline('.') . "l/"
 autocmd FileType qf nnoremap <buffer> <space>c0 :Cfilter! /.*/<CR>
 autocmd FileType qf nnoremap <buffer> <space>l0 :Lfilter! /.*/<CR>
