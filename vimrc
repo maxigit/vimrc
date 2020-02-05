@@ -138,6 +138,15 @@ nnoremap <space>zl :FoldLMisses<CR>
 nnoremap <space>zc :FoldMisses<CR>
 nnoremap z* :folddo s/\<C-R>C-W>\><CR>
 
+nnoremap <space>zmi :set foldmethod=indent<CR>
+nnoremap <space>zmm :set foldmethod=manual<CR>
+nnoremap <space>zme :set foldmethod=expr<CR>
+nnoremap <space>zmk :set foldmethod=marker<CR>
+nnoremap <space>zk :hi Folded guibg=NONE guifg=gray<CR>
+nnoremap <space>zy :hi Folded guibg=yellow guifg=black<CR>
+nnoremap <space>zb :hi Folded guibg=#dddddd guifg=blue<CR>
+
+
 
 
 "nnoremap <space><space> :Commands<CR>
