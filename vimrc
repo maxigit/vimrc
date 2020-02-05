@@ -290,17 +290,35 @@ let g:CtrlSpaceDefaultMappingKey = "<space>W"
 packadd vim-dispatch
 packadd vim-tbone
 
+nmap m% m<space>%<CR>
 let g:dispatch_pane = "+"
-nnoremap <space>rr :call tbone#send_keys(g:dispatch_pane, ":r\n")<CR>
-nnoremap <space>rb :call tbone#send_keys(g:dispatch_pane, ":l " . expand("%:p")."\n")<CR>
-nnoremap <space>rc :call tbone#send_keys(g:dispatch_pane, ":set +c\n:l " . expand("%:p")."\n")<CR>
-nnoremap <space>rt :call tbone#send_keys(g:dispatch_pane, ":t " . expand("<cword>")."\n")<CR>
+nnoremap <space>rr :call TmuxSend(":r\n")<CR>
+nnoremap <space>rb :call TmuxSend(":l " . expand("%:p")."\n")<CR>
+nnoremap <space>rc :call TmuxSend(":set +c\n:l " . expand("%:p")."\n")<CR>
+nnoremap <space>rt :call TmuxSend(":t " . expand("<cword>")."\n")<CR>
 nmap <space>rT viw<space>rtv
 nmap <space>rU viw<space>ruv
 nmap <space>rL viw<space>rlv
-nnoremap <space>ri :call tbone#send_keys(g:dispatch_pane, ":i " . expand("<cword>")."\n")<CR>
+nnoremap <space>ri :call TmuxSend(":i " . expand("<cword>")."\n")<CR>
 nnoremap <space>rs :AbortDispatch<CR>
 nnoremap <space>ro :Copen<CR>:cc<CR>
+
+function TmuxSend(command, refresh=1)
+    if a:refresh
+      call ClearTmuxLog()
+    endif
+    call tbone#send_keys(g:dispatch_pane, a:command)
+    " we can't get the result because the call is asynchronous
+    " therefore we don't know when it finished
+    " if 0 " a:refresh
+    "   Copen
+    "   cwindow
+    " endif
+endfunction
+
+function ClearTmuxLog()
+  call writefile(["Cleared"], &errorfile)
+endfunction
 
 " search word within function
 function! SearchInBlock(regex='') 
@@ -333,8 +351,7 @@ vnoremap <space>rl :call Haskell_type_at("loc-at")<CR>gv
 function Haskell_type_at(mode) range
   " mode can be type-at uses loc-at
   let l:command = printf (":%s %s %d %d %d %d\n",a:mode,  expand("%:p"), line('.'), col("'<"), line("'>"), col("'>")+1)
-  call tbone#send_keys(g:dispatch_pane, l:command)
-  "execute "edit! +" . &errorfile
+  call TmuxSend(l:command)
 endfunction
 
 " asy motion
@@ -363,3 +380,18 @@ cnoremap .. .*
 
 
 
+
+function! MyIndent(line)
+  let line = getline(a:line)
+  let headings = match(line, '^*\+\zs\s')+1
+  if headings <= 0
+    let headings = match(line, '^#\+\zs\s')+1
+    if headings <= 0
+      let headings = 5
+    endif
+  endif
+  return indent(a:line)+headings
+endfunction
+
+let g:Context_indent_function = funcref("MyIndent")
+let g:context_skip_regex = '^\s*$'
