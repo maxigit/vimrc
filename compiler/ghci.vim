@@ -16,7 +16,9 @@ CompilerSet makeprg=stack\ repl
 
 CompilerSet errorformat=%*[^\ ]>\ %#%f:%.%l%.%c%.%#
 CompilerSet errorformat+=%+G%.%#>\ :%m
-CompilerSet errorformat+=%.%#\ --\ Defined\ at\ %f:%.%l%.%c%.%#
+CompilerSet errorformat+=%.%#--\ Defined\ at\ %f:%l:%c
+CompilerSet errorformat+=%Iinstance\ %m%>
+CompilerSet errorformat+=%Z%.%#\ --\ Defined\ at\ %f:%l:%c%.%#
 CompilerSet errorformat+=%f:%.%l%.%c%.%#
 CompilerSet errorformat+=%+G%.%#>%m
 
