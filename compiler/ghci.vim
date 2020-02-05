@@ -14,6 +14,9 @@ set cpo&vim
 
 CompilerSet makeprg=stack\ repl
 
+CompilerSet errorformat=%*[^\ ]>\ %#%f:%.%l%.%c%.%#
+CompilerSet errorformat+=%+G%.%#>\ :
+CompilerSet errorformat+=--\ Defined\ at\ %f:%.%l%.%c%.%#
 CompilerSet errorformat+=%f:%.%l%.%c%.%#
 
 let &cpo = s:cpo_save
