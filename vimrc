@@ -395,3 +395,33 @@ endfunction
 
 let g:Context_indent_function = funcref("MyIndent")
 let g:context_skip_regex = '^\s*$'
+
+
+function! QuicklistToSearch(extra="")
+  return QFlistToSearch(getqflist(), a:extra)
+endfunction
+function! LoclistToSearch(extra="")
+  return QFlistToSearch(getloclist(), a:extra)
+endfunction
+function! QFlistToSearch(list, extra="")
+  let buf = bufnr()
+  let loc = filter(a:list, {idx, qf -> qf.bufnr == buf})
+  let regexps = map(loc, { idx, qf -> '\%(' . QFToRegex(qf) . a:extra . '\)'})
+  return join(regexps, '\|')
+endfunction
+
+function QFToRegex(qf)
+  let regex = ''
+  if has_key(a:qf, 'lnum')
+     let regex .= '\%' . a:qf.lnum . 'l'
+   endif
+   if has_key(a:qf, 'col')
+     let regex .= '\%' . a:qf.col . 'c'
+   endif
+   return regex
+endfunction
+
+nnoremap <space>cS /<C-R>=QuicklistToSearch()<CR>
+nnoremap <space>cs /<C-R>=QuicklistToSearch('\w\+')<CR><CR>
+nnoremap <space>lS /<C-R>=LoclistToSearch()<CR>
+nnoremap <space>ls /<C-R>=LocQuicklistToSearch('\<\w\+\>')<CR><CR>
