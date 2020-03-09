@@ -13,6 +13,7 @@ setlocal foldtext=Mytext()
 setlocal foldmethod=expr
 setlocal fillchars+=fold:\ 
 setlocal foldlevel=4
+setlocal iskeyword+='
 
 
 " Only fold on type signature or comments
