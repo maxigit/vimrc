@@ -36,7 +36,7 @@ function Myfold2(line)
     return "5"
   elseif l:line =~ '^module'
     return "4"
-  elseif l:line =~ '^\(\S.*::\|data\|type\|newtype\)' " type signature
+  elseif l:line =~ '^\(\S.* : \|data\|type)' " type signature
     if getline(a:line-1) =~ '^--' 
       return "4"
     else
@@ -68,7 +68,7 @@ function Myfold(line)
     return "5"
   elseif getline(a:line) =~'^\() *\)*where'
     return "<5"
-  elseif getline(a:line) =~'^\S.*::'
+  elseif getline(a:line) =~'^\S.* : '
     return ">5"
   elseif getline(a:line-5)=~'^\s\|^\s*$\|^--'&&getline(a:line)=~'^\S'
     return ">5"
@@ -111,4 +111,4 @@ vnoremap ) zj
 nnoremap ( zk
 vnoremap ( zk
 
-compiler ghci
+compiler elm
