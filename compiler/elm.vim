@@ -13,9 +13,8 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 CompilerSet makeprg=npm\ run\ elm\ --\ make
-CompilerSet errorformat=%E%.%#--\ %m\ -%#\ %f
-CompilerSet errorformat+=%C%l\|.%#
-CompilerSet errorformat+=%C%.%#
+CompilerSet errorformat=%P%.%#--%.%#-\ %f
+CompilerSet errorformat+=%l\|%.%#
 
 " CompilerSet errorformat+=%+G%.%#>%m
 
