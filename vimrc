@@ -253,38 +253,36 @@ nnoremap <space>lo :botright lopen<CR>
 nnoremap <space>lq :lclose<CR>
 nnoremap <space>l< :lrewind<CR>
 nnoremap <space>l> :llast<CR>
-nnoremap ]l :lnext<CR>
-nnoremap ]L :lnfile<CR>
-nnoremap [l :lprev<CR>
-nnoremap [L :lpfile<CR>
-nnoremap ]w :lnext<CR>
-nnoremap ]W :lnfile<CR>
-nnoremap [w :lprev<CR>
-nnoremap [W :lpfile<CR>
+"nnoremap ]l :lnext<CR>
+"nnoremap ]L :lnfile<CR>
+"nnoremap [l :lprev<CR>
+"nnoremap [L :lpfile<CR>
+"nnoremap ]w :lnext<CR>
+"nnoremap ]W :lnfile<CR>
+"nnoremap [w :lprev<CR>
+"nnoremap [W :lpfile<CR>
 
 nnoremap <space>co :botright copen<CR>
 nnoremap <space>cq :cclose<CR>
-nnoremap <space>c< :crewind<CR>
-nnoremap <space>c> :clast<CR>
+"nnoremap <space>c< :crewind<CR>
+"nnoremap <space>c> :clast<CR>
 "nnoremap <space>cc :cc<CR>
-nnoremap ]q :cnext<CR>
-nnoremap ]Q :cnfile<CR>
-nnoremap [q :cprev<CR>
-nnoremap [Q :cpfile<CR>
+"nnoremap ]q :cnext<CR>
+"nnoremap ]Q :cnfile<CR>
+"nnoremap [q :cprev<CR>
+"nnoremap [Q :cpfile<CR>
 
-nnoremap <space>eb :make %.check<CR>
-nnoremap <space>en :cn<CR>
-nnoremap <space>eN :cp<CR>
-nnoremap <space>ep :cp<CR>
-nnoremap <space>ee :cc<CR>
-nnoremap <space>el :cw<CR>
-nnoremap <space>e. :cnf<CR>
-nnoremap <space>e, :cpf<CR>
+"nnoremap <space>eb :make %.check<CR>
+"nnoremap <space>en :cn<CR>
+"nnoremap <space>eN :cp<CR>
+"nnoremap <space>ep :cp<CR>
+"nnoremap <space>ee :cc<CR>
+"nnoremap <space>el :cw<CR>
+"nnoremap <space>e. :cnf<CR>
+"nnoremap <space>e, :cpf<CR>
 " Reload
 nnoremap <space>fed :e ~/.vim/vimrc<CR>
 nnoremap <space>fer :so ~/.vim/vimrc<CR>
-"nnoremap <Tab> za
-nnoremap <S-Tab> zA
 
 " DB profile
 let g:dbext_default_profile_prod = 'type=mysql:host=127.0.0.1:user=root:passwd=@askg:dbname=fa:port=3016'
