@@ -6,14 +6,13 @@ let b:did_elm_ftplugin=1
 setlocal includeexpr=substitute(v:fname,'\\.','/','g') 
 setlocal suffixesadd=.elm
 setlocal include=import
-let &l:define='^\(data\s*\|type alias\s*\|type\s*\|\s*\ze\i\+\s*\( : \|.*\s=\|<-\)\)'
+let &l:define='\C^\(data\s*\|type alias\s*\|type\s*\|\s*|\s\+\|\s*\ze\i\+\s*\( : \|.*\s=\|<-\)\)'
 
 setlocal foldexpr=Myfold2(v:lnum)
 setlocal foldtext=Mytext()
 setlocal foldmethod=expr
 setlocal fillchars+=fold:\ 
 setlocal foldlevel=4
-setlocal iskeyword+='
 
 
 " Only fold on type signature or comments
@@ -36,7 +35,7 @@ function Myfold2(line)
     return "5"
   elseif l:line =~ '^module'
     return "4"
-  elseif l:line =~ '^\(\S.* : \|data\|type)' " type signature
+  elseif l:line =~ '^\(\S.* : \|data\|type\)' " type signature
     if getline(a:line-1) =~ '^--' 
       return "4"
     else
