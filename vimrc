@@ -22,6 +22,8 @@ set clipboard=unnamedplus
 set incsearch
 set hls
 set ruler
+set rulerformat=%50(%#Comment#%{undotree().save_cur}/%{undotree().save_last}%#Type#%m%#Normal#%=\ %l,%c%V\ %#Comment#%P%#Normal##%n%#Normal#%)
+" set rulerformat=%50(%{undotree().seq_cur}:%{undotree().save_cur}/%{undotree().save_last}%)
 "set switchbuf=usetab,uselast
 set smartcase
 "set ignorecase
@@ -36,6 +38,11 @@ set linebreak " break wrapped line between word
 set showbreak=...\ 
 set breakindentopt=sbr,shift:2
 
+
+set number relativenumber cursorline cursorcolumn
+au WinLeave * set nocursorline nocursorcolumn norelativenumber
+set laststatus=0
+au WinEnter * set cursorline cursorcolumn number relativenumber
 set bg=light
 "autocmd  ColorScheme * hi Folded guibg=Yellow guifg=black
 "autocmd  ColorScheme * hi Folded guibg=NONE guifg=black
@@ -78,6 +85,7 @@ filetype plugin indent on
 " PHP
 "autocmd FileType php let &errorformat=&errorformat:'Parse error:\ %m in ./modules/%*[^/]/%f on line %l'
 autocmd FileType php setlocal includeexpr=substitute(v:fname,'^/','','') 
+autocmd FileType php setlocal include=\\(require\\\|include\\)\\(_once\\)\\?(\\($path_to_root\\s*\\.\\s*\\)\\?"\\zs.*\\ze");
 autocmd FileType php setlocal suffixesadd=.php,.inc
 
 " set complete=.,i,w " current buffer and words in included files
@@ -86,21 +94,21 @@ set completeopt=menu,longest,preview
 let mapleader = " "
 let maplocalleader = ","
 
-nnoremap <space>eb :make %.check<CR>
-nnoremap <space>en :cn<CR>
-nnoremap <space>eN :cp<CR>
-nnoremap <space>ep :cp<CR>
-nnoremap <space>ee :cc<CR>
-nnoremap <space>el :cw<CR>
-nnoremap <space>e. :cnf<CR>
-nnoremap <space>e, :cpf<CR>
-nnoremap <space>eo :execute "edit! + ".&errorfile<CR>
+"nnoremap <space>eb :make %.check<CR>
+"nnoremap <space>en :cn<CR>
+"nnoremap <space>eN :cp<CR>
+"nnoremap <space>ep :cp<CR>
+"nnoremap <space>ee :cc<CR>
+"nnoremap <space>el :cw<CR>
+"nnoremap <space>e. :cnf<CR>
+"nnoremap <space>e, :cpf<CR>
+"nnoremap <space>eo :execute "edit! + ".&errorfile<CR>
 
-nnoremap <space>fs :w<CR>
-nnoremap <space>fS :wall!<CR>
-nnoremap <space>fq :x<CR>
-nmap <space>fw :wall!<CR><space>rr
-nmap <space>fW :wall!<CR><space>rC<space>rr
+"nnoremap <space>fs :w<CR>
+"nnoremap <space>fS :wall!<CR>
+"nnoremap <space>fq :x<CR>
+"nmap <space>fw :wall!<CR><space>rr
+"nmap <space>fW :wall!<CR><space>rC<space>rr
 " fuzzy finder
 source /usr/share/vim/vimfiles/plugin/fzf.vim
 let g:fzf_buffers_jump=1
@@ -137,7 +145,6 @@ nnoremap <space>fF :FZF ~<CR>
 nnoremap <space>fv :call fzf#run(fzf#wrap({'source':'find ~/.vim'}))<CR>
 nnoremap <space>fg :GFiles!<CR>
 nnoremap <space>bb :Buffers<CR>
-nnoremap <space>bq :q<CR>
 nnoremap <space>fc :Colors!<CR>
 nnoremap <space>ft :Tags<CR>
 nnoremap <space>fT :Tags <C-R><C-W><CR>
@@ -223,19 +230,6 @@ nnoremap <space>ar :Ranger<CR>
 nnoremap <space>ad :RangerWorkingDirectory<CR>
 
 "neoterm
-nnoremap <space>' :Ttoggle<CR>
-"tnoremap <esc> <C-W>N
-"tnoremap <C-W><esc> <esc>
-
-"tnoremap <Left> <C-W><Left>
-"tnoremap <C-W><Left> <Left>
-"tnoremap <Right> <C-W><Right>
-"tnoremap <C-W><Right> <Right>
-"tnoremap <Up> <C-W><Up>
-"tnoremap <C-W><Up> <Up>
-"tnoremap <Down> <C-W><Down>
-"tnoremap <C-W><Down> <Down>
-
 
 " ====Preview & Tag
 "
@@ -378,9 +372,16 @@ nnoremap <space>rQ :Copen<CR>:call ClearTmuxLog()<CR>:cc<CR>:cclose<CR>
 nnoremap <space>r! :call TmuxSendBreak()<CR>
 nnoremap <space>rC :call TmuxSend('C-c')<CR>
 nnoremap <space>ra :call TmuxSend("appMain\n")<CR>
+nnoremap <space>rm :call TmuxSend("main\n")<CR>
 nnoremap <space>r<Up> :call TmuxSend('up') \| call TmuxSend("\n")<CR>
 nnoremap <space>r<Cr> :call TmuxSend('up') \| call TmuxSend("\n")<CR>
-augroup auto_quickfick
+"synchronize tmux pane with break
+nnoremap <space>r0 :Tmux select-window -t'2-:*0-'<CR>
+nnoremap <space>r1 :Tmux select-window -t'2-:*1-'<CR>
+nnoremap <space>r2 :Tmux select-window -t'2-:*2-'<CR>
+nnoremap <space>r3 :Tmux select-window -t'2-:*3-'<CR>
+nnoremap <space>r6 :Tmux select-window -t'2-:*6-'<CR>
+augroup auto_quickfi6k                         1
   au!
   au BufWritePre *.elm call ClearTmuxLog()
 augroup END
@@ -401,6 +402,7 @@ endfunction
 function TmuxSendBreak()
   let g:dispatch_pane="2-"
   Tmux break-pane -s.+
+  Tmux rename-window '*#{session_name}'
   Tmux link-window -t2-
   Tmux select-window -t!
 endfunction
@@ -611,6 +613,7 @@ nnoremap <silent> <space>tfS :setlocal foldopen-=search<CR>
 nnoremap <silent> <space>tfs :setlocal foldopen+=search<CR>
 
 
+
 inoremap ;; <C-R>"
 cnoremap ;; <C-R>"
 
@@ -642,8 +645,21 @@ let mapleader = '\'
 
 " try for easy commands swap , and :
 nnoremap , :
-nnoremap <space>. .
-"let g:clever_f_mark_direct = 1
-"packadd clever-f.vim
+nnoremap :: ,
+nnoremap - :
+nnoremap -- -
+" We don't remap : because we still use it automatically
+
+hi EasyMotionTargetDefault guibg=green guifg=red
 
 
+
+nmap <space>n <Plug>(easymotion-vim-n)
+nmap <space>N <Plug>(easymotion-vim-N)
+cmap <C-j> <CR><Plug>(easymotion-bd-n)
+cnoremap <C-e> \ze.*
+" cnoremap <C-o> .*\zs
+
+" Highlight yank Yank
+packadd vim-highlightedyank
+let g:highlightedyank_highlight_duration = 150
