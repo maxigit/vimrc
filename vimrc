@@ -22,7 +22,7 @@ set clipboard=unnamedplus
 set incsearch
 set hls
 set ruler
-set rulerformat=%50(%#Todo#%{MarkLists(0)}%#Comment#\|%#Todo#%{MarkLists(1)}\ %#Comment#%{undotree().save_cur}/%{undotree().save_last}%#Type#%m%#Normal#%=\ %l,%c%V\ %#Comment#%P%#Normal##%n%#Normal#%)
+set rulerformat=%50(%#Include#%{MarkLists(0)}%#Comment#\|%#Question#%{MarkLists(1)}%#Type#%{NextMark()}\ %#Comment#%{undotree().save_cur}/%{undotree().save_last}%#Type#%m%#Normal#%=\ %l,%c%V\ %#Comment#%P%#Normal##%n%#Normal#%)
 " set rulerformat=%50(%{undotree().seq_cur}:%{undotree().save_cur}/%{undotree().save_last}%)
 "set switchbuf=usetab,uselast
 set smartcase
@@ -201,6 +201,12 @@ nnoremap <silent> <space>zy :hi! Folded guibg=yellow guifg=black<CR>
 nnoremap <silent> <space>zb :hi! Folded guibg=#dddddd guifg=blue<CR>
 nnoremap <silent> <space>zo :hi! link Folded StorageClass<CR>
 
+nnoremap <silent> <space>mM :marks abcdefghijklmnopqrst<CR>
+nnoremap <silent> <space>mm :execute "mark" NextMark()<CR>
+nnoremap <silent> <space>ma :g/\%>'a\%<'b<CR>
+nnoremap <silent> <space>m :g/\%>'c\%<'d<CR>
+nnoremap <silent> <space>me :g/\%>'e\%<'f<CR>
+nnoremap <silent> <space>mv :g/\%>'<\%<'><CR>
 
 
 
@@ -349,7 +355,7 @@ command! -bar -count=99999 FoldMisses call s:FoldMisses(getqflist(), <count>)
 command! -bar -count=99999 FoldLMisses call s:FoldMisses(getloclist(0), <count>)
 
 function! MarkLists(after)
-  let marks = sort(getmarklist('%'), {m -> -m.pos[1]})
+  let marks = sort(getmarklist('%'), {a, b -> a.pos[1] - b.pos[1]})
   let current = line('.')
   if a:after
     let selected = filter(marks, "v:val.pos[1]>=".current)
@@ -359,6 +365,18 @@ function! MarkLists(after)
   let names = map(selected, 'v:val.mark')
   let users = filter(names, 'v:val =~ "[a-zA-Z]"')
   return join(map(users,"substitute(v:val, \"^'\",'','')"), '')
+endfunction
+
+
+function! NextMark()
+  let marks = sort(map(getmarklist('%'), 'v:val.mark'))
+  let users = filter(marks, 'v:val =~ "[a-zA-Z]"')
+  for c in str2list('abcdefghijklmnopqrstuvwxyz')
+    if len(users) == 0 || "'".nr2char(c) != remove(users, 0)
+      return nr2char(c)
+    endif
+  endfor
+
 endfunction
 " extra plugin
 packadd quickfixsigns_vim
