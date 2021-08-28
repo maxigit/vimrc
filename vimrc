@@ -22,7 +22,7 @@ set clipboard=unnamedplus
 set incsearch
 set hls
 set ruler
-set rulerformat=%50(%#Todo#%{MarkLists()}\ %#Comment#%{undotree().save_cur}/%{undotree().save_last}%#Type#%m%#Normal#%=\ %l,%c%V\ %#Comment#%P%#Normal##%n%#Normal#%)
+set rulerformat=%50(%#Todo#%{MarkLists(0)}%#Comment#\|%#Todo#%{MarkLists(1)}\ %#Comment#%{undotree().save_cur}/%{undotree().save_last}%#Type#%m%#Normal#%=\ %l,%c%V\ %#Comment#%P%#Normal##%n%#Normal#%)
 " set rulerformat=%50(%{undotree().seq_cur}:%{undotree().save_cur}/%{undotree().save_last}%)
 "set switchbuf=usetab,uselast
 set smartcase
@@ -348,9 +348,16 @@ endfunction
 command! -bar -count=99999 FoldMisses call s:FoldMisses(getqflist(), <count>)
 command! -bar -count=99999 FoldLMisses call s:FoldMisses(getloclist(0), <count>)
 
-function! MarkLists()
-  let marks = map(getmarklist('%'), 'v:val.mark')
-  let users = filter(marks, 'v:val =~ "[a-z]"')
+function! MarkLists(after)
+  let marks = sort(getmarklist('%'), {m -> -m.pos[1]})
+  let current = line('.')
+  if a:after
+    let selected = filter(marks, "v:val.pos[1]>=".current)
+  else
+    let selected = filter(marks, "v:val.pos[1]<".current)
+  endif
+  let names = map(selected, 'v:val.mark')
+  let users = filter(names, 'v:val =~ "[a-zA-Z]"')
   return join(map(users,"substitute(v:val, \"^'\",'','')"), '')
 endfunction
 " extra plugin
