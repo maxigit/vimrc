@@ -132,9 +132,18 @@ let g:fzf_action = {
       \ 'ctrl-o': 'sbuffer',
       \ 'ctrl-y': 'r !echo',
       \ 'ctrl-v': 'vsplit' }
-let g:fzf_layout = {'down': '~50%'}
-"let g:fzf_layout = {'window': '30new'}
+" Default fzf layout
+" - Popup window (center of the screen)
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
+" - Popup window (center of the current window)
+"let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true } }
+
+" - Popup window (anchored to the bottom of the current window)
+"let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }
+
+
+let g:fzf#vim#default_layout = {'down': '~50%'}
 let g:fzf_history_dir = '~/.local/share/fzf-history'
 
 nnoremap <space>w <C-W>
@@ -381,6 +390,9 @@ nnoremap <space>r1 :Tmux select-window -t'2-:*1-'<CR>
 nnoremap <space>r2 :Tmux select-window -t'2-:*2-'<CR>
 nnoremap <space>r3 :Tmux select-window -t'2-:*3-'<CR>
 nnoremap <space>r6 :Tmux select-window -t'2-:*6-'<CR>
+nnoremap <space>rR :!tmux run-shell "tmux select-window -t2-:*\#{session_name}"<CR>
+
+
 augroup auto_quickfi6k                         1
   au!
   au BufWritePre *.elm call ClearTmuxLog()
@@ -534,6 +546,7 @@ let g:xrange_macros = {'prod':    {'x' : '!mysql -h127.0.0.1 -uroot -pprod -P301
       \,'stag':    {'x' : '!mysql -h127.0.0.1 -uroot -pstag -P3308 fa < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'hot':    {'x' : '!mysql -h127.0.0.1 -uroot -phot-prod -P4016 fa < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'dc2':    {'x' : '!mysql -h127.0.0.1 -uroot -pdc-dev -P5016 commerce < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
+      \,'dcprod':    {'x' : '!mysql -hdec.shop.mae.uk0.bigv.io -u$DC_PROD_USER -pDC_PROD_PASSWORD -P3306 commerce < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'sql':    {'x' : '!mysql -h'.$DB_HOST.' -u'.$DB_USER.' -p'.$DB_PASSWORD.' -P'.$DB_PORT.' '.$DB_NAME.' < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'psql':    {'x' : '!psql sese-website < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \}
@@ -616,6 +629,7 @@ nnoremap <silent> <space>tfs :setlocal foldopen+=search<CR>
 
 inoremap ;; <C-R>"
 cnoremap ;; <C-R>"
+nnoremap _ "_
 
 
 autocmd FileType vader packadd vader.vim
@@ -646,8 +660,6 @@ let mapleader = '\'
 " try for easy commands swap , and :
 nnoremap , :
 nnoremap :: ,
-nnoremap - :
-nnoremap -- -
 " We don't remap : because we still use it automatically
 
 hi EasyMotionTargetDefault guibg=green guifg=red
