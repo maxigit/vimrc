@@ -22,7 +22,7 @@ set clipboard=unnamedplus
 set incsearch
 set hls
 set ruler
-set rulerformat=%50(%#Include#%{MarkLists(0)}%#Comment#\|%#Question#%{MarkLists(1)}%#Type#%{NextMark()}\ %#Comment#%{undotree().save_cur}/%{undotree().save_last}%#Type#%m%#Normal#%=\ %l,%c%V\ %#Comment#%P%#Normal##%n%#Normal#%)
+set rulerformat=%50(%#Include#%{MarkLists(0)}%#Comment#\|%#Question#%{MarkLists(1)}%#Type#\ %{NextMark()}%{NextGlobalMark()}\ %#Comment#%{undotree().save_cur}/%{undotree().save_last}%#Type#%m%#Normal#%=\ %l,%c%V\ %#Comment#%P%#Normal##%n%#Normal#%)
 " set rulerformat=%50(%{undotree().seq_cur}:%{undotree().save_cur}/%{undotree().save_last}%)
 "set switchbuf=usetab,uselast
 set smartcase
@@ -355,7 +355,7 @@ command! -bar -count=99999 FoldMisses call s:FoldMisses(getqflist(), <count>)
 command! -bar -count=99999 FoldLMisses call s:FoldMisses(getloclist(0), <count>)
 
 function! MarkLists(after)
-  let marks = sort(getmarklist('%'), {a, b -> a.pos[1] - b.pos[1]})
+  let marks = sort(s:getbuffermarks(), {a, b -> a.pos[1] - b.pos[1]})
   let current = line('.')
   if a:after
     let selected = filter(marks, "v:val.pos[1]>=".current)
@@ -367,11 +367,27 @@ function! MarkLists(after)
   return join(map(users,"substitute(v:val, \"^'\",'','')"), '')
 endfunction
 
+function s:getbuffermarks()
+  let buf = bufnr('%')
+  let marks = getmarklist()
+  return filter(marks, "v:val.pos[0]==".buf)+getmarklist('%')
+endfunction
+
 
 function! NextMark()
   let marks = sort(map(getmarklist('%'), 'v:val.mark'))
   let users = filter(marks, 'v:val =~ "[a-zA-Z]"')
   for c in str2list('abcdefghijklmnopqrstuvwxyz')
+    if len(users) == 0 || "'".nr2char(c) != remove(users, 0)
+      return nr2char(c)
+    endif
+  endfor
+
+endfunction
+function! NextGlobalMark()
+  let marks = sort(map(getmarklist(), 'v:val.mark'))
+  let users = filter(marks, 'v:val =~ "[A-Z]"')
+  for c in str2list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
     if len(users) == 0 || "'".nr2char(c) != remove(users, 0)
       return nr2char(c)
     endif
