@@ -1,10 +1,17 @@
 set hidden
 set exrc
 set secure
+" Set viminfo per project
+set viminfo='100,<1000,h
+" use the first .viminfo file find upward
+" to copy the parent one to the local di
+" :wv .viminfo
+let &viminfofile=findfile('.viminfo','.;')
 " Undo
 set undofile
 set undodir=$HOME/.vim/undo
 set history=10000
+" set cpoptions+=u undo the vi way
 
 " no swap, we don't need it, 
 " but we leave it, so that we know if we are editing the same file twice
@@ -35,15 +42,27 @@ set foldopen-=search
 " wrapping
 set breakindent " indent wrapped line
 set linebreak " break wrapped line between word
-set showbreak=...\ 
-set breakindentopt=sbr,shift:2
+" set showbreak=...\ 
+set showbreak=∥\ \ \ 
+" set breakindentopt=sbr,shift:2
 
 
-set number relativenumber cursorline cursorcolumn
-au WinLeave * set nocursorline nocursorcolumn norelativenumber
+" set number relativenumber cursorline cursorcolumn
+" au WinLeave * set nocursorline nocursorcolumn norelativenumber
 set laststatus=0
-au WinEnter * set cursorline cursorcolumn number relativenumber
+
+" au WinEnter * set cursorline cursorcolumn number relativenumber
 set bg=light
+
+
+" indent based on word from the line above
+inoremap <Tab> <esc>klwji
+inoremap <S-Tab> <esc>klbji
+
+
+
+
+
 "autocmd  ColorScheme * hi Folded guibg=Yellow guifg=black
 "autocmd  ColorScheme * hi Folded guibg=NONE guifg=black
 " autocmd  ColorScheme * hi Folded guibg=#dddddd guifg=blue
@@ -60,16 +79,23 @@ autocmd ColorScheme * hi StatusLine guibg=black guifg=orange
 autocmd ColorScheme yui hi Visual cterm=None gui=None guibg=orange
 autocmd ColorScheme PaperColor hi String guibg=#cceecc
 autocmd ColorScheme yui hi String guibg=#eecccc
+autocmd ColorScheme carbonized-dark hi String guibg=#2b2b3e
 
 let g:yui_emphasized_comments = 1
 if has("gui_running")
   color gruvbox
-else
+elseif 1
   "color yui
   color PaperColor
+else
+  "color PaperColor
+  set bg=dark
+  color carbonized-dark
 endif
 "color flattened_light
-set wildmode=list:longest,full
+"set wildmode=list:longest,full
+set wildmode=full:list:lastused
+set wildoptions=fuzzy
 set tags+=.tags;~,tags;~ " search tag files upward
 "=============
 set modeline
@@ -94,6 +120,8 @@ set completeopt=menu,longest,preview
 let mapleader = " "
 let maplocalleader = ","
 
+" Open current window in a new tab
+nnoremap <silent> <C-w><C-t> :tab split<CR>
 "nnoremap <space>eb :make %.check<CR>
 "nnoremap <space>en :cn<CR>
 "nnoremap <space>eN :cp<CR>
@@ -145,8 +173,6 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 let g:fzf#vim#default_layout = {'down': '~50%'}
 let g:fzf_history_dir = '~/.local/share/fzf-history'
-
-nnoremap <space>w <C-W>
 
 nnoremap <space>ff :Files<CR>
 nnoremap <space>fF :FZF ~<CR>
@@ -201,10 +227,11 @@ nnoremap <silent> <space>zy :hi! Folded guibg=yellow guifg=black<CR>
 nnoremap <silent> <space>zb :hi! Folded guibg=#dddddd guifg=blue<CR>
 nnoremap <silent> <space>zo :hi! link Folded StorageClass<CR>
 
-nnoremap <silent> <space>mM :marks abcdefghijklmnopqrst<CR>
-nnoremap <silent> <space>mm :execute "mark" NextMark()<CR>
+nnoremap <silent> <space>mm :marks abcdefghijklmnopqrst<CR>
+nnoremap <silent> <space>mM :marks ABCDEFGHIJKLMNOPQRST<CR>
+nnoremap <silent> <space>mn :execute "mark" NextMark()<CR>
 nnoremap <silent> <space>ma :g/\%>'a\%<'b<CR>
-nnoremap <silent> <space>m :g/\%>'c\%<'d<CR>
+nnoremap <silent> <space>mc :g/\%>'c\%<'d<CR>
 nnoremap <silent> <space>me :g/\%>'e\%<'f<CR>
 nnoremap <silent> <space>mv :g/\%>'<\%<'><CR>
 
@@ -223,7 +250,7 @@ nnoremap <silent> <space>gb :TigBlame<CR>
 nnoremap <silent> <space>gf :TigOpenCurrentFile<CR>
 nnoremap <silent> <space>gc :Commits
 nnoremap <silent> <space>gS :GFiles?!
-nnoremap <silent> <space>gh :BCommits
+nnoremap <silent> <space>gB :BCommits
 " Gitt gutter
 nnoremap <silent> <space>gw :let g:gitgutter_diff_relative_to= 'working_tree'<CR>
 nnoremap <silent> <space>gi :let g:gitgutter_diff_relative_to= 'index'<CR>
@@ -418,10 +445,10 @@ nmap <space>rL viw<space>rlv
 nnoremap <space>ri :call TmuxSend(":i " . expand("<cword>")."\n")<CR>
 nnoremap <space>rs :AbortDispatch<CR>
 nnoremap <space>ro :Copen<CR>:cc<CR>
-nnoremap <space>rq :Copen<CR>:cc<CR>:cclose<CR>
+nnoremap <space>rq :Copen<CR>:cc<CR>:lclose<CR>
 "nnoremap <space>rO execute "Copen \| call ClearTmuxLog()"<CR>:cc<CR>
 nnoremap <space>rO :Copen<CR>:call ClearTmuxLog()<CR>:cc<CR>
-nnoremap <space>rQ :Copen<CR>:call ClearTmuxLog()<CR>:cc<CR>:cclose<CR>
+nnoremap <space>rQ :Copen<CR>:call ClearTmuxLog()<CR>:cc<CR>:lclose<CR>
 
 " split dispatch tmux-panel and link it to session 2-
 nnoremap <space>r! :call TmuxSendBreak()<CR>
@@ -590,11 +617,13 @@ iabbrev subsitute  substitute
 " XRange
 let g:xrange_macros = {'prod':    {'x' : '!mysql -h127.0.0.1 -uroot -pprod -P3016 fa < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'stag':    {'x' : '!mysql -h127.0.0.1 -uroot -pstag -P3308 fa < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
+      \,'stag2':    {'x' : '!mysql -h127.0.0.1 -uroot -pstag2 -P3307 fa < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'hot':    {'x' : '!mysql -h127.0.0.1 -uroot -phot-prod -P4016 fa < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'dc2':    {'x' : '!mysql -h127.0.0.1 -uroot -pdc-dev -P5016 commerce < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
-      \,'dcprod':    {'x' : '!mysql -hdec.shop.mae.uk0.bigv.io -u$DC_PROD_USER -pDC_PROD_PASSWORD -P3306 commerce < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
+      \,'dcprod':    {'x' : '!mysql -hdec.shop.mae.uk0.bigv.io -u'.$DC_PROD_USER.' -p'.$DC_PROD_PASSWORD.' -P3306 commerce < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'sql':    {'x' : '!mysql -h'.$DB_HOST.' -u'.$DB_USER.' -p'.$DB_PASSWORD.' -P'.$DB_PORT.' '.$DB_NAME.' < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'psql':    {'x' : '!psql sese-website < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
+      \,'pstag':    {'x' : '!psql $STAG_PSQL < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \}
 
 " Wiki
@@ -654,8 +683,12 @@ nmap <space>>> hv^<tab>
 nmap <space><Cr> c$<Cr><C-R>0<Esc>k$j<space>>>
 
 
-" comment  {- surround -} 
+" comment  {- surround -}  c
 let g:surround_99 ="{- \r -}"
+
+" Square brackets, sames as surrond
+onoremap ar a[
+onorema ir i[
 
 "togge
 nnoremap <silent> <space>to :setlocal cursorcolumn!<CR>
@@ -688,6 +721,7 @@ nnoremap g? ?\%><C-R>=line('w0')-1<CR>l\%<<C-R>=line('w$')+1<CR>l
 " quickscope
 packadd quick-scope
 hi QuickScopePrimary guifg=red cterm=underline
+
 hi QuickScopeSecondary guifg=blue cterm=underline
 "let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 "
@@ -695,8 +729,8 @@ hi QuickScopeSecondary guifg=blue cterm=underline
 "
 "
 " auto marks
-autocmd FileType elm 1;/^import/mark i
-autocmd FileType haskell 1;/^import/mark i
+autocmd FileType elm silent 1;/^import\>/ mark i
+autocmd FileType haskell silent 1;/^import\>/ mark i
 
 
 " ingo/jump
@@ -707,6 +741,8 @@ let mapleader = '\'
 nnoremap , :
 nnoremap :: ,
 " We don't remap : because we still use it automatically
+nnoremap <cr> @:
+autocmd FileType qf nnoremap <buffer> <cr> <cr>
 
 hi EasyMotionTargetDefault guibg=green guifg=red
 
@@ -721,3 +757,58 @@ cnoremap <C-e> \ze.*
 " Highlight yank Yank
 packadd vim-highlightedyank
 let g:highlightedyank_highlight_duration = 150
+
+
+
+"" bookmarks
+"let g:bookmark_save_per_working_dir=1
+"let g:bookmark_auto_save=1
+""let g:bookmark_highlight_lines=1
+"
+"nmap <space>mm ma:cclose<CR>:Quickfix<CR><C-l>
+"
+"
+"
+" Tags
+
+function MyTag(pattern,flags,info)
+  if a:pattern != '.'
+    return v:null
+  else
+    " return current line
+    let pos = getpos('.')
+    let line = getline(pos[1])
+    let tag = expand('<cword>')
+    let filename = expand('%')
+    return [{'name':line, 'filename':filename,'cmd':pos[1]."",'kind':'manual','info':line}]
+  endif
+endfunction
+
+
+
+
+nnoremap <silent> 1<C-^> :1argu<Cr>
+nnoremap <silent> 2<C-^> :2argu<Cr>
+nnoremap <silent> 3<C-^> :3argu<Cr>
+nnoremap <silent> 4<C-^> :4argu<Cr>
+nnoremap <silent> 5<C-^> :5argu<Cr>
+nnoremap <silent> 6<C-^> :6argu<Cr>
+nnoremap <silent> 7<C-^> :7argu<Cr>
+nnoremap <silent> 8<C-^> :8argu<Cr>
+nnoremap <silent> 9<C-^> :9argu<Cr>
+
+
+" xrange-2
+packadd vim-xrange2
+let g:xblock_commands = {}
+let g:xblock_commands['stag'] = "
+      \  &mysql
+      \ @in.pre:[::range:s/&gt;/>/ge | ::range:s/&lt;/</ge | ::range:s/&#039;/'/ge]
+      \  MYSQL_USER=$MYSQL_STAG_USER MYSQL_PASSWORD=$MYSQL_STAG_PASSWORD
+      \  MYSQL_HOST=$MYSQL_STAG_HOST MYSQL_PORT=$MYSQL_STAG_PORT
+      \  MYSQL_DB=$MYSQL_STAG_DB"
+"
+for db in ['prod', 'hot', 'dc', 'llb', 'stag2']
+  let g:xblock_commands[db] = substitute(g:xblock_commands['stag'], 'STAG', printf('\U%s', db), 'g')
+endfor
+
