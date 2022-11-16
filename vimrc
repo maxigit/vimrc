@@ -3,7 +3,7 @@ set hidden
 set exrc
 set secure
 " Set viminfo per project
-" set viminfo='100,<1000,h
+set viminfo='20,<1000,h
 " use the first .viminfo file find upward
 " to copy the parent one to the local di
 " :wv .viminfo
@@ -12,6 +12,19 @@ set secure
 set undofile
 set undodir=$HOME/.vim/undo
 set history=10000
+" Tab
+set expandtab
+set tabstop=2
+set shiftwidth=2
+
+set clipboard=unnamedplus
+set incsearch
+set hls
+set ai
+" wrapping
+set breakindent " indent wrapped line
+set linebreak " break wrapped line between word
+set showbreak=∥\ \ \ 
 
 let g:mapleader=" "
 
@@ -22,17 +35,18 @@ nnoremap :: ,
 
 
 " Themes {{{
-set bg=light
-if strftime('%H') >= 18
-	set bg=dark
-endif
+let &background = strftime('%H') >= 18 ? "dark" : "light"
 colorscheme lunaperche
 autocmd ColorScheme lunaperche hi MatchParen term=NONE
 
 " Mapping {{{
+" Toggling t
 nnoremap <silent><leader>tb :if &bg=="light" \| set bg=dark \| else \| set bg=light \| endif<CR>
-nnoremap <leader>tn :<C-U>set number!<CR>
-nnoremap <leader>tr :<C-U>set relativenumber!<CR>
+nnoremap <silent><leader>ti :<C-U>set ignorecase!
+nnoremap <silent><leader>tn :<C-U>set number!<CR>
+nnoremap <silent><leader>tr :<C-U>set relativenumber!<CR>
+" nnoremap <silent><leader>ts :<C-U>set smartcase!
+" nnoremap <silent><leader>tw :<C-U>set wrap!
 
 
 " Plugin Settings {{{1
