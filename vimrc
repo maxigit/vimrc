@@ -27,11 +27,24 @@ set linebreak " break wrapped line between word
 set showbreak=∥\ \ \ 
 
 let g:mapleader=" "
+set ruler
+set laststatus=0
+set rulerformat=%120(
+                 \\%#ErrorMsg#%{&smartcase?'SC':&ignorecase?'IC':''}%#Normal#
+                 \\"«%#Folded#%-0.10{@\"[:9]}%#Normal#»
+                 \\ -«%#Folded#%-0.10{@-[:9]}%#Normal#»%=
+                 \\ 0«%#Folded#%-0.10{@0[:9]}%#Normal#»
+                 \\ 1«%#Folded#%-0.10{@1[:9]}%#Normal#»
+                 \\ +«%#Folded#%-0.5{@+[:4]}%#Normal#»
+                 \\ *«%#Folded#%-0.5{@*[:4]}%#Normal#»
+                 \\ /«%#Folded#%-0.5{@/[:4]}%#Normal#»
+                 \%)%=\ %#Structure#%m%y%l,%c%V\ #%b\ %P
 
 syntax on plugin indent
 
 nnoremap , :
 nnoremap :: ,
+inoremap <C-R>' <C-R>"
 
 
 " Themes {{{
