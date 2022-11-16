@@ -6,7 +6,7 @@ let b:did_haskell_ftplugin=1
 setlocal includeexpr=substitute(v:fname,'\\.','/','g') 
 setlocal suffixesadd=.hs,.lhs
 setlocal include=import
-let &l:define='^\(data\s*\|type\s*\|newtype\s*\|\s*\ze\i\+\s*\(::\|.*\s=\|<-\)\)'
+let &l:define='^\(data\s*\|type\s*\|newtype\s*\|import\>.*\s\?as\s\+\|\s*\ze\i\+\s*\(::\|.*\s=\|<-\)\)'
 
 setlocal foldexpr=Myfold2(v:lnum)
 setlocal foldtext=Mytext()
@@ -30,13 +30,13 @@ function Myfold2(line)
     return ">1"
   elseif l:line =~ '^-- |'
     return ">4"
-  elseif l:line =~ '^import'
+  elseif getline(a:line) =~'^\(\s*--\s*\)\?import'
     return "5"
-  elseif l:line =~ '^instance'
+  elseif l:line =~ '^instance\>'
     return "5"
-  elseif l:line =~ '^module'
+  elseif l:line =~ '^module\>'
     return "4"
-  elseif l:line =~ '^\(\S.*::\|data\|type\|newtype\)' " type signature
+  elseif l:line =~ '^\(\S.*::\|data\|type\|newtype\)\>' " type signature
     if getline(a:line-1) =~ '^--' 
       return "4"
     else
@@ -60,7 +60,7 @@ function Myfold(line)
     return ">1"
   elseif getline(a:line) =~'^{-#'
     return 9
-  elseif getline(a:line) =~'^import'
+  elseif getline(a:line) =~'^\(\s*--\s*)\?import'
     return 5
   elseif getline(a:line) =~'^[<|^#]' " hamlet
     return 5

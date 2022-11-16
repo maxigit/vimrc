@@ -6,7 +6,7 @@ let b:did_elm_ftplugin=1
 setlocal includeexpr=substitute(v:fname,'\\.','/','g') 
 setlocal suffixesadd=.elm
 setlocal include=import
-let &l:define='\C^\(data\s*\|type alias\s*\|type\s*\|\s*|\s\+\|\s*\ze\i\+\s*\( : \|.*\s=\|<-\)\)'
+let &l:define='\C^\(data\s*\|type alias\s*\|type\s*\|import\s*\S*as\s\*\|\s*|\s\+\|\s*\ze\i\+\s*\( : \|.*\s=\|<-\)\)'
 
 setlocal foldexpr=Myfold2(v:lnum)
 setlocal foldtext=Mytext()
