@@ -242,13 +242,23 @@ function Two()
   let s = ":"
   echo s
   let c1 = getcharstr()
+  if c1 == '.'
+    return c1
+  endif
   let s .= c1
   echo s
   let c2 = getcharstr()
-  let s .= c2 . ""
+  let s .= c2
+  if c2 != ""
+    let s .= ""
+  endif
   echo s
+  if s == ":nh" || s == ":hn"
+    return ":noh"
+  endif
   return s
 endfunction
 
+nnoremap <expr> . Two()
 nnoremap <expr> - Two()
 	
