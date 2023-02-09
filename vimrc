@@ -29,16 +29,7 @@ set showbreak=\ \ ∥\
 let g:mapleader=" "
 set ruler
 set laststatus=0
-" set rulerformat=%120(
-"                  \\%#ErrorMsg#%{&smartcase?'SC':&ignorecase?'IC':''}%#Normal#
-"                  \\"«%#Folded#%-0.10{@\"[:9]}%#Normal#»
-"                  \\ -«%#Folded#%-0.10{@-[:9]}%#Normal#»%=
-"                  \\ 0«%#Folded#%-0.10{@0[:9]}%#Normal#»
-"                  \\ 1«%#Folded#%-0.10{@1[:9]}%#Normal#»
-"                  \\ +«%#Folded#%-0.5{@+[:4]}%#Normal#»
-"                  \\ *«%#Folded#%-0.5{@*[:4]}%#Normal#»
-"                  \\ /«%#Folded#%-0.5{@/[:4]}%#Normal#»
-"                  \%)%=\ %#Structure#%m%y%l,%c%V\ #%b\ %P
+set rulerformat=%17(%c%V,%l\ %#WarningMsg#%m%#Normal#%=%p%%%)
 
 set cursorline
 set virtualedit=all
