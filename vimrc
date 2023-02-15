@@ -3,7 +3,7 @@ set hidden
 set exrc
 set secure
 " Set viminfo per project
-set viminfo='20,<1000,h
+" set viminfo='5,<1000,h
 " use the first .viminfo file find upward
 " to copy the parent one to the local di
 " :wv .viminfo
@@ -11,7 +11,7 @@ let &viminfofile=findfile('.viminfo','.;')
 " Undo
 set undofile
 set undodir=$HOME/.vim/undo
-set history=10000
+set history=1000
 " Tab
 set expandtab
 set tabstop=2
@@ -262,3 +262,13 @@ endfunction
 nnoremap <expr> . Two()
 nnoremap <expr> - Two()
 	
+nnoremap :cN :cnf
+nnoremap :cP :cpf
+
+
+" search visual
+nnoremap g/ /\%><C-R>=line('w0')-1<CR>l\%<<C-R>=line('w$')+1<CR>l
+nnoremap g# ?\%><C-R>=line('w0')-1<CR>l\%<<C-R>=line('w$')+1<CR>l
+let g:sneak#label = 1
+let g:sneak#s_next = 1
+packadd! vim-sneak
