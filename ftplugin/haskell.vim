@@ -5,7 +5,7 @@ end
 let b:did_haskell_ftplugin=1
 setlocal includeexpr=substitute(v:fname,'\\.','/','g') 
 setlocal suffixesadd=.hs,.lhs
-setlocal include=import
+let &l:include='^\s*import\(\s*qualified\)\{,1}'
 let &l:define='^\(data\s*\|type\s*\|newtype\s*\|import\>.*\s\?as\s\+\|\s*\ze\i\+\s*\(::\|.*\s=\|<-\)\)'
 
 setlocal foldexpr=Myfold2(v:lnum)
