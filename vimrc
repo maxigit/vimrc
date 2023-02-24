@@ -259,17 +259,15 @@ function Two()
     let s .= ""
   endif
   echo s
-  if s == ":nh" || s == ":hn"
-    return ":noh"
-  endif
   return s
 endfunction
 
 nnoremap <expr> . Two()
 nnoremap <expr> - Two()
 	
-nnoremap :cN :cnf
-nnoremap :cP :cpf
+nnoremap :cN :cnf<Cr>
+nnoremap :cP :cpf<Cr>
+nnoremap :nh :noh<Cr>
 
 
 " search visual
