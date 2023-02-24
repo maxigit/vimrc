@@ -203,6 +203,12 @@ for db in ['prod', 'hot', 'dc', 'llb', 'stag2']
   let g:xblock_commands[db] = substitute(g:xblock_commands['stag'], 'STAG', printf('\U%s', db), 'g')
 endfor
 
+let g:xblock_commands['sese'] = "
+    \ &psql
+    \ @in.pre:[::range:s/&gt;/>/ge | ::range:s/&lt;/</ge | ::range:s/&#039;/'/ge]
+    \ PSQL_DB=sese-website
+    \"
+let g:xblock_commands['pstag'] = substitute(g:xblock_commands['sese'], 'sese-website', '$STAG_PSQL', 'g')
 
 " Function {{{
 function TmuxSend(command, refresh=1)
