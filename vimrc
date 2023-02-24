@@ -276,3 +276,6 @@ nnoremap g# ?\%><C-R>=line('w0')-1<CR>l\%<<C-R>=line('w$')+1<CR>l
 let g:sneak#label = 1
 let g:sneak#s_next = 1
 packadd! vim-sneak
+
+
+let $in_vim=1
