@@ -275,3 +275,10 @@ packadd! vim-sneak
 
 
 let $in_vim=1
+
+
+function TagWith(tag)
+    return taglist(a:tag.'.*')->map({_,v -> v.name })
+endfunction
+
+inoremap <expr> <C-x>t fzf#complete({'source': function('TagWith')})
