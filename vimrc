@@ -157,6 +157,9 @@ nnoremap <silent><leader>tr :<C-U>set relativenumber!<CR>
 onoremap ar a[
 onoremap ir i[
 
+command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+	 	\ | wincmd p | diffthis
+nnoremap <space>dd <Cmd>w !diff --color % -<Cr>
 
 " Plugin Settings {{{1
 " DB profile {{{2
