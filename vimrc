@@ -52,6 +52,9 @@ let g:dispatch_pane = "+"
 
 " Current window in a new tab
 nnoremap <C-W><C-T> <C-W>s<C-w>T
+" Make current window a preview window, should work with number
+nnoremap <C-W><C-P> <Cmd>set previewwindow\| execute "resize" &previewheight <Cr>
+
 
 " insert undo point for new line
 inoremap <Cr> <C-g>u<Cr>
