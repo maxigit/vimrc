@@ -110,14 +110,6 @@ nnoremap <silent> <space>gc :Commits
 nnoremap <silent> <space>gS :GFiles?!
 nnoremap <silent> <space>gB :BCommits
 " Tmux Haskell
-nnoremap <space>rr :call TmuxSend(":r\n")<CR>
-nnoremap <space>rb :call TmuxSend(":l " . expand("%:p")."\n")<CR>
-nnoremap <space>rc :call TmuxSend(":set +c\n:l " . expand("%:p")."\n")<CR>
-nnoremap <space>rt :call TmuxSend(":t " . expand("<cword>")."\n")<CR>
-nmap <space>rT viw<space>rtv
-nmap <space>rU viw<space>ruv
-nmap <space>rL viw<space>rlv
-nnoremap <space>ri :call TmuxSend(":i " . expand("<cword>")."\n")<CR>
 nnoremap <space>rs :AbortDispatch<CR>
 nnoremap <space>ro :Copen<CR>:cc<CR>
 nnoremap <space>rq :Copen<CR>:cc<CR>:lclose<CR>
@@ -128,8 +120,6 @@ nnoremap <space>rQ :Copen<CR>:call ClearTmuxLog()<CR>:cc<CR>:lclose<CR>
 " split dispatch tmux-panel and link it to session 2-
 nnoremap <space>r! :call TmuxSendBreak()<CR>
 nnoremap <space>rC :call TmuxSend('C-c')<CR>
-nnoremap <space>ra :call TmuxSend("appMain\n")<CR>
-nnoremap <space>rm :call TmuxSend("main\n")<CR>
 nnoremap <space>r<Up> :call TmuxSend('up') \| call TmuxSend("\n")<CR>
 nnoremap <space>r<Cr> :call TmuxSend('up') \| call TmuxSend("\n")<CR>
 "synchronize tmux pane with break

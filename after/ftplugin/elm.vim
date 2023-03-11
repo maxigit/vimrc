@@ -111,3 +111,5 @@ nnoremap ( zk
 vnoremap ( zk
 
 compiler elm
+
+nmap <space>ro <space>rO
