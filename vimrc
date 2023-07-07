@@ -41,6 +41,7 @@ nnoremap :: ,
 inoremap <C-R>' <C-R>"
 inoremap <C-R><space> <C-R>0
 
+cnoremap <C-X> <C-F>i<C-X>
 
 " cheap surround 
 nnoremap cs "_c
