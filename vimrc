@@ -266,6 +266,8 @@ nnoremap :cN :cnf<Cr>
 nnoremap :cP :cpf<Cr>
 nnoremap :nh :noh<Cr>
 
+nnoremap [m <Cmd>call search('^\w','sWzb')<Cr>
+nnoremap ]m <Cmd>call search('^\w','sWz')<Cr>
 
 " search visual
 nnoremap g/ /\%><C-R>=line('w0')-1<CR>l\%<<C-R>=line('w$')+1<CR>l
