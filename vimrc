@@ -171,7 +171,7 @@ let g:dbext_default_profile_dc = 'type=mysql:host=127.0.0.1:user=root:passwd=@as
 let g:dbext_default_profile_dc2 = 'type=mysql:host=127.0.0.1:user=root:passwd=dc-dev:dbname=commerce:port=5016'
 let g:dbext_default_profile_dcprod = 'type=mysql:host=dec.shop.mae.uk0.bigv.io:user=warrior:passwd=@askg:dbname=commerce:port=3306'
 let g:dbext_default_profile_prod_all = 'type=mysql:host=127.0.0.1:user=root:passwd=@askg:dbname=@askg:port=3016'
-let g:dbext_default_profile_psql = 'type=PGSQL::user=max:dbname=mae-website'
+let g:dbext_default_profile_psql = 'type=PGSQL::user=max:dbname=mae'
 
 " XRange
 let g:xrange_macros = {'prod':    {'x' : '!mysql -h127.0.0.1 -uroot -pprod -P3016 fa < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
@@ -181,7 +181,7 @@ let g:xrange_macros = {'prod':    {'x' : '!mysql -h127.0.0.1 -uroot -pprod -P301
       \,'dc2':    {'x' : '!mysql -h127.0.0.1 -uroot -pdc-dev -P5016 commerce < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'dcprod':    {'x' : '!mysql -hdec.shop.mae.uk0.bigv.io -u'.$DC_PROD_USER.' -p'.$DC_PROD_PASSWORD.' -P3306 commerce < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'sql':    {'x' : '!mysql -h'.$DB_HOST.' -u'.$DB_USER.' -p'.$DB_PASSWORD.' -P'.$DB_PORT.' '.$DB_NAME.' < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
-      \,'psql':    {'x' : '!psql mae-website < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
+      \,'psql':    {'x' : '!psql mae < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \,'pstag':    {'x' : '!psql $STAG_PSQL < @< > @:out+> 2> @:error@ ', 'syntax' : 'sql' }
       \}
 
@@ -202,9 +202,9 @@ endfor
 let g:xblock_commands['mae'] = "
     \ &psql
     \ @in.pre:[::range:s/&gt;/>/ge | ::range:s/&lt;/</ge | ::range:s/&#039;/'/ge]
-    \ PSQL_DB=mae-website
+    \ PSQL_DB=mae
     \"
-let g:xblock_commands['pstag'] = substitute(g:xblock_commands['mae'], 'mae-website', '$STAG_PSQL', 'g')
+let g:xblock_commands['pstag'] = substitute(g:xblock_commands['mae'], 'mae', '$STAG_PSQL', 'g')
 
 " Function {{{
 function TmuxSend(command, refresh=1)
