@@ -11,6 +11,25 @@ let &l:define='^\(data\s*\|type\s*\|newtype\s*\|import\>.*\s\?as\s\+\|\s*\ze\i\+
 setlocal fillchars+=fold:\ 
 setlocal iskeyword+='
 
+function MarkImport()
+         let s:lastImport = search('^import\>', 'bnw')
+         if s:lastImport
+            execute s:lastImport "mark" "i"
+         endif
+endfunction
+function MarkData()
+         let s:lastData = search('^\(data\|type\)\>', 'n')
+         if s:lastData
+            execute s:lastData "mark" "d"
+         endif
+endfunction
+
+call MarkImport()
+call MarkData()
+augroup Haskell
+autocmd InsertLeave <buffer> call MarkImport() | call MarkData()
+augroup END
+
 
 " Text object motions
 "nnoremap ) zj
