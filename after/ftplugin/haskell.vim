@@ -6,7 +6,8 @@ let b:did_haskell_ftplugin=1
 setlocal includeexpr=substitute(v:fname,'\\.','/','g') 
 setlocal suffixesadd=.hs,.lhs
 let &l:include='^\s*import\(\s*qualified\)\{,1}'
-let &l:define='^\(data\s*\|type\s*\|newtype\s*\|import\>.*\s\?as\s\+\|\s*\ze\i\+\s*\(::\|.*\s=\|<-\)\)'
+" let &l:define='^\(data\s*\|type\s*\|newtype\s*\|import\>.*\s\?as\s\+\|\s*\ze\i\+\s*\(::\|.*\s=\|<-\)\)'
+let &l:define='^\(data\s*\|type\s*\|newtype\s*\|import\>.*\s\?as\s\+\|\s*\ze\i\+\s*\(::\)\)'
 
 setlocal fillchars+=fold:\ 
 setlocal iskeyword+='
@@ -45,6 +46,7 @@ nnoremap <space>rt :call TmuxSend(":t " . expand("<cword>")."\n")<CR>
 nnoremap <space>ra :call TmuxSend("appMain\n")<CR>
 nnoremap <space>rm :call TmuxSend("main\n")<CR>
 nnoremap <space>ri :call TmuxSend(":i " . expand("<cword>")."\n")<CR>
+nnoremap <space>rn :call TmuxSend(":nowarn\n:r\n")<CR>
 vnoremap <space>rt :call Haskell_type_at("type-at")<CR>gv
 vnoremap <space>ru :call Haskell_type_at("uses")<CR>gv
 vnoremap <space>rl :call Haskell_type_at("loc-at")<CR>gv
@@ -59,3 +61,12 @@ function Haskell_type_at(mode) range
 endfunction
 
 compiler ghci
+" syntax match Conceal "\<forall\>" conceal cchar=∀
+setl conceallevel=2
+
+iabbrev <buffer> #l {-# LANGUAGE  #-}<left><left><left><left>
+iabbrev <buffer> #w {-# OPTIONS_ghc -W  #-}<left><left><left><left>
+iabbrev <buffer> #o {-# OPTIONS_ghc  #-}<left><left><left><left>
+iabbrev <buffer> #d {-# OPTIONS_ghc -Wno-deprecations #-}
+
+setlocal thesaurus+=~/.vim/thesaurus/haskell_extensions.thes

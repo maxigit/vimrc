@@ -1,0 +1,11 @@
+arrows Arrows
+bang BangPatterns
+foldable DeriveFoldable
+generic DeriveGeneric
+travers DeriveTraversable
+pun NameFieldPuns
+RecordWildCards
+string OverloadedStrings
+list OverloadedLists
+ScopedTypeVariables
+depr -Wno-deprecations
