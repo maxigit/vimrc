@@ -26,10 +26,16 @@ set breakindent " indent wrapped line
 set linebreak " break wrapped line between word
 set showbreak=\ \ ∥\ 
 
+" term
+set t_ut= " fix bug background being incorrect after tig uses
+
+
 let g:mapleader=" "
 set ruler
 set laststatus=0
 set rulerformat=%17(%c%V,%l\ %#WarningMsg#%m%#Normal#%=%p%%%)
+setg formatoptions+=j " comment are discarded when joining comments
+set jumpoptions=stack
 
 set cursorline
 set virtualedit=all
@@ -66,9 +72,11 @@ autocmd ColorScheme lunaperche hi MatchParen term=NONE cterm=NONE | hi link Iden
 colorscheme lunaperche
  
 " abbrev
-cabbrev azz abcdeghijklmnopqrstuvwxyz
-cabbrev aZZ abcdeghijklmnopqrstuvwxyzABCDEGHIJKLMNOPQRSTUVWXYZ
-cabbrev Azz ABCDEGHIJKLMNOPQRSTUVWXYZ
+cabbrev azz abcdefghijklmnopqrstuvwxyz
+cabbrev aZ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+cabbrev Azz ABCDEFGHIJKLMNOPQRSTUVWXYZ
+cabbrev AZ ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
 
 cabbrev ecoh echo
 
@@ -104,6 +112,9 @@ nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
 nnoremap <space>fy :Filetypes<CR>
+" marks
+nnoremap <space>mm :marks abcdefghijklmnopqrstuvwxyz<CR>
+nnoremap <space>mM :marks ABCDEFGHIJKLMNOPQRSTUVWXYZ<CR>
 "tig
 let g:tig_explorer_use_builtin_term=0
 nnoremap <silent> <space>gs :Tig status<CR>
@@ -113,6 +124,12 @@ nnoremap <silent> <space>gd :TigOpenFileWithCommit!<CR>
 nnoremap <silent> <space>gc :Commits
 nnoremap <silent> <space>gS :GFiles?!
 nnoremap <silent> <space>gB :BCommits
+nnoremap <silent> <space>gm :GB<CR>
+vnoremap <silent> <space>gm :GB<CR>
+
+
+
+command! -range GB call setbufvar(winbufnr(popup_atcursor(systemlist("git -C ".. shellescape(expand('%:p:h')) .." log --no-merges -n 1 -L <line1>,<line2>:" .. shellescape(resolve(expand("%:t")))), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")
 " Tmux Haskell
 nnoremap <space>rs :AbortDispatch<CR>
 nnoremap <space>ro :Copen<CR>:cc<CR>
@@ -125,7 +142,7 @@ nnoremap <space>rQ :Copen<CR>:call ClearTmuxLog()<CR>:cc<CR>:lclose<CR>
 nnoremap <space>r! :call TmuxSendBreak()<CR>
 nnoremap <space>rC :call TmuxSend('C-c')<CR>
 nnoremap <space>r<Up> :call TmuxSend('up') \| call TmuxSend("\n")<CR>
-nnoremap <space>r<Cr> :call TmuxSend('up') \| call TmuxSend("\n")<CR>
+nnoremap <space>r<Cr> :call TmuxSend('up') \| TmuxSend('up') \| call TmuxSend("\n")<CR>
 "synchronize tmux pane with break
 nnoremap <space>r0 :Tmux select-window -t'2-:*0-'<CR>
 nnoremap <space>r1 :Tmux select-window -t'2-:*1-'<CR>
@@ -145,13 +162,16 @@ nnoremap <space>sQ :g//laddexpr expand("%") . ":" . line(".") . ":" .  getline("
 nnoremap <space>Sv /<C-R>=SearchInBlock('\C\<<C-R><C-W>\>')<CR><CR>
 " start search within block
 nnoremap <space>sv /<C-R>=SearchInBlock()<CR>
+" :dsearch for macro above cursor
+nnoremap <space>dm <Cmd>keeppatterns execute "?".. &define.. "?,.ds//"<CR>
 " Toggling t
 nnoremap <silent><leader>tb :if &bg=="light" \| set bg=dark \| else \| set bg=light \| endif<CR>
-nnoremap <silent><leader>ti :<C-U>set ignorecase!
+nnoremap <silent><leader>ti :<C-U>set ignorecase!<CR>
 nnoremap <silent><leader>tn :<C-U>set number!<CR>
 nnoremap <silent><leader>tr :<C-U>set relativenumber!<CR>
-" nnoremap <silent><leader>ts :<C-U>set smartcase!
-" nnoremap <silent><leader>tw :<C-U>set wrap!
+nnoremap <silent><leader>ts :<C-U>set smartcase!<CR>
+nnoremap <silent><leader>tl :<C-U>set list!<CR>
+nnoremap <silent><leader>tw :<C-U>set wrap!<CR>
 
 
 " Square brackets, sames as surrond
@@ -206,6 +226,7 @@ let g:xblock_commands['mae'] = "
     \ PSQL_DB=mae
     \"
 let g:xblock_commands['pstag'] = substitute(g:xblock_commands['mae'], 'mae', '$STAG_PSQL', 'g')
+let g:xblock_commands['sissi'] = substitute(g:xblock_commands['mae'], 'mae', '$PROD_PSQL', 'g')
 
 " Function {{{
 function TmuxSend(command, refresh=1)
@@ -259,7 +280,7 @@ function Two()
   return s
 endfunction
 
-nnoremap <expr> . Two()
+" nnoremap <expr> . Two()
 nnoremap <expr> - Two()
 	
 nnoremap :cN :cnf<Cr>
@@ -268,6 +289,7 @@ nnoremap :nh :noh<Cr>
 
 nnoremap [m <Cmd>call search('^\w','sWzb')<Cr>
 nnoremap ]m <Cmd>call search('^\w','sWz')<Cr>
+nnoremap <space>m <Cmd>echo getline(search('^\w','sWzb'))<Cr>
 
 " search visual
 nnoremap g/ /\%><C-R>=line('w0')-1<CR>l\%<<C-R>=line('w$')+1<CR>l
@@ -287,5 +309,18 @@ let $in_vim=1
 function TagWith(tag)
     return taglist(a:tag.'.*')->map({_,v -> v.name })
 endfunction
-
 inoremap <expr> <C-x>t fzf#complete({'source': function('TagWith')})
+
+" augroup switchScrolloffTopBottom
+"   autocmd!
+"   autocmd CursorMoved * if winline() < &lines/2
+"     \| setlocal scrolloff=0
+"     \|else
+"     \| setlocal scrolloff=15
+"     \|endif
+" augroup END
+" 
+" 
+command -range=% VD <line1>,<line2>!vd --filetype=csv --save-filetype=csv --output=- 2>/dev/null
+command -range=% V0 <line1>,<line2>!vd --header=0 --filetype=csv --save-filetype=csv --output=- 2>/dev/null
+vnoremap <space>vd :V0<cr>
