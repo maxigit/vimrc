@@ -45,6 +45,7 @@ nnoremap <space>rc :call TmuxSend(":set +c -fbyte-code\n:l " . expand("%:p")."\n
 nnoremap <space>rt :call TmuxSend(":t " . expand("<cword>")."\n")<CR>
 nnoremap <space>ra :call TmuxSend("appMain\n")<CR>
 nnoremap <space>rm :call TmuxSend("main\n")<CR>
+nnoremap <space>rM :call TmuxSend(":main\n")<CR>
 nnoremap <space>ri :call TmuxSend(":i " . expand("<cword>")."\n")<CR>
 nnoremap <space>rn :call TmuxSend(":nowarn\n:r\n")<CR>
 vnoremap <space>rt :call Haskell_type_at("type-at")<CR>gv

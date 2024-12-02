@@ -9,3 +9,4 @@ string OverloadedStrings
 list OverloadedLists
 ScopedTypeVariables
 depr -Wno-deprecations
+imp ImplicitParams

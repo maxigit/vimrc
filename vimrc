@@ -8,6 +8,7 @@ set secure
 " to copy the parent one to the local di
 " :wv .viminfo
 let &viminfofile=findfile('.viminfo','.;')
+set viminfo+=r.git
 " Undo
 set undofile
 set undodir=$HOME/.vim/undo
@@ -16,6 +17,7 @@ set history=1000
 set expandtab
 set tabstop=2
 set shiftwidth=2
+autocmd FileType makefile set noexpandtab shiftwidth=8 softtabstop=0
 
 set clipboard=unnamedplus
 set incsearch
@@ -31,8 +33,8 @@ set t_ut= " fix bug background being incorrect after tig uses
 
 
 let g:mapleader=" "
-set ruler
-set laststatus=0
+" set ruler
+set laststatus=2
 set rulerformat=%17(%c%V,%l\ %#WarningMsg#%m%#Normal#%=%p%%%)
 setg formatoptions+=j " comment are discarded when joining comments
 set jumpoptions=stack
@@ -142,7 +144,7 @@ nnoremap <space>rQ :Copen<CR>:call ClearTmuxLog()<CR>:cc<CR>:lclose<CR>
 nnoremap <space>r! :call TmuxSendBreak()<CR>
 nnoremap <space>rC :call TmuxSend('C-c')<CR>
 nnoremap <space>r<Up> :call TmuxSend('up') \| call TmuxSend("\n")<CR>
-nnoremap <space>r<Cr> :call TmuxSend('up') \| TmuxSend('up') \| call TmuxSend("\n")<CR>
+nnoremap <space>r<Cr> :call TmuxSend('up') \| call TmuxSend('up') \| call TmuxSend("\n")<CR>
 "synchronize tmux pane with break
 nnoremap <space>r0 :Tmux select-window -t'2-:*0-'<CR>
 nnoremap <space>r1 :Tmux select-window -t'2-:*1-'<CR>
@@ -244,10 +246,11 @@ endfunction
 
 function TmuxSendBreak()
   let g:dispatch_pane="2-"
+  let l:name = '*#{session_name} <' . expand('%:t') . '>'
   Tmux break-pane -s.+
-  Tmux rename-window '*#{session_name}'
-  Tmux link-window -t2-
-  Tmux select-window -t!
+  execute "Tmux rename-window '" . l:name ."'"
+  Tmux move-window -t2-
+  " Tmux select-window -t!
 endfunction
 
 function ClearTmuxLog()
